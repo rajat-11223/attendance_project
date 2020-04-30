@@ -1,0 +1,2 @@
+class MasterRole < ApplicationRecord
+end

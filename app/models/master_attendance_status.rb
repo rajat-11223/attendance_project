@@ -1,0 +1,2 @@
+class MasterAttendanceStatus < ApplicationRecord
+end
