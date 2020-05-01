@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_30_054055) do
+ActiveRecord::Schema.define(version: 2020_05_01_085959) do
+
+  create_table "departments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "department_name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "designations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "master_attendance_statuses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "status"
@@ -24,10 +36,26 @@ ActiveRecord::Schema.define(version: 2020_04_30_054055) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "mobiles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.integer "mobile_number"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_mobiles_on_user_id"
+  end
+
+  create_table "user_roles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "master_role_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["master_role_id"], name: "index_user_roles_on_master_role_id"
+    t.index ["user_id"], name: "index_user_roles_on_user_id"
+  end
+
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name"
     t.string "dob"
-    t.string "phone"
     t.string "gender"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -45,8 +73,17 @@ ActiveRecord::Schema.define(version: 2020_04_30_054055) do
     t.string "unconfirmed_email"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "designation_id"
+    t.bigint "department_id"
+    t.index ["department_id"], name: "index_users_on_department_id"
+    t.index ["designation_id"], name: "index_users_on_designation_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "mobiles", "users"
+  add_foreign_key "user_roles", "master_roles"
+  add_foreign_key "user_roles", "users"
+  add_foreign_key "users", "departments"
+  add_foreign_key "users", "designations"
 end
