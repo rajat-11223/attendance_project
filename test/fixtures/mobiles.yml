@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  mobile_number: 
+  user: one
+
+two:
+  mobile_number: 
+  user: two
