@@ -5,14 +5,59 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
-  # def new
-  #   super
-  # end
+   def new
+    @registered_employes = RegisterEmploye.all
+    @user_roles = MasterRole.all
+     super
+   end
 
   # POST /resource
-  # def create
+
+
+  def create22
+
+   super
+
+  end 
+
+
+
+
+   def create
+    @registered_employes = RegisterEmploye.all
+   generated_password = Devise.friendly_token.first(8)
+   #confirmation_token = SecureRandom.urlsafe_base64(10)
+   #confirmation_sent_at = Time.now.utc
+    @user = User.new(:email => params[:user][:email], :password => generated_password,:name=> params[:user][:name])
+   # @user = User.new
+
+   #@user.email = params[:user][:email]
+   #@user.password = generated_password
+   #@user.password_confirmation = generated_password
+   #@user.name = params[:user][:name]
+   #@user.confirmation_token = confirmation_token
+  # @user.confirmation_sent_at = confirmation_sent_at
+
+
+    
+    respond_to do |format|
+      if @user.save
+        #HomeevalutionNotifier.send_signup_email(@homeevalution).deliver_now
+        RegistrationMailer.welcome_user(@user, generated_password).deliver
+
+        format.html { redirect_to root_url, notice: 'User was successfully created.' }
+        format.json { render :show, status: :created, location: @user }
+      else
+        format.html { render :new }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+
+
+
+
   #   super
-  # end
+   end
 
   # GET /resource/edit
   # def edit

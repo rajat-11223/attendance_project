@@ -1,36 +1,36 @@
-<h2>Log in</h2>
+<!--<h2>Log in</h2>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+<%#= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+    <%#= f.label :email %><br />
+    <%#= f.email_field :email, autofocus: true, autocomplete: "email" %>
   </div>
 
   <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
+    <%#= f.label :password %><br />
+    <%#= f.password_field :password, autocomplete: "current-password" %>
   </div>
 
-  <% if devise_mapping.rememberable? %>
+  <%# if devise_mapping.rememberable? %>
     <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+      <%#= f.check_box :remember_me %>
+      <%#= f.label :remember_me %>
     </div>
-  <% end %>
+  <%# end %>
 
   <div class="actions">
-    <%= f.submit "Log in" %>
+    <%#= f.submit "Log in" %>
   </div>
-<% end %>
+<%# end %>-->
 
-<%= render "users/shared/links" %>
+<%#= render "users/shared/links" %>
 
 
 
 <div class="main">
 
         <!-- Sign up form -->
-        <section class="signup">
+        <!--<section class="signup">
             <div class="container">
                 <div class="signup-content">
                     <div class="signup-form">
@@ -62,49 +62,50 @@
                         </form>
                     </div>
                     <div class="signup-image">
-                        <figure><img src="images/signup-image.jpg" alt="sing up image"></figure>
-                        <a href="#" class="signup-image-link">I am already member</a>
-                    </div>
+                        <figure><img src="/assets/signup-image.jpg" alt="sing up image"></figure>
+                         <%#= link_to "I am already employe", "/users/sign_in",:class => "signup-image-link" %>
+
+                           <%#= link_to "Sign Up", "/users/sign_up",:class => "nav-link navbar-brand nav-font" %>-->
+                        <!--<a href="#" class="signup-image-link">I am already employe</a>-->
+                    <!--</div>
                 </div>
             </div>
-        </section>
+        </section>-->
 
         <!-- Sing in  Form -->
         <section class="sign-in">
             <div class="container">
                 <div class="signin-content">
                     <div class="signin-image">
-                        <figure><img src="images/signin-image.jpg" alt="sing up image"></figure>
-                        <a href="#" class="signup-image-link">Create an account</a>
+                        <figure><img src="/assets/signin-image.jpg" alt="sing up image"></figure>
+                        
+                        <%= link_to "Sign Up", "/users/sign_up",:class => "signup-image-link" %>
                     </div>
 
                     <div class="signin-form">
-                        <h2 class="form-title">Sign up</h2>
-                        <form method="POST" class="register-form" id="login-form">
+                        <h2 class="form-title">Sign in</h2>
+                        <%= form_for(resource, as: resource_name, url: session_path(resource_name), :html => {'class' => 'register-form'}) do |f| %>
+                       
                             <div class="form-group">
                                 <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="your_name" id="your_name" placeholder="Your Name"/>
+                                <%= f.email_field :email, autofocus: true, autocomplete: "email",:placeholder=>"Your Email" ,:required=> 'true'%>
+                                
                             </div>
                             <div class="form-group">
                                 <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="your_pass" id="your_pass" placeholder="Password"/>
+                                <%= f.password_field :password, autocomplete: "current-password",:placeholder=>"Password",:required=> 'true' %>
+                                
                             </div>
                             <div class="form-group">
                                 <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
                                 <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
                             </div>
                             <div class="form-group form-button">
-                                <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
+                              <%= f.submit "Log in" ,:class=>"form-submit"%>
+                                
                             </div>
-                        </form>
-                        <div class="social-login">
-                            <span class="social-label">Or login with</span>
-                            <ul class="socials">
-                                <li><a href="#"><i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
-                                <li><a href="#"><i class="display-flex-center zmdi zmdi-twitter"></i></a></li>
-                                <li><a href="#"><i class="display-flex-center zmdi zmdi-google"></i></a></li>
-                            </ul>
-                        </div>
+                        <% end %>
+                        
                     </div>
                 </div>
             </div>

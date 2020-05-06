@@ -1,0 +1,59 @@
+ 
+<div class="container">
+
+
+ <table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Registered On</th>
+    </tr>
+  </thead>
+  <tbody>
+  	<% @registered_employes.each do |vv| %>
+    <tr>
+      <th scope="row"><%= vv.id %></th>
+      <td><%= vv.name.capitalize %></td>
+      <td><%=vv.email %></td>
+      <td><%= vv.created_at.strftime("%b, %d %YT%T") %></td>
+    </tr>
+
+    <% end %>
+  </tbody>
+</table>
+
+</div>
+
+
+
+<div class="container">
+
+
+ <table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Registered On</th>
+      <th scope="col">Send Invite</th>
+    </tr>
+  </thead>
+  <tbody>
+  	<% User.all.each do |vv| %>
+    <tr>
+      <th scope="row"><%= vv.id %></th>
+      <td><%= vv.name.capitalize %></td>
+      <td><%=vv.email %></td>
+      <td><%= vv.created_at.strftime("%b, %d %YT%T") %></td>
+      <td><%= link_to "send invite", send_invitation_path(id: vv.id),method: :post  %></td>
+      
+    </tr>
+    
+    <% end %>
+  </tbody>
+</table>
+
+</div>

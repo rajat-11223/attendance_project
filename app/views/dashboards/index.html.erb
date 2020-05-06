@@ -7,8 +7,7 @@
                 <div class="signup-content">
                     <div class="signup-form">
                         <h2 class="form-title">Sign up</h2>
-                        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), :html => {'class' => 'register-form'}) do |f| %>
-                         <%= render "users/shared/error_messages", resource: resource %>
+                        <%= form_for( @register, :url => {:action => "register"}, :html => {'class' => 'register-form'}) do |f| %>
                         
                             <div class="form-group">
                                 <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
@@ -19,42 +18,6 @@
                                 <label for="email"><i class="zmdi zmdi-email"></i></label>
                                  <%= f.email_field :email, autofocus: true, placeholder: 'Your Email' %>
                                
-                            </div>
-                             <div class="form-group">
-                                <!--<label for="email" class="zmdi zmdi-email bmd-label-floating">Example select</label>-->
-
-                             <%= f.collection_select :email,@registered_employes,:id, :email,{ :prompt =>  'Select Email'},{ class: "form-control add_city", required: "true",:onchange=>"myFunction()"} %>
-</div>
-
-<div class="form-group">
-                                <!--<label for="email" class="zmdi zmdi-email bmd-label-floating">Example select</label>-->
-
-                             <%= f.collection_select :email,@user_roles,:id, :role_name,{ :prompt =>  'Select Role'},{ class: "form-control add_city", required: "true",:onchange=>"myFunction()"} %>
-</div>
-
-
-            <!--                <div class="form-group">
-    <label for="email" class="zmdi zmdi-email bmd-label-floating">Example select</label>
-    <select class="form-control" id="exampleSelect1">
-      <option>1</option>
-      <option>2</option>
-      <option>3</option>
-      <option>4</option>
-      <option>5</option>
-    </select>
-  </div>-->
-
-
-
-                            <div class="form-group">
-                                <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                
-                                <%= f.text_field :name, autofocus: true, placeholder: 'Your Name' %>
-                            </div>
-                            <div class="form-group">
-                                <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                
-                                <%= f.text_field :name, autofocus: true, placeholder: 'Your Name' %>
                             </div>
                             <!--<div class="form-group">
                                 <label for="pass"><i class="zmdi zmdi-lock"></i></label>
@@ -85,3 +48,20 @@
             </div>
         </section>
       </div>
+
+<br>
+
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+
+<%= link_to 'Log Out', "/users/sign_out", method: :delete, class: "dropdown-item"%>
+ <%= link_to "Log in", "/users/sign_in",:class => "nav-link navbar-brand" %>
+
+      <%= link_to "Sign Up", "/users/sign_up",:class => "nav-link navbar-brand" %>
+<%= link_to 'New Dashboard', new_dashboard_path %>
+<%#= link_to 'Confirm my account', confirmation_url() %>

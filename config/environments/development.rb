@@ -6,6 +6,8 @@ Rails.application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+   config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :smtp
 
   # Do not eager load code on boot.
   config.eager_load = false
@@ -28,6 +30,43 @@ Rails.application.configure do
 
     config.cache_store = :null_store
   end
+
+
+#ActionMailer::Base.smtp_settings = {
+#  :user_name => 'rahul@poplify.com',
+#  :password => '9632541sonu',
+#  :domain => 'poplify.com',
+#  :address => 'smtp.sendgrid.net',
+#  :port => 465,
+#  :authentication => :plain,
+#  :enable_starttls_auto => true
+#}
+
+
+
+config.action_mailer.smtp_settings = {
+    :enable_starttls_auto => true,
+    :address        => 'smtp.gmail.com',
+    :port           => 587,
+    :domain         => 'gmail.com',
+    :authentication => :plain,
+    :user_name      => 'saini76rajat@gmail.com',
+    :password       => 'rajatsaini11223'
+}
+
+
+
+
+#ActionMailer::Base.smtp_settings = {
+#  address: 'smtp.sendgrid.net',
+#  port: 587,
+#  domain: 'poplify.com',
+#  user_name: 'rahul@poplify.com',
+#  password: '9632541sonu',
+#  authentication: :login,
+#  enable_starttls_auto: true
+#}
+
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
