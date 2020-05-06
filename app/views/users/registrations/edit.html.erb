@@ -1,43 +1,210 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+<div class="container">
+  <h2>Edit <%= resource_name.to_s.humanize %></h2>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+  <div class="row">
+    
+          
+    <div class="col-3">
+      <%= image_tag(resource.image_url.to_s, class: 'avatar-preview') %>
+      
+      <div class="field">
+          <%= f.file_field :image %>
+      </div>
+
+      <ul class="list-group" style="color: black; margin-top: 23px;">
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          Status
+          <div class="image-parent">
+              <span class="badge badge-info badge-pill"> Active </span>
+          </div>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          Employee Rating
+          <div class="image-parent">
+              <span class="badge badge-primary badge-pill"> 5 </span>
+          </div>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">  
+          Employee since
+          <div class="image-parent">
+                 <span class="badge badge-danger badge-pill"> 3-1-10 </span>
+          </div>
+        </li>
+      </ul>
+
+
+    </div>
+
+    <div class="col-9">
+
+      <%= render "devise/shared/error_messages", resource: resource %>
+          <div class="row">
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <h3>Account Setting</h3>
+              </div>
+          </div>
+          
+          <div class= "form-group">
+            <%= f.label :email, class: "col-sm-2" %>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email",disabled: "disabled",class: 
+            "col-sm-5" %>
+          </div>
+
+          <div class= "form-group">
+            <%= f.label 'Username',  class: "col-sm-2" %>
+            <%= f.text_field :username , class: "col-sm-5" , required: true%>
+          </div>
+
+          <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+            <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+          <% end %>
+
+          <div class= "form-group">
+            <%= f.label :password, class: "col-sm-2" %> 
+            <%= f.password_field :password, autocomplete: "new-password" ,class: 
+            "col-sm-5"%>
+           <!--  <% if @minimum_password_length %>
+              <br />
+              <em><%= @minimum_password_length %> characters minimum</em>
+            <% end %> -->
+          </div>
+
+          <div class= "form-group">
+            <%= f.label :password_confirmation, class: "col-sm-2"  %>
+            <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "col-sm-5" %>
+          </div>
+
+
+          <!-- -------------------------Divider Line-------------------------- -->
+          <div class="divider line one-line"></div>
+
+
+          <div class="row">
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <h3>Profile Setting</h3>
+              </div>
+          </div>
+
+
+<!-- ******************************************************************************** -->
+<!-- -------------------------First name and last name start-------------------------- -->
+<!-- ******************************************************************************** -->
+
+          <div class="form-row">
+            <div class="col form-group">
+              <%= f.label 'First Name', class: "col-sm-2"  %>
+              <%= f.text_field :first_name, class: "col-sm-5" ,required: true%>
+            </div>
+            <div class="col form-group">
+              <%= f.label 'Last Name', class: "col-sm-2"  %>
+              <%= f.text_field :last_name, class: "col-sm-5", required: true %>
+            </div>
+          </div>
+<!-- -------------------------First name and last name end-------------------------- -->
+
+
+
+
+
+<!-- ******************************************************************************** -->
+<!-- -------------------------Gender start-------------------------- -->
+<!-- ******************************************************************************** -->
+          <div class= "form-group">
+            
+            <%= f.label :gender %><br />
+            <%= f.label :gender, "Male", :value => "Male"  %>
+            <%= f.radio_button :gender, true %>
+            <%= f.label :gender, "Female", :value => "Female" %>
+            <%= f.radio_button :gender, false, :checked => true %>
+  
+          </div>
+
+<!-- -------------------------Gender End-------------------------- -->          
+
+          <!-- For Admin -->
+          <%if @user_role.master_role_id == 1 %>
+              <div class= "form-group">
+                <%= f.label "Designation" %>
+                <%= f.select( :designation_id,  @designation.collect { |designation| [designation.name, designation.id] }) %>
+              </div>
+          <%else%>
+              <div class= "form-group">
+                <%= f.label 'Desigation',  class: "col-sm-2" %>
+                <%= f.text_field :designation_id , class: "col-sm-5"%>
+              </div>
+          <%end%>
+
+          <!-- For ADmin -->
+
+          <%if @user_role.master_role_id == 1 %>
+              <div class= "form-group">
+                <%= f.label "Department" %>
+                <%= f.select( :department_id,  @department.collect { |department| [department.department_name, department.id] }) %>
+              </div>  
+          <%else%>
+              <div class= "form-group">
+                <%= f.label 'Department',  class: "col-sm-2" %>
+                <%= f.text_field :department_id , class: "col-sm-5"%>
+              </div>
+          <%end%>
+          
+
+
+<!-- ******************************************************************************** -->
+<!-- -------------------------Contact Settings start-------------------------- -->
+<!-- ******************************************************************************** -->
+
+          <!-- -------------------------Divider Line-------------------------- -->
+          <div class="divider line one-line"></div>
+
+
+          <div class="row">
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <h3>Contact Setting</h3>
+              </div>
+          </div>
+
+          <div class= "form-group">
+            <%= f.label 'Instagram',  class: "col-sm-2" %>
+            <%= f.text_field :instagram , class: "col-sm-5"%>
+          </div>
+
+
+          <div class= "form-group">
+            <%= f.label 'Facebook',  class: "col-sm-2" %>
+            <%= f.text_field :facebook , class: "col-sm-5"%>
+          </div>
+
+
+
+          <div class= "form-group">
+            <%= f.label :current_password,  class: "col-sm-2" %>
+            <%= f.password_field :current_password, autocomplete: "current-password" , class: "col-sm-5",required: true %>
+          </div>
+
+
+          <div class="actions">
+            <%= f.submit "Update" %>
+          </div>
+      <% end %>
+
+    </div>
+    
   </div>
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
+</div>
 
-  <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
-    <% end %>
-  </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
 
-  <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "current-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Update" %>
-  </div>
-<% end %>
-
-<h3>Cancel my account</h3>
+  <h3>Cancel my account</h3>
 
 <p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
+
+
+
+
 
 <%= link_to "Back", :back %>

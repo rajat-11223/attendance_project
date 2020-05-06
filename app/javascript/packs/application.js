@@ -24,3 +24,5 @@ import 'popper.js'
 import 'bootstrap'
 import "../stylesheets/application"
 import "../stylesheets/common"
+import "../stylesheets/edit_profile"
+import "../stylesheets/admin_dashboard"

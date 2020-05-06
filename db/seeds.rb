@@ -44,6 +44,15 @@ begin
     ])
     puts 'Department initialized successfully'
 
+
+    puts 'UserRole initializing...'
+    UserRole.destroy_all
+    UserRole.create!(
+      [
+        { id: 1, user_id: 1,master_role_id: 1 }                
+    ])
+    puts 'UserRole initialized successfully'
+
     rescue Exception => e
   puts "Exception Raised at #{Time.current} #{e.message}"
   puts "Exception Raised at #{Time.current} #{e.backtrace}"

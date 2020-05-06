@@ -13,4 +13,6 @@ class User < ApplicationRecord
 
   belongs_to :designation, optional: true
   belongs_to :department, optional: true
+
+  mount_uploader :image, ImageUploader
 end
