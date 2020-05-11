@@ -7,6 +7,17 @@ require("@rails/ujs").start()
 require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
+require("jquery")
+
+
+
+require('packs/excanvas.min')
+require('packs/jquery.min')
+
+require('packs/jquery.ui.custom')
+require('packs/jquery.uniform')
+require('packs/bootstrap.min')
+
 
 
 
@@ -19,10 +30,11 @@ require("channels")
 // const imagePath = (name) => images(name, true)
 
 
-import 'jquery'
-import 'popper.js'
-import 'bootstrap'
-import "../stylesheets/application"
-import "../stylesheets/common"
-import "../stylesheets/edit_profile"
-import "../stylesheets/admin_dashboard"
+// import 'jquery'
+// import 'popper.js'
+// import 'bootstrap'
+
+// import "stylesheets/application"
+// import "../stylesheets/common"
+// import "../stylesheets/edit_profile"
+// import "../stylesheets/admin_dashboard"

@@ -8,16 +8,20 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :first_name, :last_name, :gender, :designation_id, :department_id, :instagram, :facebook, :image])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :first_name, :last_name, :gender, :designation_id, :department_id, :instagram, :facebook, :image])
   end
 
   def configure_account_update_params
-    devise_parameter_sanitizer.permit(:account_update, keys: [:username, :first_name, :last_name, :gender, :designation_id, :department_id, :instagram, :facebook, :image])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :first_name, :last_name, :gender, :designation_id, :department_id, :instagram, :facebook, :image])
+  end
+
+def stored_location_for(resource_or_scope)
+    session[:user_return_to] || super
+  end
+
+  def after_sign_in_path_for(resource)
+    stored_location_for(resource) || edit_user_registration_path
   end
 
 
-	def stored_location_for(resource_or_scope)
-		
-    	session[:user_return_to] || edit_user_registration_path
-  	end
 end

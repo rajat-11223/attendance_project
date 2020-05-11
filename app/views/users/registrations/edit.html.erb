@@ -1,210 +1,219 @@
 
 <div class="container">
-  <h2>Edit <%= resource_name.to_s.humanize %></h2>
-
-
-  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <div class="row">
-    
-          
-    <div class="col-3">
-      <%= image_tag(resource.image_url.to_s, class: 'avatar-preview') %>
-      
-      <div class="field">
-          <%= f.file_field :image %>
-      </div>
-
-      <ul class="list-group" style="color: black; margin-top: 23px;">
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          Status
-          <div class="image-parent">
-              <span class="badge badge-info badge-pill"> Active </span>
-          </div>
-        </li>
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          Employee Rating
-          <div class="image-parent">
-              <span class="badge badge-primary badge-pill"> 5 </span>
-          </div>
-        </li>
-        <li class="list-group-item d-flex justify-content-between align-items-center">  
-          Employee since
-          <div class="image-parent">
-                 <span class="badge badge-danger badge-pill"> 3-1-10 </span>
-          </div>
-        </li>
-      </ul>
-
-
+  <div id="content">
+    <div id="content-header">
+      <h1>Edit <%= resource_name.to_s.humanize %></h1>
     </div>
+    <hr>
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+            <h5>Account Setting</h5>
+          </div>
+          <div class="widget-content nopadding">
+            <%= form_for(resource, as: resource_name, url: registration_path(resource_name),html: { class: 'form-horizontal',method: :put }) do |f| %>
 
-    <div class="col-9">
-
-      <%= render "devise/shared/error_messages", resource: resource %>
-          <div class="row">
-              <div class="col-md-6 col-sm-6 col-xs-12">
-                <h3>Account Setting</h3>
+              <!-- email -->
+              <div class="control-group">
+                <%= f.label :email, class: "control-label" %>
+                <div class="controls">
+                  <%= f.email_field :email, autofocus: true, autocomplete: "email",
+                  disabled: "disabled",class: "span11" %>                
+                </div>
               </div>
-          </div>
-          
-          <div class= "form-group">
-            <%= f.label :email, class: "col-sm-2" %>
-            <%= f.email_field :email, autofocus: true, autocomplete: "email",disabled: "disabled",class: 
-            "col-sm-5" %>
-          </div>
 
-          <div class= "form-group">
-            <%= f.label 'Username',  class: "col-sm-2" %>
-            <%= f.text_field :username , class: "col-sm-5" , required: true%>
-          </div>
+              <%= render "devise/shared/error_messages", resource: resource %>
 
-          <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-            <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-          <% end %>
-
-          <div class= "form-group">
-            <%= f.label :password, class: "col-sm-2" %> 
-            <%= f.password_field :password, autocomplete: "new-password" ,class: 
-            "col-sm-5"%>
-           <!--  <% if @minimum_password_length %>
-              <br />
-              <em><%= @minimum_password_length %> characters minimum</em>
-            <% end %> -->
-          </div>
-
-          <div class= "form-group">
-            <%= f.label :password_confirmation, class: "col-sm-2"  %>
-            <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "col-sm-5" %>
-          </div>
-
-
-          <!-- -------------------------Divider Line-------------------------- -->
-          <div class="divider line one-line"></div>
-
-
-          <div class="row">
-              <div class="col-md-6 col-sm-6 col-xs-12">
-                <h3>Profile Setting</h3>
+              <!-- Username -->
+              <div class="control-group">
+                <%= f.label 'Username',  class: "control-label" %>          
+                <div class="controls">
+                  <%= f.text_field :name , class: "span11",placeholder: "Username" , required: true%>
+                  
+                </div>
               </div>
+
+              <!-- PassWord -->
+              <div class="control-group">
+                <%= f.label :password, class: "control-label" %> 
+                
+                <div class="controls">
+                   <%= f.password_field :password,placeholder: "Enter Password", autocomplete: "new-password",id: 'user_password' ,class: 
+              "span11"%>
+                  </div>
+              </div>
+
+              <!-- Confirm Password -->
+              <div class="control-group">
+                <%= f.label :password_confirmation, class: "control-label"  %>
+                
+                <div class="controls">
+                  <%= f.password_field :password,placeholder: "Confirm Password", autocomplete: "new-password", id: 'confirm_password' ,class: "span11" %>
+                </div>
+              </div>
+              <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+                <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+              <% end %>
           </div>
 
-
-<!-- ******************************************************************************** -->
-<!-- -------------------------First name and last name start-------------------------- -->
-<!-- ******************************************************************************** -->
-
-          <div class="form-row">
-            <div class="col form-group">
-              <%= f.label 'First Name', class: "col-sm-2"  %>
-              <%= f.text_field :first_name, class: "col-sm-5" ,required: true%>
-            </div>
-            <div class="col form-group">
-              <%= f.label 'Last Name', class: "col-sm-2"  %>
-              <%= f.text_field :last_name, class: "col-sm-5", required: true %>
-            </div>
+          <div class="widget-title"> 
+                <span class="icon"> <i class="icon-align-justify"></i> </span>
+                <h5>Profile Setting</h5>
           </div>
-<!-- -------------------------First name and last name end-------------------------- -->
-
-
-
-
-
-<!-- ******************************************************************************** -->
-<!-- -------------------------Gender start-------------------------- -->
-<!-- ******************************************************************************** -->
-          <div class= "form-group">
+          <!-- Profile setting -->
+          <div class="row-fluid">
             
-            <%= f.label :gender %><br />
-            <%= f.label :gender, "Male", :value => "Male"  %>
-            <%= f.radio_button :gender, true %>
-            <%= f.label :gender, "Female", :value => "Female" %>
-            <%= f.radio_button :gender, false, :checked => true %>
-  
-          </div>
+            <div class="span8">            
+              <div class="widget-content nopadding">
+                  <div class="form-horizontal">
 
-<!-- -------------------------Gender End-------------------------- -->          
+                      <!-- First Name -->
+                    <div class="control-group">
+                      <%= f.label 'First Name :', class: "control-label"  %>
+                      <div class="controls">
+                        <%= f.text_field :first_name, class: "span11" ,required: true%>
+                      </div>
+                    </div>
 
-          <!-- For Admin -->
-          <%if @user_role.master_role_id == 1 %>
-              <div class= "form-group">
-                <%= f.label "Designation" %>
-                <%= f.select( :designation_id,  @designation.collect { |designation| [designation.name, designation.id] }) %>
-              </div>
-          <%else%>
-              <div class= "form-group">
-                <%= f.label 'Desigation',  class: "col-sm-2" %>
-                <%= f.text_field :designation_id , class: "col-sm-5"%>
-              </div>
-          <%end%>
+                    <!-- Last Name -->
+                    <div class="control-group">
+                      <%= f.label 'Last Name', class: "control-label"  %>
+                      <div class="controls">
+                        <%= f.text_field :last_name, class: "span11", required: true %>
+                      </div>
+                    </div>
 
-          <!-- For ADmin -->
 
-          <%if @user_role.master_role_id == 1 %>
-              <div class= "form-group">
-                <%= f.label "Department" %>
-                <%= f.select( :department_id,  @department.collect { |department| [department.department_name, department.id] }) %>
+                    <!-- Gender -->
+                    <div class= "form-group">
+                    
+                      <%= f.label :gender ,class: 'control-label'%>
+                      <div class="controls">
+                          <label>
+                            <input type="radio" checked="checked" value="true" name="user[gender]" id="user_gender_true">
+                            Male
+                          </label>
+                          <label>
+                            <input type="radio" value="false" name="user[gender]" id="user_gender_false">
+                            Female
+                          </label>
+                      </div>
+                    </div>
+
+                      <!--Designation For Admin -->
+                    <%if @user_role.master_role_id == 1 %>
+                          <div class= "form-group">
+                            <%= f.label "Designation",class: "control-label" %>
+                            <div class="controls">
+                              <%= f.select( :designation_id,  @designation.collect { |designation| [designation.name, designation.id] }) %>
+                            </div>
+                          </div>
+                    <%else%>
+                          <div class= "form-group">
+                            <%= f.label 'Desigation',  class: "col-sm-2" %>
+                            <%= f.text_field :designation_id , class: "col-sm-5"%>
+                          </div>
+                    <%end%>
+
+                    <!--Department For Admin -->
+                    <%if @user_role.master_role_id == 1 %>
+                          <div class= "form-group">
+                            <%= f.label "Department",class: "control-label" %>
+                            <div class="controls">
+                              <%= f.select( :department_id,  @department.collect { |department| [department.department_name, department.id] }) %>
+                            </div>
+                          </div>
+                    <%else%>
+                          <div class= "form-group">
+                            <%= f.label 'Desigation',  class: "control-label" %>
+                            <%= f.text_field :designation_id, disabled: "" , class: "span11"%>
+                          </div>
+                    <%end%>
+                  </div>
               </div>  
-          <%else%>
-              <div class= "form-group">
-                <%= f.label 'Department',  class: "col-sm-2" %>
-                <%= f.text_field :department_id , class: "col-sm-5"%>
+            </div>
+            <div class="span4">
+              <div class="widget-content nopadding">
+               <%= image_tag(resource.image_url.to_s, class: 'avatar-preview') %>
+
+                <div class="control-group">
+                    <label class="control-label">File upload input</label>
+                    <div class="controls">   
+                       <%= f.file_field :image %>
+                    </div>
+                  </div>
+                </div>
               </div>
-          <%end%>
+            </div>
+            
+            
+          </div>
+            
+            
           
 
 
-<!-- ******************************************************************************** -->
-<!-- -------------------------Contact Settings start-------------------------- -->
-<!-- ******************************************************************************** -->
+          <!-- Contact setting -->
+          
+            <div class="widget-title"> 
+              <span class="icon"> <i class="icon-align-justify"></i> </span>
+              <h5>Contact Setting</h5>
+            </div>
 
-          <!-- -------------------------Divider Line-------------------------- -->
-          <div class="divider line one-line"></div>
+            <div class="widget-content nopadding">
+              <div class="form-horizontal">
+                    <!-- Instagram Name -->
+                  <div class="control-group">
+                    <%= f.label 'Instagram :', class: "control-label"  %>
+                    <div class="controls">
+                      <%= f.text_field :instagram, class: "span11" %>
+                    </div>
+                  </div>
 
+                  <!-- Facebook Name -->
+                  <div class="control-group">
+                    <%= f.label 'Facebook', class: "control-label"  %>
+                    <div class="controls">
+                      <%= f.text_field :facebook, class: "span11" %>
+                    </div>
+                  </div>
 
-          <div class="row">
-              <div class="col-md-6 col-sm-6 col-xs-12">
-                <h3>Contact Setting</h3>
-              </div>
-          </div>
+                  <div class="control-group">
+                    <%= f.label :current_password,id: 'current_password',  class: "control-label" %>
+                    <div class="controls">
+                      <%= f.password_field :current_password, autocomplete: "current-password" , class: "span11",required: true %>
+                    </div>
+                  </div>
 
-          <div class= "form-group">
-            <%= f.label 'Instagram',  class: "col-sm-2" %>
-            <%= f.text_field :instagram , class: "col-sm-5"%>
-          </div>
+                  <div class="form-actions">
+                    <%= f.submit "Update",class: "btn btn-success" %>
+                  </div>
+              </div>                  
+            </div>
 
-
-          <div class= "form-group">
-            <%= f.label 'Facebook',  class: "col-sm-2" %>
-            <%= f.text_field :facebook , class: "col-sm-5"%>
-          </div>
-
-
-
-          <div class= "form-group">
-            <%= f.label :current_password,  class: "col-sm-2" %>
-            <%= f.password_field :current_password, autocomplete: "current-password" , class: "col-sm-5",required: true %>
-          </div>
-
-
-          <div class="actions">
-            <%= f.submit "Update" %>
-          </div>
-      <% end %>
-
+          
+          <%end%>
+        </div>
+      </div>
     </div>
-    
   </div>
-
 </div>
 
-
-
-  <h3>Cancel my account</h3>
+<h3>Cancel my account</h3>
 
 <p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
 
-
-
-
-
 <%= link_to "Back", :back %>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#user_designation_id').select2();
+    $('#user_department_id').select2();
+  });
+
+
+</script>
+
+
+

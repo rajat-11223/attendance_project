@@ -6,21 +6,83 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css"
+     rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+    
+
+
+    
+    
   </head>
 
   <body>
-    <% if user_signed_in? %>
-      Logged in as <strong><%= current_user.email %></strong>.
+
+    <!--Header-part-->
+  <div id="header">
+    <h1><a href="dashboard.html">Matrix Admin</a></h1>
+  </div>
+<!--close-Header-part--> 
+<% if user_signed_in? %>
+  <!--top-Header-menu-->
+
+  <div id="user-nav" class="navbar navbar-inverse">
+      <ul class="nav">
+        <li  class="dropdown" id="profile-messages" >
+          <a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle">
+            <i class="icon icon-user"></i>  
+            <span class="text">Welcome <%= current_user.email %></span>
+            <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="#"><i class="icon-user"></i> <%= current_user.email %> Profile</a></li>
+            <li class="divider"></li>
+            <li><a href="#"><i class="icon-check"></i> My Tasks</a></li>
+            <% if user_signed_in? %>
+              <li class="divider"></li>
+              <li><a href="login.html"><i class="icon-key"></i><%= link_to "Logout", destroy_user_session_path, method: :delete %></a></li>
+              <%end%>
+          </ul>
+        </li>
+
+        <li class="dropdown" id="menu-messages">
+          <a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle">
+            <i class="icon icon-envelope"></i> 
+            <span class="text">Messages</span> 
+            <span class="label label-important">5</span> 
+            <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="sAdd" title="" href="#"><i class="icon-plus">
+              </i> new message</a>
+            </li>
+            <li class="divider"></li>
+            <li><a class="sInbox" title="" href="#"><i class="icon-envelope"></i> inbox</a></li>
+            <li class="divider"></li>
+            <li><a class="sOutbox" title="" href="#"><i class="icon-arrow-up"></i> outbox</a></li>
+            <li class="divider"></li>
+            <li><a class="sTrash" title="" href="#"><i class="icon-trash"></i> trash</a></li>
+          </ul>
+        </li>
+
+        <li class=""><a title="" href="#"><i class="icon icon-cog"></i> <span class="text">Settings</span></a></li>
+        
+      </ul>
+  </div>
+  <!--close-top-Header-menu-->
+
+<%end%>
+
       
-      
-      <%= link_to 'Edit profile', edit_user_registration_path %> |
-      <%= link_to "Logout", destroy_user_session_path, method: :delete %>
-    <% else %>
-      <%= link_to "Sign up", new_user_registration_path %> |
-      <%= link_to "Login", new_user_session_path %>
-    <% end %>
     <%= yield %>
+
+
   </body>
 </html>
