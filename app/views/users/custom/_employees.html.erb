@@ -1,0 +1,39 @@
+
+
+<thead>
+		<tr>
+			<th>#</th>
+			<th>Avatar</th>
+			<th>Name</th>
+			<th>Email</th>
+			<th>Joining Date</th>
+			<th>Status</th>
+			<th>Actions</th>
+		</tr>
+</thead>
+<tbody>
+<%@users.each do |user|%>
+	<tr class="odd gradeX">
+		<td><%=user.id%></td>
+		<td>Image</td>
+		<td><%=user.first_name%></td>
+		<td><%=user.email%></td>
+		<td>22-1-2012</td>
+		<td>Active</td>
+		<td> 
+			<a href="#" class="btn btn-success">
+				<i class="fa fa-eye" aria-hidden="true"></i>
+				
+			</a>
+			<%= link_to '<i class="fa fa-pencil-square-o" aria-hidden="true"></i>'.html_safe, edit_user_path(user.id),:class => "btn btn-primary" %>
+			<!-- <a href="#" class="btn btn-primary">
+				<i class="fa fa-eye" aria-hidden="true"></i>
+			</a> -->
+			
+			<a href="#" class="btn btn-danger">
+				<i class="fa fa-trash-o" aria-hidden="true"></i>
+			</a>
+		</td>
+	</tr>
+			<%end %>
+</tbody>

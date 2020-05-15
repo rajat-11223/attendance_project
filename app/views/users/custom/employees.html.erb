@@ -1,0 +1,52 @@
+<div class="container">
+  	<div id="content">
+  		<div class="row-fluid">
+  			<div class="span8">
+  				<h1>All Employees</h1>
+  			</div>
+  			<div class="span4">
+  				<div class="filter-buttons">
+					<div class="list-view-button">
+						<i class="fa fa-bars" aria-hidden="true"></i> List view
+					</div>
+					<div class="grid-view-button">
+						<i class="fa fa-th-large" aria-hidden="true"></i> Grid view
+					</div>
+				</div>
+			</div>
+  		</div>
+    	<!-- <div id="content-header">
+      		
+    	</div> -->
+    	<hr>
+
+    	
+    	<div class="row-fluid">
+	    	<div class="span12">
+	    		<div class="widget-box">
+	    			<!-- create  show employee div for show employee in grid view -->
+    					<div id="show_employee">
+			    			<table class="table table-bordered table-striped">	
+								<%= render partial: 'employees' %>
+							</table>
+	    				</div>
+	    		</div>
+    		</div>
+    	</div>
+    	
+    	
+    </div>
+</div>
+
+<script type="text/javascript">
+	
+	$('.grid-view-button').click(function(){
+		$('#show_employee').html("<%= j render(:partial => 'employees_grid' ) %>");
+   		});
+
+
+	$('.list-view-button').click(function(){
+		$('#show_employee').html("<table class='table table-bordered table-striped'><%=j render partial: 'employees' %></table>");
+   		});
+
+</script>

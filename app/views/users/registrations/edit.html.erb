@@ -2,15 +2,20 @@
 <div class="container">
   <div id="content">
     <div id="content-header">
-      <h1>Edit <%= resource_name.to_s.humanize %></h1>
+      <h1>Edit your profile  <%= resource.name %></h1>
     </div>
     <hr>
     <div class="row-fluid">
       <div class="span12">
         <div class="widget-box">
-          <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+
+          <!-- Account Setting -->
+
+          <div class="widget-title"> 
+            <span class="icon"> <i class="icon-align-justify"></i> </span>
             <h5>Account Setting</h5>
           </div>
+
           <div class="widget-content nopadding">
             <%= form_for(resource, as: resource_name, url: registration_path(resource_name),html: { class: 'form-horizontal',method: :put }) do |f| %>
 
@@ -57,11 +62,13 @@
               <% end %>
           </div>
 
+          <!-- Profile setting -->
+          
           <div class="widget-title"> 
                 <span class="icon"> <i class="icon-align-justify"></i> </span>
                 <h5>Profile Setting</h5>
           </div>
-          <!-- Profile setting -->
+
           <div class="row-fluid">
             
             <div class="span8">            
@@ -135,23 +142,18 @@
             </div>
             <div class="span4">
               <div class="widget-content nopadding">
+
                <%= image_tag(resource.image_url.to_s, class: 'avatar-preview') %>
 
-                <div class="control-group">
-                    <label class="control-label">File upload input</label>
-                    <div class="controls">   
-                       <%= f.file_field :image %>
-                    </div>
+               <div class="control-group">
+                  <div class="controls">   
+                      <%= f.file_field :image %>
                   </div>
-                </div>
+               </div>
               </div>
-            </div>
-            
-            
+              
+            </div>                        
           </div>
-            
-            
-          
 
 
           <!-- Contact setting -->
@@ -189,6 +191,9 @@
                   <div class="form-actions">
                     <%= f.submit "Update",class: "btn btn-success" %>
                   </div>
+                  <div>
+                    <%= link_to 'Home' , root_path  %>
+                  </div>
               </div>                  
             </div>
 
@@ -202,7 +207,10 @@
 
 <h3>Cancel my account</h3>
 
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
+<p>Unhappy? 
+  <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %>
+    
+  </p>
 
 <%= link_to "Back", :back %>
 

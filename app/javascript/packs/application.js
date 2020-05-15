@@ -17,6 +17,8 @@ require('packs/jquery.min')
 require('packs/jquery.ui.custom')
 require('packs/jquery.uniform')
 require('packs/bootstrap.min')
+require('packs/jquery.dataTables.min')
+
 
 
 

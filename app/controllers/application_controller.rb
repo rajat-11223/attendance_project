@@ -15,12 +15,8 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:account_update, keys: [:name, :first_name, :last_name, :gender, :designation_id, :department_id, :instagram, :facebook, :image])
   end
 
-def stored_location_for(resource_or_scope)
-    session[:user_return_to] || super
-  end
-
-  def after_sign_in_path_for(resource)
-    stored_location_for(resource) || edit_user_registration_path
+  def stored_location_for(resource_or_scope)
+    edit_user_registration_path
   end
 
 

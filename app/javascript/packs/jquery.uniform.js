@@ -1,3 +1,4 @@
+
 /*
 
 Uniform v1.7.5
@@ -19,6 +20,9 @@ MIT License - http://www.opensource.org/licenses/mit-license.php
 Enjoy!
 
 */
+
+
+
 
 (function($) {
   $.uniform = {
@@ -497,6 +501,7 @@ Enjoy!
           $(this).unwrap().unwrap();
         }else if($(this).is(":file")){
           //remove sibling spans
+
           $(this).siblings("span").remove();
           //unwrap parent div
           $(this).unwrap();
@@ -634,6 +639,7 @@ Enjoy!
     };
 
     return this.each(function() {
+
       if($.support.selectOpacity){
         var elem = $(this);
 
@@ -652,6 +658,7 @@ Enjoy!
           //element is a radio
           doRadio(elem);
         }else if(elem.is(":file")){
+          
           //element is a file upload
           doFile(elem);
         }else if(elem.is(":text, :password, input[type='email']")){
