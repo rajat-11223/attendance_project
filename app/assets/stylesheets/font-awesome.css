@@ -21,6 +21,12 @@
 
     */
 
+@font-face {
+  font-family: 'FontAwesome';
+  font-weight: normal;
+  font-style: normal;
+}
+
 /*  Font Awesome styles
     ------------------------------------------------------- */
 /* includes sprites.less reset */

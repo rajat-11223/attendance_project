@@ -1,0 +1,97 @@
+<div class="container">
+	<div id="content">
+		<div id="content-header">
+			<div class="row-fluid">
+				<div class="span6">
+					<h1>Attendence Dashboard</h1>
+				</div>	
+
+				<!-- Create New User Span -->
+				<div class="span6">
+					<!-- <a class="user_button" href=""> -->
+
+						<%= link_to '<i class="fa fa-user-plus item"></i>
+						<div class="create_new_user item">Create new User</div>'.html_safe,new_user_path,class: 'user_button' %>
+  						
+  					<!-- </a> -->
+				</div>
+			</div>
+			
+  		</div>
+  		<hr>
+
+  		<!-- Attendence -->		
+		
+
+		<div class="container-fluid">
+			<div class="row-fluid">
+
+				<!-- Attendence Table Span -->
+			<div class="span12">
+				<div class="widget-box">
+		          <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+		            <h5>Attendence table</h5>
+		          </div>
+		          <div class="widget-content nopadding">
+		            <table class="table table-bordered table-striped">
+		              <thead>
+		                <tr>
+		                  <th>#</th>
+		                  <th>Name</th>
+		                  <th>Punch in time</th>
+		                  <th>Punch out time</th>
+		                  <th>Status</th>
+		                  
+		                </tr>
+		              </thead>
+		              <tbody>
+		                <tr class="odd gradeX">
+		                  <td>1</td>
+		                  <td>das</td>
+		                  <td>as</td>
+		                  <td class="center"> 4</td>
+		                  <td class="center">In progress</td>
+		                </tr>
+		              </tbody>
+		            </table>
+		          </div>
+        		</div>
+			</div>
+			</div>
+		</div>
+
+		<hr>
+
+  		<!-- Employee -->
+  		<div class="container-fluid">
+			<div class="row-fluid">
+
+				<!-- Employee Table Span -->
+				<div class="span12">
+					<div class="widget-box">
+			          <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+			            <h5>Employees table</h5>
+			          </div>
+			          <div class="widget-content nopadding">
+			          	<table class="table table-bordered table-striped">	
+			          		<%= render partial: 'employees' %>
+							<tfoot>
+								<tr>
+									<td colspan="9" style="text-align: center;">
+										<%= link_to 'View all', employees_path%>
+									</td>
+								</tr>
+							</tfoot>
+						</table>			          	
+			          </div>
+	        		</div>
+				</div>
+			</div>
+		</div>
+
+
+
+	</div>
+
+
+</div>

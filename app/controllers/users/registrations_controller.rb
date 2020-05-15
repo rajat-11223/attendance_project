@@ -60,14 +60,18 @@ class Users::RegistrationsController < Devise::RegistrationsController
    end
 
   # GET /resource/edit
-  # def edit
-  #   super
-  # end
+  def edit
+    @designation = Designation.all
+    @department = Department.all
+
+    @user_role = UserRole.find_by(:user_id => current_user.id)
+    super
+  end
 
   # PUT /resource
-  # def update
-  #   super
-  # end
+  def update
+    super
+  end
 
   # DELETE /resource
   # def destroy

@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AttendnceProject</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+
     <!-- Font Awesome -->
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
@@ -11,10 +13,12 @@
    
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
     
   </head>
 
   <body>
+
     <% flash.each do |key, value| %>
 <div class="container top_notification">
       <center class="flash_notification"><div class="<%= flash_class(key) %>">
@@ -75,5 +79,6 @@
 
 
 <%= yield %>
+
   </body>
 </html>
