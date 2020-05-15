@@ -2,10 +2,11 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,:confirmable
+         :recoverable, :rememberable, :validatable,:confirmable,:trackable
 
 before_validation :confirmation_token, on: :create
-
+has_many :daily_attendances 
+has_many :request_leaves 
 
 #
 #def generate_confirmation_token

@@ -21,13 +21,12 @@
   <div class="actions">
     <%#= f.submit "Log in" %>
   </div>
-<%# end %>-->
-
-<%#= render "users/shared/links" %>
+<%# end %>
 
 
 
-<div class="main">
+
+<div class="main">-->
 
         <!-- Sign up form -->
         <!--<section class="signup">
@@ -72,43 +71,70 @@
             </div>
         </section>-->
 
-        <!-- Sing in  Form -->
-        <section class="sign-in">
-            <div class="container">
-                <div class="signin-content">
-                    <div class="signin-image">
-                        <figure><img src="/assets/signin-image.jpg" alt="sing up image"></figure>
-                        
-                        <%= link_to "Sign Up", "/users/sign_up",:class => "signup-image-link" %>
-                    </div>
+    
 
-                    <div class="signin-form">
-                        <h2 class="form-title">Sign in</h2>
-                        <%= form_for(resource, as: resource_name, url: session_path(resource_name), :html => {'class' => 'register-form'}) do |f| %>
-                       
-                            <div class="form-group">
-                                <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <%= f.email_field :email, autofocus: true, autocomplete: "email",:placeholder=>"Your Email" ,:required=> 'true'%>
-                                
-                            </div>
-                            <div class="form-group">
-                                <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
-                                <%= f.password_field :password, autocomplete: "current-password",:placeholder=>"Password",:required=> 'true' %>
-                                
-                            </div>
-                            <div class="form-group">
-                                <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
-                                <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
-                            </div>
-                            <div class="form-group form-button">
-                              <%= f.submit "Log in" ,:class=>"form-submit"%>
-                                
-                            </div>
-                        <% end %>
-                        
+
+
+        <div id="loginbox" class="margin_top">  
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name), :html => {'id' =>'loginform', 'class' => 'form-vertical'}) do |f| %>          
+            
+                 <div class="control-group normal_text"> <h3><img src="/assets/newlogo.png" alt="Logo" /></h3></div>
+                <div class="control-group">
+                    <div class="controls">
+                        <div class="main_input_box">
+                            <span class="add-on bg_lg"><i class="icon-user"> </i></span>
+                            <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "username" %>
+                            
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+                <div class="control-group">
+                    <div class="controls">
+                        <div class="main_input_box">
+                            <span class="add-on bg_ly"><i class="icon-lock"></i></span>
+                              <%= f.password_field :password, autocomplete: "current-password", placeholder: "password" %>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                   
+                    <span class="pull-left"><a href="javascript:void(0)" class="flip-link btn btn-info" id="to-recover">Lost password?</a></span>
+                    <span class="pull-right">
+                            <%= f.submit "Log in",:class=>"btn btn-success" %>
+                        </span>
+                </div>
+            <% end %>
 
-    </div>
+<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: {'id'=>"recoverform",'class'=>'form-vertical', method: :post }) do |f| %>
+            
+                <p class="normal_text">Enter your e-mail address below and we will send you instructions how to recover a password.</p>
+                <%= render "devise/shared/error_messages", resource: resource %>
+                    <div class="controls">
+                        <div class="main_input_box">
+                            <span class="add-on bg_lo"><i class="icon-envelope"></i></span>
+                            <%= f.email_field :email, autofocus: true, autocomplete: "email",placeholder: "E-mail address" %>
+
+                            
+                        </div>
+                    </div>
+               
+                <div class="form-actions">
+                    <span class="pull-left"><a href="#" class="flip-link btn btn-success" id="to-login">&laquo; Back to login</a></span>
+
+                     <span class="pull-right"><%= f.submit "Recover", class: 'btn btn-info' %></span>
+
+                    
+                </div>
+            
+<% end %>
+
+
+
+            
+        </div>
+        <%#= render "users/shared/links" %>
+ <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+  <%#= link_to "Forgot your password?", new_password_path(resource_name) %><br />
+<% end %>
+
+

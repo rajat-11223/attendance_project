@@ -14,7 +14,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # POST /resource
 
 
-  def create22
+  def create
 
    super
 
@@ -23,12 +23,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
 
 
-   def create
+   def create33
     @registered_employes = RegisterEmploye.all
    generated_password = Devise.friendly_token.first(8)
    #confirmation_token = SecureRandom.urlsafe_base64(10)
    #confirmation_sent_at = Time.now.utc
-    @user = User.new(:email => params[:user][:email], :password => generated_password,:name=> params[:user][:name])
+    @user = User.new(:email => "rajat@poplify.com", :password => 12345678 ,:name=> "sdfsdds")
    # @user = User.new
 
    #@user.email = params[:user][:email]

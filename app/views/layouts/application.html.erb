@@ -5,22 +5,19 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <!-- Font Awesome -->
-    
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800;900&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css"> 
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+   
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-
-<script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
+    
   </head>
 
   <body>
     <% flash.each do |key, value| %>
 <div class="container top_notification">
-      <center><div class="<%= flash_class(key) %>">
+      <center class="flash_notification"><div class="<%= flash_class(key) %>">
             <%= value %>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
@@ -28,6 +25,55 @@
       </div></center>
       </div>
 <% end %>
-    <%= yield %>
+<div id="header">
+  
+<%= link_to image_tag('/assets/newlogo.png') , root_url, :class => 'top_header_image' %>
+</div>
+<% if user_signed_in? %>
+<div id="user-nav" class="navbar navbar-inverse">
+  <ul class="nav">
+    <li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i class="icon icon-user"></i>  <span class="text">Welcome <%#= current_user.name.capitalize %> </span><b class="caret"></b></a>
+      <ul class="dropdown-menu">
+        <li><a href="#"><i class="icon-user"></i> My Profile</a></li>
+        <li class="divider"></li>
+        <li><a href="#"><i class="icon-check"></i> My Tasks</a></li>
+        <li class="divider"></li>
+        <li><%= link_to '<i class="icon-key"></i> Log Out'.html_safe, "/users/sign_out", method: :delete %></li>
+      </ul>
+    </li>
+    <li class="dropdown" id="menu-messages"><a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle"><i class="icon icon-envelope"></i> <span class="text">Messages</span> <span class="label label-important">5</span> <b class="caret"></b></a>
+      <ul class="dropdown-menu">
+        <li><a class="sAdd" title="" href="#"><i class="icon-plus"></i> new message</a></li>
+        <li class="divider"></li>
+        <li><a class="sInbox" title="" href="#"><i class="icon-envelope"></i> inbox</a></li>
+        <li class="divider"></li>
+        <li><a class="sOutbox" title="" href="#"><i class="icon-arrow-up"></i> outbox</a></li>
+        <li class="divider"></li>
+        <li><a class="sTrash" title="" href="#"><i class="icon-trash"></i> trash</a></li>
+      </ul>
+    </li>
+    
+  </ul>
+</div>
+<div id="search">
+
+
+
+  <%= link_to '<i class="icon-share-alt"></i> Log Out'.html_safe, "/users/sign_out", method: :delete, class: "btn btn-danger" %>
+</div>
+<% else %>
+<div id="search">
+ <%= link_to '<i class="icon-signin"></i> Log in'.html_safe, "/users/sign_in", class: "btn btn-info" %>
+ 
+ <%#= link_to '<i class="icon-share-alt"></i> Sign up'.html_safe, "/users/sign_up", class: "btn btn-success" %>
+</div>
+<% end %>
+  
+
+
+
+
+
+<%= yield %>
   </body>
 </html>

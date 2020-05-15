@@ -1,0 +1,147 @@
+
+
+<div id="content">
+
+
+<div class="container-fluid">
+
+    <div class="row-fluid">
+
+
+
+<div class="span6">
+<div class="widget-box">
+
+<center><h3></h3></center>
+
+<div class="card_design">
+
+<div class="card text-center">
+  <div class="card-header bg_lb head_cards">
+    Mark Attendance
+  </div>
+  <div class="card-body">
+    <h3 class="card-title"><%= Time.now.strftime("%I : %M : %S") %></h3>
+   
+    <div class="punch_button">
+<% if  @all_attendance.present?   %>
+    <span class="btn btn-large btn-danger disabled btn_punched">
+    <strong> Punch In at</strong> <p> <%= @all_attendance.punch_in.strftime("%I : %M  %P") %></p></span>
+    <%#= button_tag 'Punch In at <br/><br/>'.html_safe + @all_attendance.punch_in.strftime("%I : %M  %P") , type: 'button', disabled: true, class: "btn btn-large btn-danger" %>
+
+        <% if  @all_attendance.present? &&  @all_attendance.punch_out.present?  %>
+        <span class="btn btn-large btn-danger disabled btn_punched">
+    <strong> Punch Out at</strong> <p> <%= @all_attendance.punch_out.strftime("%I : %M  %P") %></p></span>
+        <% else %>
+         <%= button_to "Punch Out", punch_attendance_path, params: { "punch_out" =>  true }, :id => "open-contacts-dialog-btn",
+              :class => "btn btn-large btn-danger", :method => :post %>
+         <% end %>        
+<% else %>
+    <%= button_to "Punch In", punch_attendance_path, params: { "punch_in" =>  true },:id => "open-contacts-dialog-btn",
+      :class => "btn btn-large btn-danger", :method => :post %>
+<% end %>
+
+
+  </div>
+  </div>
+  <div class="card-footer bg_lb head_cards">
+    <%= DateTime.now.strftime("%A ") %>
+  </div>
+</div>
+</div>
+
+
+
+
+
+</div>
+</div>
+
+
+
+
+
+
+    </div>
+</div>
+
+</div>
+
+<style> 
+
+
+ #clockdiv{ 
+    font-family: sans-serif; 
+    color: #fff; 
+    display: inline-block; 
+    font-weight: 100; 
+    text-align: center; 
+    font-size: 30px; 
+} 
+#clockdiv > div{ 
+    padding: 10px; 
+    border-radius: 3px; 
+    background: #00BF96; 
+    display: inline-block; 
+} 
+#clockdiv div > span{ 
+    padding: 15px; 
+    border-radius: 3px; 
+    background: #00816A; 
+    display: inline-block; 
+} 
+smalltext{ 
+    padding-top: 5px; 
+    font-size: 16px; 
+} 
+</style> 
+
+<h1>Countdown Clock</h1> 
+<div id="clockdiv"> 
+  <div> 
+    <span class="days" id="day"></span> 
+    <div class="smalltext">Days</div> 
+  </div> 
+  <div> 
+    <span class="hours" id="hour"></span> 
+    <div class="smalltext">Hours</div> 
+  </div> 
+  <div> 
+    <span class="minutes" id="minute"></span> 
+    <div class="smalltext">Minutes</div> 
+  </div> 
+  <div> 
+    <span class="seconds" id="second"></span> 
+    <div class="smalltext">Seconds</div> 
+  </div> 
+</div> 
+  
+<p id="demo"></p> 
+  
+<script> 
+  
+var deadline = new Date("may 28, 2020 15:37:25").getTime(); 
+  
+var x = setInterval(function() { 
+  
+var now = new Date().getTime(); 
+var t = deadline - now; 
+var days = Math.floor(t / (1000 * 60 * 60 * 24)); 
+var hours = Math.floor((t%(1000 * 60 * 60 * 24))/(1000 * 60 * 60)); 
+var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60)); 
+var seconds = Math.floor((t % (1000 * 60)) / 1000); 
+document.getElementById("day").innerHTML =days ; 
+document.getElementById("hour").innerHTML =hours; 
+document.getElementById("minute").innerHTML = minutes;  
+document.getElementById("second").innerHTML =seconds;  
+if (t < 0) { 
+        clearInterval(x); 
+        document.getElementById("demo").innerHTML = "TIME UP"; 
+        document.getElementById("day").innerHTML ='0'; 
+        document.getElementById("hour").innerHTML ='0'; 
+        document.getElementById("minute").innerHTML ='0' ;  
+        document.getElementById("second").innerHTML = '0'; } 
+}, 1000); 
+</script> 
+
+
