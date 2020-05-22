@@ -71,6 +71,9 @@ ActiveRecord::Schema.define(version: 2020_05_14_105245) do
     t.bigint "user_id"
     t.string "subject"
     t.string "message"
+    t.datetime "date_from"
+    t.datetime "date_to"
+    t.string "leave_count"
     t.boolean "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

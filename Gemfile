@@ -23,7 +23,7 @@ gem 'mini_magick'
 gem 'bootstrap', '~> 4.4.1'
 gem 'devise'
 gem 'will_paginate', '~> 3.1.0'
-
+gem 'working_hours'
 
 
 

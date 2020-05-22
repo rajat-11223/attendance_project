@@ -1,4 +1,5 @@
 class Users::CustomController < ApplicationController
+include DashboardsHelper
 
 #before_action :authenticate_user!, except: %i[index	show]	
 before_action :set_user, only: [ :edit, :update, :destroy]
@@ -14,7 +15,17 @@ end
 def attendance
 
 @all_attendance = DailyAttendance.find_by(user_id: current_user.id, created_at: Date.today.all_day )
+@show_attendance = DailyAttendance.where(user_id: current_user.id, :created_at => Time.now.beginning_of_month..Time.now.end_of_month) 
 
+ @avrgats = @show_attendance.where.not(punch_out: nil).map{ |n| n.punch_out.to_time - n.punch_in.to_time }
+
+ @a = @avrgats.map{|n| Time.at(n).utc.strftime("%k:%M")}
+
+#byebug
+#@a =  ['18:35', '19:07', '23:09']
+@avrg = avg_of_times(@a)
+@leaves_taken = RequestLeave.where(status: 1, user_id: current_user.id).sum(:leave_count)
+@applied_leaves = RequestLeave.where(status: 0, user_id: current_user.id).sum(:leave_count)
 end
 
 
@@ -54,12 +65,28 @@ end
 def request_leave
 
 	@request_leave = RequestLeave.new
+	@all_leaves = RequestLeave.where(user_id: current_user.id)
 
 end
 
 def apply_leave
+#2020-05-26
+#puts params[:date_to].to_date
+#puts params[:date_from].to_date
+#puts (params[:date_to].to_date - params[:date_from].to_date).to_i
+
+@daterange = params[:dated_from].split()
+@count_leave = params[:leave_count] == 1 ? 1 : (@daterange[2].to_date - @daterange[0].to_date).to_i + 1
+
+#byebug
 
 
+@submit_leave = RequestLeave.new(user_id: current_user.id, subject: params[:subject], message: params[:message], date_from: @daterange[0], date_to: @daterange[2], leave_count: @count_leave)
+	respond_to do |format|
+		if @submit_leave.save
+		format.html { redirect_to request_leave_path, notice: 'Leave applied successfully' }
+		end
+	end
 end	
 
 
