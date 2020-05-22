@@ -22,10 +22,22 @@
                     <input id="username" type="text" readonly name="username" value="<%= current_user.name.capitalize %>" />
                   </div>
                 </div>
+
+
+<div class="control-group">
+                  <label class="control-label">Leave from</label>
+                  <div class="controls">
+                    <input type="text" name="dated_from" id="datepicker"/> 
+                  </div>
+                </div>
+
+
+
                 <div class="control-group">
                   <label class="control-label">Subject</label>
                   <div class="controls">
                     <input id="subject" type="text" name="subject" />
+                    
                   </div>
                 </div>
                 <div class="control-group">
@@ -34,6 +46,7 @@
                      <textarea name="message" placeholder="Enter message here..."></textarea> 
                   </div>
                 </div>
+
               </div>
               
               <div class="form-actions">
@@ -48,4 +61,71 @@
       </div>
     </div>
   </div>
-</div>
+
+
+<div class="container-fluid">
+    <hr>
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+            <h5>Applied Leaves</h5>
+          </div>
+          <div class="widget-content nopadding">
+            <table class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  
+                  <th>Id</th>
+                  <th>Subject</th>
+                  <th>Message</th>
+                  <th>Leave from</th>
+                  <th>Leave to</th>
+                  <th>Leave Count</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @all_leaves.each do |cc| %>
+                <tr class="odd gradeX">
+                  <td><%=cc.id %></td>
+                  <td><%=cc.subject %></td>
+                  <td><%= cc.message %></td>
+                  <td class="center"><%= cc.date_from.strftime("%b  %d ,  %Y") %></td>
+                  <td class="center"><%= cc.date_to.strftime("%b  %d ,  %Y") %></td>
+                  <td><%= cc.leave_count %></td>
+                  <td class="badge <%= cc.status.present? ? 'badge-success' : cc.status == false ? 'badge-important'  : 'badge-warning' %>"><%= cc.status.present? ? 'Approve' : cc.status == false ? 'Dis-Approve' : "pending" %></td>
+                </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        </div>
+        </div>
+        </div>
+
+
+ 
+    
+<script type="text/javascript">
+   var picker = new Lightpick({
+    field: document.getElementById('datepicker'),
+    singleDate: false,
+    minDate: moment(),
+    format: 'YYYY-MM-DD',
+    autoApply: true,
+    onSelect: function(start, end){
+        var str = '';
+        str += start ? start.format('Do MMMM YYYY') + ' to ' : '';
+        str += end ? end.format('Do MMMM YYYY') : '...';
+        document.getElementById('datepicker').innerHTML = str;
+         
+    }
+});
+  
+</script> 
+
+
+
+
