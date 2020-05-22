@@ -72,7 +72,15 @@
 
   <footer>
     <div class="actions">
-      <%= f.submit %>
+      <%= f.submit nil, class: 'submit' %>
     </div>
   </footer>
 <%end%>
+
+<script type="text/javascript">
+  $(".submit").click(function() {
+    $(".modal-box, .modal-overlay").fadeOut(200, function() {
+      $(".modal-overlay").remove();
+    });
+  });
+</script>
