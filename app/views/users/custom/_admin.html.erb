@@ -3,22 +3,55 @@
 		<div id="content-header">
 			<div class="row-fluid">
 				<div class="span6">
-					<h1>Attendence Dashboard</h1>
-				</div>	
+					<h1>Admin Dashboard</h1>
+				</div>
 
 				<!-- Create New User Span -->
 				<div class="span6">
 					<!-- <a class="user_button" href=""> -->
-
 						<%= link_to '<i class="fa fa-user-plus item"></i>
-						<div class="create_new_user item">Create new User</div>'.html_safe,new_user_path,class: 'user_button' %>
-  						
+						<div class="create_new_user item">Create new User</div>'.html_safe,new_user_path,class: 'user_button' %>  					
   					<!-- </a> -->
 				</div>
 			</div>
 			
   		</div>
   		<hr>
+
+
+  		<section class="statistics">
+	        <div class="container-fluid">
+	          <div class="row-fluid" style="align-items: center;">
+	            <div class="span4">
+	              <div class="box">
+	                <i class="fa fa-envelope fa-fw btn-primary"></i>
+	                <div class="info">
+	                  <h3>1</h3> <span>Request</span>
+	                  <p>Lorem ipsum dolor sit amet</p>
+	                </div>
+	              </div>
+	            </div>
+	            <div class="span4">
+	              <div class="box">
+	                <i class="fa fa-file fa-fw btn-danger"></i>
+	                <div class="info">
+	                  <h3>132</h3> <span>Total leaves</span>
+	                  <p>Lorem ipsum dolor sit amet</p>
+	                </div>
+	              </div>
+	            </div>
+	            <div class="span4">
+	              <div class="box">
+	                <i class="fa fa-users fa-fw btn-success"></i>
+	                <div class="info">
+	                  <h3>26</h3> <span>Employees</span>
+	                  <p>Lorem ipsum dolor sit amet</p>
+	                </div>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+      	</section>
 
   		<!-- Attendence -->		
 		
@@ -61,6 +94,47 @@
 		</div>
 
 		<hr>
+
+
+		<section class="admins">
+	        <div class="container-fluid">
+	        	<h3>Admins:</h3>
+	          	<div class="row-fluid check">
+	          		
+	          		
+		            <div class="span4" >
+		              <div class="box" style="justify-content: center;">
+		                	
+		                	<div class="admin">
+		                  		<div class="img">
+		                    		<img class="img-responsive" src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148906966/small/1501685402/enhance" alt="admin">
+		                  		</div>
+		                  		<div class="info">
+		                    		<h3>Joge Lucky</h3>
+		                    		<p>Lorem ipsum dolor sit amet.</p>
+		                  		</div>
+		                	</div>
+		            	</div>
+		            </div>
+		            <div class="span4">
+		              	<div class="box">
+			                <div class="admin">
+			                  	<div class="img">
+			                    	<img class="img-responsive" src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907137/small/1501685404/enhance" alt="admin">
+			                  	</div>
+			                  	<div class="info">
+			                    	<h3>Joge Lucky</h3>
+			                    	<p>Lorem ipsum dolor sit amet.</p>
+			                  	</div>
+			                </div>
+		            	</div>
+		        	</div>
+		        	
+		        </div>
+		        	
+	            
+			</div>
+		</section>
 
   		<!-- Employee -->
   		<div class="container-fluid">

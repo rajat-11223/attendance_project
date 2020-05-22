@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  image_url: MyString
+  is_cover_active: false
+  is_profile_active: false
+  user: one
+
+two:
+  image_url: MyString
+  is_cover_active: false
+  is_profile_active: false
+  user: two

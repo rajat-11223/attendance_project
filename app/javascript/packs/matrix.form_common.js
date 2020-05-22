@@ -147,6 +147,7 @@ $(document).ready(function() {
 	});
 
 	//Boostrap modal
+	
 	$('#myModal').modal({ show: false});
 	
 	//add event to modal after closed

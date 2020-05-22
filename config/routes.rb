@@ -7,9 +7,15 @@ Rails.application.routes.draw do
 scope module: :users do
   	#get "users/admindashboard" => 'custom#admindashboard'
   	get "users/attendance" => 'custom#attendance', as: "attendance"
+
   	get "users/request_leave" => 'custom#request_leave', as: "request_leave"
+
   	get "users/apply_leave" => 'custom#apply_leave', as: "apply_leave"
+
   	post "punch_attendance"  => 'custom#punch_attendance', as: 'punch_attendance'
+
+
+
   	get "dashboard" => 'custom#dashboard', as: "dashboard"
 
   	get "employees" => 'custom#employees', as: "employees"
@@ -18,8 +24,17 @@ scope module: :users do
 
     get "admin_create_user" => 'custom#admin_create_user', as: "new_user"
 
-    put "admin_update_user/:id" => 'custom#admin_update_user', as: "update_user"
-  	root to: "custom#admindashboard"
+    post "update_user/:id" => 'custom#update_user', as: "update_user"
+
+    post "add_new_employee" => 'custom#add_new_employee', as: "add_new_employee"
+
+    get "user_profile/:id" => 'custom#user_profile', as: "user_profile"
+
+    post "save_user_image" => 'custom#save_user_image', as: "save_user_image"
+
+  	root to: "custom#dashboard"
+
+
   devise_for :users, controllers: {
         sessions: 'users/sessions',
         registrations:'users/registrations',

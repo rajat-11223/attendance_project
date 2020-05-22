@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Users::ConfirmationsController < Devise::ConfirmationsController
+  skip_before_filter :authenticate_user!
+  skip_before_action :verify_authenticity_token
   # GET /resource/confirmation/new
    def new
      super
@@ -23,5 +25,9 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
            # The path used after confirmation.  
              def after_confirmation_path_for(resource_name, resource)  
                 super(resource_name, resource)
-   end
+             end
+
+  
+ 
+   
 end

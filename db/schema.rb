@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_14_105245) do
+ActiveRecord::Schema.define(version: 2020_05_21_114004) do
 
   create_table "daily_attendances", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id"
@@ -28,6 +28,21 @@ ActiveRecord::Schema.define(version: 2020_05_14_105245) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "delayed_jobs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.integer "priority", default: 0, null: false
+    t.integer "attempts", default: 0, null: false
+    t.text "handler", null: false
+    t.text "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string "locked_by"
+    t.string "queue"
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
+    t.index ["priority", "run_at"], name: "delayed_jobs_priority"
+  end
+
   create_table "departments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "department_name"
     t.datetime "created_at", precision: 6, null: false
@@ -35,7 +50,7 @@ ActiveRecord::Schema.define(version: 2020_05_14_105245) do
   end
 
   create_table "designations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.string "name"
+    t.string "designation_name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -77,6 +92,16 @@ ActiveRecord::Schema.define(version: 2020_05_14_105245) do
     t.index ["user_id"], name: "index_request_leaves_on_user_id"
   end
 
+  create_table "user_images", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "image_url"
+    t.boolean "is_cover_active"
+    t.boolean "is_profile_active"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_user_images_on_user_id"
+  end
+
   create_table "user_roles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "master_role_id", null: false
@@ -87,12 +112,16 @@ ActiveRecord::Schema.define(version: 2020_05_14_105245) do
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.string "name"
+    t.integer "employee_id"
+    t.string "user_name"
+    t.string "first_name"
+    t.string "last_name"
     t.string "dob"
-    t.string "phone"
     t.string "gender"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
+    t.string "instagram"
+    t.string "facebook"
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -117,6 +146,7 @@ ActiveRecord::Schema.define(version: 2020_05_14_105245) do
   end
 
   add_foreign_key "mobiles", "users"
+  add_foreign_key "user_images", "users"
   add_foreign_key "user_roles", "master_roles"
   add_foreign_key "user_roles", "users"
   add_foreign_key "users", "departments"

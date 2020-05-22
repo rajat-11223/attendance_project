@@ -25,6 +25,9 @@ gem 'devise'
 gem 'will_paginate', '~> 3.1.0'
 
 
+gem 'delayed_job_active_record'
+
+gem 'daemons', '~> 1.2', '>= 1.2.3'
 
 
 
