@@ -10,10 +10,10 @@ protect_from_forgery
 
 protected
 
-  #def configure_permitted_parameters
+  # def configure_permitted_parameters
   #  devise_parameter_sanitizer.permit(:account_update, keys: [:name,:image,:gender,:dob,:phone])
   #  devise_parameter_sanitizer.permit(:sign_up, keys: [:name,:image,:gender,:dob,:phone])
-  #end
+  # end
 
 
   def stored_location_for(resource_or_scope)

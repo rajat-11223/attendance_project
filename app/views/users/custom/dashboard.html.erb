@@ -2,8 +2,20 @@
 <%if @user_role.master_role_id == 1	%>
 	<%= render partial: 'admin' %>
 <%else%>
-	<h1>User Dashboard</h1>
-	User Code
+	
+<div class="container">
+	<div id="content">
+		<div id="content-header">
+			<div class="row-fluid">
+				<div class="span6">
+					<h1>User Dashboard</h1>
+				</div>	
+			</div>
+		</div>
+	</div>
+</div>
+
+	
 <%end%>
 
 

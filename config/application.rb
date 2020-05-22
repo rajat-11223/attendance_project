@@ -10,6 +10,7 @@ module AttendnceProject
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
+    config.active_job.queue_adapter = :delayed_job
     #config.assets.paths << Rails.root.join("app", "assets", "fonts")
     #config.assets.precompile << /\.(?:svg|eot|woff|ttf)\z/
 

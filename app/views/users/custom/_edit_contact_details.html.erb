@@ -1,0 +1,47 @@
+<%= form_for @user, :as => :user, url: update_user_path(@user),html: 
+{ class: 'form-horizontal',method: :post } do |f| %>
+  <div class="modal-body">
+    <div class="row-fluid">
+              
+              <div class="span12">            
+                <div class="widget-content nopadding">
+                     <!-- Instagram Name -->
+
+                     <%if current_user.id == @user.id %>
+                  <div class="control-group">
+                    <%= f.label 'Instagram :', class: "control-label"  %>
+                    <div class="controls">
+                      <%= f.text_field :instagram, class: "span11" %>
+                    </div>
+                  </div>
+
+                  <!-- Facebook Name -->
+                  <div class="control-group">
+                    <%= f.label 'Facebook', class: "control-label"  %>
+                    <div class="controls">
+                      <%= f.text_field :facebook, class: "span11" %>
+                    </div>
+                  </div>
+
+                  <%end%>
+                </div>  
+              </div>
+            </div>
+              
+  </div>
+
+
+  <footer>
+    <div class="actions">
+      <%= f.submit nil, class: 'submit' %>
+    </div>
+  </footer>
+<%end%>
+
+<script type="text/javascript">
+  $(".submit").click(function() {
+    $(".modal-box, .modal-overlay").fadeOut(200, function() {
+      $(".modal-overlay").remove();
+    });
+  });
+</script>

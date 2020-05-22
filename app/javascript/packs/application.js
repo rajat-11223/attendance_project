@@ -10,32 +10,49 @@ require("channels")
 
 require('jquery')
 
+require("packs/select2.min")
 
 require("packs/matrix.login")
 require("packs/matrix")
+
 require("packs/matrix.chat")
-require("packs/matrix.interface")
+
 require("packs/bootstrap.min")
 require("packs/jquery.dataTables.min")
 require("packs/jquery.min")
 
 require("packs/jquery.validate")
-require("packs/jquery.wizard")
+
 require("packs/jquery.uniform")
-require("packs/jquery.form_validation")
+
 require("packs/jquery.ui.custom")
-require("packs/matrix.dashboard")
-require("packs/matrix.popover")
+require("packs/jquery.wizard")
+
+
+
 require("packs/matrix.tables")
 require("packs/matrix.wizard")
+
 require("packs/excanvas.min")
 require("packs/jquery.ui.custom")
-require("packs/jquery.flot.min")
+
 require("packs/jquery.peity.min")
-require("packs/jquery.flot.resize")
+
+
+
 require("packs/fullcalendar.min")
 require("packs/jquery.gritter.min")
-require("packs/select2.min")
+
+require("packs/matrix.interface")
+
+
+
+
+
+
+
+
+
 
 
 

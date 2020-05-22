@@ -1,0 +1,61 @@
+<%= form_for @user, :as => :user, url: update_user_path(@user),html: 
+{ class: 'form-horizontal',method: :post } do |f| %>
+  <div class="modal-body">
+    <div class="row-fluid">
+      <div class="span12">
+          <div class="widget-content nopadding">
+              <div class="form-horizontal">
+                  <div class="control-group">
+                    <%= f.label :email, class: "control-label" %>
+                    <div class="controls">
+                      <%= f.email_field :email, autofocus: true, autocomplete: "email",
+                        disabled: "disabled",class: "span11" %>                
+                    </div>
+                  </div>
+                  <%if current_user.id == @user.id %>
+                  <div class="control-group">
+                    <%= f.label 'Username',  class: "control-label" %>          
+                    <div class="controls">
+                      <%= f.text_field :user_name , class: "span11",placeholder: "Username" , required: true%>
+                    </div>
+                  </div>
+                  <!-- PassWord -->
+                  <div class="control-group">
+                    <%= f.label :password, class: "control-label" %> 
+                    
+                    <div class="controls">
+                       <%= f.password_field :password,placeholder: "Enter Password", autocomplete: "new-password",id: 'user_password' ,class: 
+                  "span11"%>
+                      </div>
+                  </div>
+
+                  <!-- Confirm Password -->
+                  <div class="control-group">
+                    <%= f.label :password_confirmation, class: "control-label"  %>
+                    
+                    <div class="controls">
+                      <%= f.password_field :password,placeholder: "Confirm Password", autocomplete: "new-password", id: 'confirm_password' ,class: "span11" %>
+                    </div>
+                  </div>
+                  <%end%>
+              </div>  
+          </div>
+      </div>
+    </div>
+  </div>
+
+
+  <footer>
+    <div class="actions">
+      <%= f.submit nil, class: 'submit'%>
+    </div>
+  </footer>
+<%end%>
+
+<script type="text/javascript">
+  $(".submit").click(function() {
+    $(".modal-box, .modal-overlay").fadeOut(200, function() {
+      $(".modal-overlay").remove();
+    });
+  });
+</script>

@@ -1,0 +1,86 @@
+<%= form_for @user, :as => :user, url: update_user_path(@user),html: 
+{ class: 'form-horizontal',method: :post } do |f| %>
+  <div class="modal-body">
+    <div class="row-fluid">
+              
+              <div class="span12">            
+                <div class="widget-content nopadding">
+                    <div class="form-horizontal">
+
+                      <%if current_user.id == @user.id %>
+
+                          <!-- First Name -->
+                        <div class="control-group">
+                          <%= f.label 'First Name :', class: "control-label"  %>
+                          <div class="controls">
+                            <%= f.text_field :first_name, class: "span11" ,required: true%>
+                          </div>
+                        </div>
+
+                        <!-- Last Name -->
+                        <div class="control-group">
+                          <%= f.label 'Last Name', class: "control-label"  %>
+                          <div class="controls">
+                            <%= f.text_field :last_name, class: "span11", required: true %>
+                          </div>
+                        </div>
+
+
+                        <!-- Gender -->
+                        <div class= "form-group">
+                        
+                          <%= f.label :gender ,class: 'control-label'%>
+                          <div class="controls">
+                              <label>
+                                <input type="radio" checked="checked" value="true" name="user[gender]" id="user_gender_true">
+                                Male
+                              </label>
+                              <label>
+                                <input type="radio" value="false" name="user[gender]" id="user_gender_false">
+                                Female
+                              </label>
+                          </div>
+                        </div>
+                      <%end%>
+
+                        <!--Designation For Admin -->
+                      <%if @user_role.master_role_id == 1 %>
+                            <div class= "form-group">
+                              <%= f.label "Designation",class: "control-label" %>
+                              <div class="controls">
+                                <%= f.select( :designation_id,  @designation.collect { |designation| [designation.designation_name, designation.id] }) %>
+                              </div>
+                            </div>
+                      
+                      
+                      <!--Department For Admin -->
+                      
+                            <div class= "form-group">
+                              <%= f.label "Department",class: "control-label" %>
+                              <div class="controls">
+                                <%= f.select( :department_id,  @department.collect { |department| [department.department_name, department.id] }) %>
+                              </div>
+                            </div>
+                      <%end%>
+                    </div>
+                </div>  
+              </div>
+            </div>
+              
+  </div>
+
+
+  <footer>
+    <div class="actions">
+      <%= f.submit nil, class: 'submit' %>
+    </div>
+  </footer>
+<%end%>
+
+<script type="text/javascript">
+  $(".submit").click(function() {
+    $(".modal-box, .modal-overlay").fadeOut(200, function() {
+      $(".modal-overlay").remove();
+    });
+  });
+</script>

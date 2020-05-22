@@ -1,5 +1,19 @@
-<p>Welcome <%= 'email' %>!</p>
 
-<p>You can confirm your account email through the link below:</p>
 
-<p><%= link_to 'Confirm my account', confirmation_url(@user, confirmation_token: @token) %></p>
+<p>Welcome <%= @user.name %>!</p>
+<p>Login details<br>
+    --------------------------
+    </p>
+    
+    <p>Email: <%= @user.email %></p>
+    <p>Password: <%= @password %></p>
+    <% @desiganation = Designation.find(@user.designation_id) %>
+    <% @department = Department.find(@user.department_id) %>
+    <% @role = MasterRole.find(@role_id) %>
+    <p>Desiganation: <%= @desiganation.name %></p>
+    <p>Department: <%= @department.department_name %> </p>
+    <p>Role:  </p>
+    
+
+
+  

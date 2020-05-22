@@ -2,7 +2,7 @@ begin
     puts 'Master Role initializing...'
     MasterRole.destroy_all
     MasterRole.create!([{ id: 1, role_name: 'admin' },
-                        { id: 2, role_name: 'employe' }])
+                        { id: 2, role_name: 'employee' }])
     puts 'Master Role initialized successfully'
 
     puts 'Master Attendance Status initializing...'
@@ -12,7 +12,7 @@ begin
         { id: 1, status: 'present' },
         { id: 2, status: 'half day' },
         {id: 3, status: 'leave' },
-        {id: 4, status: 'wfh' }
+        {id: 4, status: 'work from home' }
     ])
     puts 'Master Attendance Status initialized successfully'
 
@@ -20,13 +20,13 @@ begin
     Designation.destroy_all
     Designation.create!(
       [
-        { id: 1, name: 'Director' },
-        { id: 2, name: 'Manager' },
-        {id: 3, name: 'Product Manager' },
-        {id: 4, name: 'Senior Consultant' },
-        {id: 5, name: 'Consultant' },
-        {id: 6, name: 'Associate' },
-        {id: 7, name: 'HR Manager' }
+        { id: 1, designation_name: 'Director' },
+        { id: 2, designation_name: 'Manager' },
+        {id: 3, designation_name: 'Product Manager' },
+        {id: 4, designation_name: 'Senior Consultant' },
+        {id: 5, designation_name: 'Consultant' },
+        {id: 6, designation_name: 'Associate' },
+        {id: 7, designation_name: 'HR Manager' }
     ])
     puts 'Designation initialized successfully'
 
@@ -44,14 +44,25 @@ begin
     ])
     puts 'Department initialized successfully'
 
+    User.destroy_all
+    user = User.new(
+      :email                 => "rhlrai786@gmail.com",
+      :password              => "123456",
+      :designation_id        => 1,
+      :department_id       => 1
+      
+    )
+    
+    user.save!
+    puts 'Admin initialized successfully'
+
 
     puts 'UserRole initializing...'
     UserRole.destroy_all
     UserRole.create!(
       [
-        { id: 1, user_id: 1,master_role_id: 1 },
-        { id: 2, user_id: 2,master_role_id: 2 },
-        { id: 3, user_id: 3,master_role_id: 2 } 
+        { id: 1, user_id: 1,master_role_id: 1 }
+       
     ])
     puts 'UserRole initialized successfully'
 

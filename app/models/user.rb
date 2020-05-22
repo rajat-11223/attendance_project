@@ -1,7 +1,8 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,:recoverable, :rememberable, :validatable,:confirmable,:trackable
+  devise :database_authenticatable, :registerable,:recoverable, 
+  :rememberable, :validatable,:trackable
 
 before_validation :confirmation_token, on: :create
 has_many :daily_attendances 
@@ -10,6 +11,7 @@ has_many :request_leaves
  has_many :mobiles
 
   
+  has_many :user_images
   has_many :user_roles
   has_many :master_roles, through: :user_roles
 
@@ -26,6 +28,8 @@ has_many :request_leaves
 #end
 #
 
+
+
 #private
 #def confirmation_token
 
@@ -40,6 +44,8 @@ has_many :request_leaves
 
 
   #User has many mobile number      
+
+
  
 
 

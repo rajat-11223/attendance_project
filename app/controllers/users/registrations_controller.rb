@@ -6,6 +6,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # GET /resource/sign_up
    def new
+
     @registered_employes = RegisterEmploye.all
     @user_roles = MasterRole.all
      super
@@ -15,43 +16,42 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
 
   def create
-
-   super
-
+    super
   end 
 
 
 
 
    def create33
-    @registered_employes = RegisterEmploye.all
-   generated_password = Devise.friendly_token.first(8)
-   #confirmation_token = SecureRandom.urlsafe_base64(10)
-   #confirmation_sent_at = Time.now.utc
-    @user = User.new(:email => "rajat@poplify.com", :password => 12345678 ,:name=> "sdfsdds")
-   # @user = User.new
 
-   #@user.email = params[:user][:email]
-   #@user.password = generated_password
-   #@user.password_confirmation = generated_password
-   #@user.name = params[:user][:name]
-   #@user.confirmation_token = confirmation_token
-  # @user.confirmation_sent_at = confirmation_sent_at
+  #   @registered_employes = RegisterEmploye.all
+  #  generated_password = Devise.friendly_token.first(8)
+  #  #confirmation_token = SecureRandom.urlsafe_base64(10)
+  #  #confirmation_sent_at = Time.now.utc
+  #   @user = User.new(:email => "rajat@poplify.com", :password => 12345678 ,:name=> "sdfsdds")
+  #  # @user = User.new
+
+  #  #@user.email = params[:user][:email]
+  #  #@user.password = generated_password
+  #  #@user.password_confirmation = generated_password
+  #  #@user.name = params[:user][:name]
+  #  #@user.confirmation_token = confirmation_token
+  # # @user.confirmation_sent_at = confirmation_sent_at
 
 
     
-    respond_to do |format|
-      if @user.save
-        #HomeevalutionNotifier.send_signup_email(@homeevalution).deliver_now
-        RegistrationMailer.welcome_user(@user, generated_password).deliver
+  #   respond_to do |format|
+  #     if @user.save
+  #       #HomeevalutionNotifier.send_signup_email(@homeevalution).deliver_now
+  #       RegistrationMailer.welcome_user(@user, generated_password).deliver
 
-        format.html { redirect_to root_url, notice: 'User was successfully created.' }
-        format.json { render :show, status: :created, location: @user }
-      else
-        format.html { render :new }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
-    end
+  #       format.html { redirect_to root_url, notice: 'User was successfully created.' }
+  #       format.json { render :show, status: :created, location: @user }
+  #     else
+  #       format.html { render :new }
+  #       format.json { render json: @user.errors, status: :unprocessable_entity }
+  #     end
+  #   end
 
 
 
@@ -70,7 +70,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # PUT /resource
   def update
+    
     super
+  end
+
+
+  protected
+
+  def after_update_path_for(resource)
+    
+    user_profile_path(current_user)    
   end
 
   # DELETE /resource
