@@ -7,6 +7,7 @@ def avg_of_times(array_of_time)
     hour, minute = x.split(':')
     total_minutes = hour.to_i * 60 + minute.to_i
   end.inject(:+)/size
+
   "#{avg_minutes/60}:#{avg_minutes%60}"
 end
 

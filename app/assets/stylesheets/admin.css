@@ -54,9 +54,9 @@
 /*Start Admin*/
 
 .check {
-	display: flex;
+	/*display: flex;
 	justify-content: center;
-	align-items: center;
+	align-items: center;*/
 }
 
 .admins {
@@ -248,6 +248,12 @@ div#popup {
     top: 25% !important;
     left: 25% !important;
     transform: translate(-25%, -25px);
+}
+
+div#popup_attendence{
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50px); 
 }
 
 a.close {

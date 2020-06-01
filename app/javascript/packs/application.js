@@ -9,6 +9,7 @@ require("@rails/activestorage").start()
 require("channels")
 
 require('jquery')
+require('moment')
 
 
 require("packs/select2.min")
@@ -42,11 +43,14 @@ require("packs/jquery.ui.custom")
 require("packs/jquery.peity.min")
 
 
-
+require("packs/lightpick")
 require("packs/fullcalendar.min")
-require("packs/jquery.gritter.min")
+require("packs/matrix.calendar")
 
-require("packs/matrix.interface")
+require("packs/popup_edit")
+
+
+
 
 
 

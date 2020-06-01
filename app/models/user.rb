@@ -15,8 +15,7 @@ has_many :request_leaves
   has_many :user_roles
   has_many :master_roles, through: :user_roles
 
-  belongs_to :designation, optional: true
-  belongs_to :department, optional: true
+  
 
   mount_uploader :image, ImageUploader
 #

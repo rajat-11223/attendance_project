@@ -135,7 +135,11 @@
 								    		<strong> Gender:</strong>
 								    	</span>
 								    	<br> 
-								    	
+								    	<% if @user.gender%>
+								    		Male
+								    	<%else%>
+								    		Female
+								    	<%end%>
 								    </p>
 								</div>
 								<div class="about">
@@ -143,7 +147,8 @@
 								    	<span>
 								    		<strong> Designation:</strong>
 								    	</span>
-								    	<br> Monkey D. Luffy
+								    	<br> <%@desi = Designation.find(@user.designation_id)%>
+								    		<%=@desi.designation_name%>
 								    </p>
 								</div>
 								<div class="about">
@@ -151,7 +156,8 @@
 								    	<span>
 								    		<strong> Department:</strong>
 								    	</span>
-								    	<br> Monkey D. Luffy
+								    	<br> <%@dept = Department.find(@user.department_id)%>
+								    		<%=@dept.department_name%>
 								    </p>
 								</div>
 
@@ -180,15 +186,15 @@
 								<div class="about">
 								    <p>
 								    	<span>
-								    		<strong> Today punch In Time:</strong>
+								    		<strong> Current month average:</strong>
 								    	</span>
-								    	<br> 12:30
+								    	<br> <%=@avrg%>
 								    </p>
 								</div>
 								<div class="about">
 								    <p>
 								    	<span>
-								    		<strong> Today Punched Out Time:</strong>
+								    		<strong> Previous month average:</strong>
 								    	</span>
 								    	<br> 7:30
 								    </p>
@@ -225,7 +231,7 @@
 								    	<span>
 								    		<strong>Email:</strong>
 								    	</span>
-								    	<br> 12
+								    	<br> <%=@user.email%>
 								    </p>
 								</div>
 								<div class="about">
@@ -233,7 +239,7 @@
 								    	<span>
 								    		<strong> Username:</strong>
 								    	</span>
-								    	<br> 3
+								    	<br> <%=@user.first_name%>
 								    </p>
 								</div>
 								
@@ -312,7 +318,7 @@
 								    	<span>
 								    		<strong> Facebook:</strong>
 								    	</span>
-								    	<br> Monkey D. Luffy
+								    	<br> <%=@user.facebook%>
 								    </p>
 								</div>
 								<div class="about">
@@ -320,7 +326,7 @@
 								    	<span>
 								    		<strong> Instagram:</strong>
 								    	</span>
-								    	<br> Monkey D. Luffy
+								    	<br> <%=@user.instagram%>
 								    </p>
 								</div>
 								

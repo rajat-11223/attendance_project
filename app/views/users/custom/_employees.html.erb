@@ -2,39 +2,121 @@
 
 <thead>
 		<tr>
-			<th>#</th>
+			
+			<th>Employee Id</th>
 			<th>Avatar</th>
-			<th>Name</th>
+			
 			<th>Email</th>
-			<th>Joining Date</th>
+			
+			<th>Punch In</th>
+			<th>Punch Out</th>
 			<th>Status</th>
-			<th>Actions</th>
+
+			<th>Action</th>
+			
 		</tr>
 </thead>
 <tbody>
 <%@users.each do |user|%>
+	
+	<!-- get user today attendence for show to admin -->
+	
+	<%
+		@today_attendence = DailyAttendance.find_by(:user_id => user.id,
+		created_at: Date.today.all_day)	
+	%>
 	<tr class="odd gradeX">
 		<td><%=user.id%></td>
-		<td>Image</td>
-		<td><%=user.name%></td>
-		<td><%=user.email%></td>
-		<td>22-1-2012</td>
-		<td>Active</td>
-		<td> 
-			
+		<td>
+			<%= link_to image_tag(user.image_url(:thumb).to_s, alt: "Image not found"), user_profile_path(user.id) %>
+		</td>
+		
+		<td>
+			<%=user.email%>
+		</td>
+		
 
-			<%= link_to '<i class="fa fa-eye" aria-hidden="true"></i>'.html_safe, user_profile_path(user.id),:class => "btn btn-primary" %>
-
-
-			<%= link_to '<i class="fa fa-pencil-square-o" aria-hidden="true"></i>'.html_safe, edit_user_path(user.id),:class => "btn btn-primary" %>
+		<td><%= @today_attendence.present?  ? @today_attendence.punch_in.present? ?
+		 @today_attendence.punch_in.strftime("%I:%M %P") : 'not punched' : 'not punched' %></td>
+		<td><%=@today_attendence.present?  ? @today_attendence.punch_out.present? ?
+		  @today_attendence.punch_out.strftime("%I:%M %P") : 'not punched' : 'not punched' %></td>
+		<td><%=@today_attendence.present? ? @today_attendence.master_attendance_status.status.present? ? @today_attendence.master_attendance_status.status.capitalize : 'not marked' : ' not marked'%>
+		</td>
+		<td>
 			<!-- <a href="#" class="btn btn-primary">
 				<i class="fa fa-eye" aria-hidden="true"></i>
 			</a> -->
 			
-			<a href="#" class="btn btn-danger">
-				<i class="fa fa-trash-o" aria-hidden="true"></i>
+			<a href=""  class="btn btn-primary js-open-modal" 
+			data-modal-id="popup_edit_attendence"
+			data-user-id = <%=user.id%>    >
+				<i class="fa fa-pencil-square" aria-hidden="true"></i>
 			</a>
 		</td>
 	</tr>
-			<%end %>
+<%end %>
+
+<div id="popup_edit_attendence" class="modal-box" style="left: 0px !important">
+	<div id="punch_edit_popup">
+		
+	</div>	
+</div>
+
 </tbody>
+
+
+
+
+<script type="text/javascript">
+
+// Show Change cover popup javascript
+$(function() 
+{
+	
+	var appendthis = ("<div class='modal-overlay js-modal-close'></div>");
+
+	$("a[data-modal-id]").click(function(e) {		
+
+		e.preventDefault();
+		$("#container").append(appendthis);
+
+		$(".modal-overlay").fadeTo(500, 0.7);
+		//$(".js-modalbox").fadeIn(500);
+		var modalBox = $(this).attr('data-modal-id');
+		var user = $(this).attr('data-user-id');
+		
+
+		$("#" + modalBox).fadeIn($(this).data());
+
+		 $.ajax({
+		    type:'GET',
+		    url:'/popup_edit_punch',
+		    data: { user_id: user },
+    		success: function (result) {
+		        //do somthing here
+		        window.alert("employees ,success!!");
+		     },
+		     error: function (){
+		        window.alert("employees ,something wrong!");
+		     }
+  		});
+		
+	});
+
+	$(".js-modal-close, .modal-overlay").click(function() {
+		$(".modal-box, .modal-overlay").fadeOut(200, function() {
+			$(".modal-overlay").remove();
+		});
+	});
+
+	$(window).resize(function() {
+		$(".modal-box").css({
+			top: ($(window).height() - $(".modal-box").outerHeight()) / 2,
+			left: ($(window).width() - $(".modal-box").outerWidth()) / 2
+		});
+	});
+
+	$(window).resize();
+
+});
+</script>
