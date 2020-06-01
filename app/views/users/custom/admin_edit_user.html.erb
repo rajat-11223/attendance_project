@@ -31,10 +31,10 @@
 					                	<div class="controls">
 
 					                		<%if @user_role.master_role_id == 1 %>
-					                			<%= f.text_field :name , class: "span11",disabled: "disabled",placeholder: "Username" , required: true %>
+					                			<%= f.text_field :first_name , class: "span11",disabled: "disabled",placeholder: "Username" , required: true %>
 					                  			
 					                  		<%else%>
-					                  			<%= f.text_field :name , class: "span11",placeholder: "Username" , required: true %>
+					                  			<%= f.text_field :first_name , class: "span11",placeholder: "Username" , required: true %>
 					                  		<%end%>
 					                  				
 					                	</div>
@@ -125,12 +125,13 @@
 					                    </div>
 					                <%end%>
 
+					                
 				                      <!--Designation For Admin -->
 				                    <%if @user_role.master_role_id == 1 %>
 				                          <div class= "form-group">
 				                            <%= f.label "Designation",class: "control-label" %>
 				                            <div class="controls">
-				                              <%= f.select( :designation_id,  @designation.collect { |designation| [designation.name, designation.id] }) %>
+				                              <%= f.select( :designation_id,  @designation.collect { |designation| [designation.designation_name, designation.id] }) %>
 				                            </div>
 				                          </div>
 				                    <%else%>

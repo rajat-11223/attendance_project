@@ -1,6 +1,8 @@
 
-<% if @user_role.master_role_id == 1	%>
-	<%= render partial: 'admin' %>
+<%if @user_role.master_role_id == 1	%>
+
+
+<%= render partial: 'admin' %>
      <%else%>
 	
 	<%= render partial: 'employe_user' %>

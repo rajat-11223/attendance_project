@@ -2,11 +2,18 @@ Rails.application.routes.draw do
 
   #resources :dashboards
 
-
+require 'sidekiq/web'
+mount Sidekiq::Web => '/sidekiq'
 
 scope module: :users do
   	#get "users/admindashboard" => 'custom#admindashboard'
   	get "users/attendance" => 'custom#attendance', as: "attendance"
+
+    get "popup_route" => 'custom#popup_route', as: "popup_route"
+
+    get "popup_edit_punch" => 'custom#popup_edit_punch', as: "popup_edit_punch"
+
+    post "popup_update_punch" => 'custom#popup_update_punch', as: "popup_update_punch"
 
   	get "users/request_leave" => 'custom#request_leave', as: "request_leave"
 
@@ -23,7 +30,7 @@ scope module: :users do
 
     get "admin_create_user" => 'custom#admin_create_user', as: "new_user"
 
-    post "update_user/:id" => 'custom#update_user', as: "update_user"
+    post "update_user/:id" => 'custom#update_user', as: "update_user"    
 
     post "add_new_employee" => 'custom#add_new_employee', as: "add_new_employee"
 

@@ -1,0 +1,76 @@
+<header>
+	<div class="js-modal-close close">X</div>
+	<h3>
+		<%=@popup_edit_punch_user.first_name%> Edit
+	</h3>
+	  
+</header>
+<%
+					@today_attendence = DailyAttendance.find_by(
+						:user_id => @popup_edit_punch_user.id,
+						created_at: Date.today.all_day)
+
+
+				%>
+<%= form_tag popup_update_punch_path,remote: true do %>
+	
+<div class="modal-body">
+	<div class="span6">
+		<div class="widget-box">
+			<div class="widget-content">
+				
+
+				<div class="todo">
+					
+					<input type="hidden" id="popup_edit_punch_user" name="edit_user_punch" 
+	  value=<%=@popup_edit_punch_user.id%>>
+
+					<div class="about">
+						<p>
+							<span>
+								<label for="input-time">Punch In Time: </label>
+								
+									<input type="time" name="punch_in" id="input-punch_In-time" 
+								value=
+								<%=@today_attendence.present?  ? @today_attendence.punch_in.strftime("%I:%M %P") : ''
+								%> >
+							</span>
+							
+						</p>
+					</div>
+									
+					<div class="about">
+						<p>
+							<span>
+								<label for="input-time">Punch Out Time: </label>
+								<input type="time" min="09:00:00" name="punch_out" id="input-punch_out-time" value= 
+								<%=@today_attendence.present?  ? @today_attendence.punch_out.strftime("%I:%M %P") : '' %>
+								>
+							</span>
+							<br> 
+						</p>
+					</div>
+
+					<div class="about">
+						<p>
+							<span>
+								<%=select_tag "mySelectStatus", options_from_collection_for_select(@attendance_status,
+								 'id', "status")%>
+									
+								
+							</span>
+							<br> 
+						</p>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<footer>
+	<button type="submit">Save value</button>
+</footer>
+<% end %>
+

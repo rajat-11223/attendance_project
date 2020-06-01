@@ -17,6 +17,13 @@
 
 						<%= form_for(@user, :as => :user, :url => add_new_employee_path,html: { class: 'form-horizontal',method: :post }  ) do |f| %>
 
+								<div class="control-group">
+  									<%= f.label :employee_id, class: "control-label" %>
+  									<div class="controls">
+						            	<%= f.text_field :employee_id, autofocus: true,class: "span11" %>
+						        	</div>
+  								</div>
+
   								<div class="control-group">
   									<%= f.label "Name", class: "control-label" %>
   									<div class="controls">

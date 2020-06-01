@@ -1,6 +1,6 @@
 
 
-<p>Welcome <%= @user.name %>!</p>
+
 <p>Login details<br>
     --------------------------
     </p>
@@ -10,9 +10,9 @@
     <% @desiganation = Designation.find(@user.designation_id) %>
     <% @department = Department.find(@user.department_id) %>
     <% @role = MasterRole.find(@role_id) %>
-    <p>Desiganation: <%= @desiganation.name %></p>
+    
     <p>Department: <%= @department.department_name %> </p>
-    <p>Role:  </p>
+    
     
 
 

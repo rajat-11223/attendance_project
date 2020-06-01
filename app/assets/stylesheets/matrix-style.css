@@ -153,6 +153,7 @@ hr{ border-top-color:#dadada;}
 	padding: 0;
 	position: absolute;
 	width: 220px;
+	top: 84px;
 }
 #sidebar > ul > li {
 	display: block;

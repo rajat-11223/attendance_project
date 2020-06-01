@@ -1,17 +1,18 @@
 class Users::CustomController < ApplicationController
-include DashboardsHelper
+	include DashboardsHelper
 
-include CustomHelper
-#before_action :authenticate_user!, except: %i[index	show]	
-before_action :set_user, only: [ :edit, :update, :destroy]
-before_action :authenticate_user!, except: [:index, :show]
- layout "dashboard"
+	include CustomHelper
+	#before_action :authenticate_user!, except: %i[index	show]	
+	before_action :set_user, only: [ :edit, :update, :destroy]
+	before_action :authenticate_user!, except: [:index, :show]
+	 layout "dashboard"
 
-def admindashboard
+	def admindashboard
 
 
 
-end
+	end
+
 
 
 def add_new_holiday
@@ -134,9 +135,23 @@ def attendance
 #@all_attendance = DailyAttendance.find_by(user_id: current_user.id, created_at: Date.today.all_day )
 @show_attendance = DailyAttendance.where(user_id: current_user.id, :created_at => Time.now.beginning_of_month..Time.now.end_of_month) 
 
- @avrgats = @show_attendance.where.not(punch_out: nil).map{ |n| n.punch_out.to_time - n.punch_in.to_time }
+	
 
- @a = @avrgats.map{|n| Time.at(n).utc.strftime("%k:%M")}
+		# Rahul work for admin attendence dashboard
+		@designation = Designation.all
+		@department = Department.all
+		@users = User.all.where.not(id: current_user.id)
+		@user_role = UserRole.find_by(:user_id => current_user.id)
+
+
+		@all_attendance = DailyAttendance.find_by(user_id: current_user.id, created_at: Date.today.all_day )
+		
+		
+		
+		@avrgats = @show_attendance.where.not(punch_out: nil).map{ |n| n.punch_out.to_time - n.punch_in.to_time }
+
+		@a = @avrgats.map{|n| Time.at(n).utc.strftime("%k:%M")}
+
 
 #@cal_time = @a.present? ? @a : 
 #byebug
@@ -151,66 +166,140 @@ end
 
 
 
-def punch_attendance
+# def punch_attendance
 
-@attendance = DailyAttendance.find_or_initialize_by(user_id: current_user.id, created_at: Date.today.all_day )
-respond_to do |format|
-      
-        
-if params[:punch_in].present?
-
-  @attendance.punch_in = DateTime.now.to_s(:time) 
-  @attendance.user_id = current_user.id  
-  @attendance.master_attendance_status_id = 1 
-
-  @attendance.save
-  format.html { redirect_to attendance_path, notice: 'Hey '+ current_user.first_name.capitalize+'! Your punch has been captured. You are now PUNCHED IN. ' }
-  #format.json { render :show, status: :created, location: @post_review }
-
-end	
-
-if params[:punch_out].present?
-
-  @attendance.punch_out = DateTime.now.to_s(:time) 
-  @attendance.user_id = current_user.id  
-  @attendance.master_attendance_status_id = 1 
-
-  @attendance.save
-  format.html { redirect_to attendance_path, notice: 'Hey '+ current_user.first_name.capitalize+'! Your punch has been captured. You are now PUNCHED OUT. ' }
-
-end	
-
-end
-end
+# 		#byebug
+# 		#@a =  ['18:35', '19:07', '23:09']
+# 		if @a.present?
+# 			@avrg = avg_of_times(@a)
+# 			@leaves_taken = RequestLeave.where(status: 1, user_id: current_user.id).sum(:leave_count)
+# 			@applied_leaves = RequestLeave.where(status: 0, user_id: current_user.id).sum(:leave_count)
+# 		end
+# 	end
 
 
-def request_leave
-
-	@request_leave = RequestLeave.new
-	@all_leaves = RequestLeave.where(user_id: current_user.id)
-	@employe_leaves = RequestLeave.where(user: current_user.id,status: true).sum(:leave_count)
-#byebug
-end
-
-def apply_leave
-#2020-05-26
-#puts params[:date_to].to_date
-#puts params[:date_from].to_date
-#puts (params[:date_to].to_date - params[:date_from].to_date).to_i
-
-@daterange = params[:dated_from].split()
-@count_leave = params[:leave_count] == 1 ? 1 : (@daterange[2].to_date - @daterange[0].to_date).to_i + 1
-
-#byebug
-
-
-@submit_leave = RequestLeave.new(user_id: current_user.id, subject: params[:subject], message: params[:message], date_from: @daterange[0], date_to: @daterange[2], leave_count: @count_leave)
-	respond_to do |format|
-		if @submit_leave.save
-		format.html { redirect_to request_leave_path, notice: 'Leave applied successfully' }
+	# popup in attendance page
+	def popup_route
+		
+		@popup_user = User.find(params[:user_id])
+		
+		respond_to do |format|
+			format.js
 		end
 	end
-end	
+
+
+
+	# popup in admin dashboard page for edit punch in and punch out
+	def popup_edit_punch
+		@popup_edit_punch_user = User.find(params[:user_id])
+		@attendance_status = MasterAttendanceStatus.all
+
+  
+  #format.json { render :show, status: :created, location: @post_review }
+
+		# show punch in and punch out time in input
+
+		@all_attendance = DailyAttendance.find_by(user_id: @popup_edit_punch_user.id, created_at: Date.today.all_day )
+		respond_to do |format|
+			format.js
+		end
+	end
+
+	# popup in admin dashboard page for edit punch in and punch out
+	def popup_update_punch
+		# getting User
+		
+
+		# @popup_edit_punch_user = User.find(params[:edit_user_punch])
+
+
+		@attendance_update = DailyAttendance.find_or_initialize_by(user_id: params[:edit_user_punch], created_at: Date.today.all_day )
+
+
+		@attendance_update.user_id = params[:edit_user_punch]
+
+		if params[:mySelectStatus].to_i == 1
+			
+			@attendance_update.punch_in = DateTime.parse(params[:punch_in]).to_s
+			@attendance_update.punch_out = DateTime.parse(params[:punch_out]).to_s
+
+			byebug
+		end
+		@attendance_update.master_attendance_status_id = params[:mySelectStatus]
+		if @attendance_update.save!
+			redirect_to root_url
+		end
+		
+#byebug
+end
+
+
+
+
+	def punch_attendance
+
+		@attendance = DailyAttendance.find_or_initialize_by(user_id: current_user.id, created_at: Date.today.all_day )
+
+		respond_to do |format|
+		      
+		        
+			if params[:punch_in].present?
+
+			  @attendance.punch_in = DateTime.now.to_s(:time) 
+			  @attendance.user_id = current_user.id  
+			  @attendance.master_attendance_status_id = 1 
+
+			  @attendance.save
+			  format.html { redirect_to attendance_path, notice: 'Hey '+ current_user.first_name.capitalize+'! Your punch has been captured. You are now PUNCHED IN. ' }
+			  #format.json { render :show, status: :created, location: @post_review }
+
+			end	
+
+			if params[:punch_out].present?
+
+			  @attendance.punch_out = DateTime.now.to_s(:time) 
+			  @attendance.user_id = current_user.id  
+			  @attendance.master_attendance_status_id = 1 
+
+			  @attendance.save
+			  format.html { redirect_to attendance_path, notice: 'Hey '+ current_user.first_name.capitalize+'! Your punch has been captured. You are now PUNCHED OUT. ' }
+
+			end	
+		end
+
+	end
+
+
+
+
+	def request_leave
+
+		@request_leave = RequestLeave.new
+		@all_leaves = RequestLeave.where(user_id: current_user.id)
+
+	end
+
+	def apply_leave
+		#2020-05-26
+		#puts params[:date_to].to_date
+		#puts params[:date_from].to_date
+		#puts (params[:date_to].to_date - params[:date_from].to_date).to_i
+
+
+		@daterange = params[:dated_from].split()
+		@count_leave = params[:leave_count] == 1 ? 1 : (@daterange[2].to_date - @daterange[0].to_date).to_i + 1
+
+		#byebug
+
+
+		@submit_leave = RequestLeave.new(user_id: current_user.id, subject: params[:subject], message: params[:message], date_from: @daterange[0], date_to: @daterange[2], leave_count: @count_leave)
+			respond_to do |format|
+				if @submit_leave.save
+				format.html { redirect_to request_leave_path, notice: 'Leave applied successfully' }
+				end
+			end
+	end	
 
 
 
@@ -220,8 +309,8 @@ end
 	# Action to show Admin and User Dashboard
 	def dashboard
 
-	@user_role = UserRole.find_by(:user_id => current_user.id)
-	@users = User.all.where.not(id: current_user.id).limit(2)
+		@user_role = UserRole.find_by(:user_id => current_user.id)
+		@users = User.all.where.not(id: current_user.id).limit(3)
 
 	@all_attendance = DailyAttendance.find_by(user_id: current_user.id, created_at: Date.today.all_day )
     @show_attendance = DailyAttendance.where(user_id: current_user.id, :created_at => Time.now.beginning_of_month..Time.now.end_of_month) 
@@ -256,8 +345,24 @@ end
 		@user_role = UserRole.find_by(:user_id => current_user.id)
 		@user_image = UserImage.new
 		@previous_image = UserImage.where(:user_id => current_user)
+
     @today_attendance = DailyAttendance.find_by(user_id: current_user.id, created_at: Date.today.all_day)
     @edit_current_user = UserImage.new
+
+
+
+
+		# Get monthly average of an employee
+		
+		@show_attendance = DailyAttendance.where(user_id: @user.id, :created_at => Time.now.beginning_of_month..Time.now.end_of_month) 
+
+		@avrgats = @show_attendance.where.not(punch_out: nil).map{ |n| n.punch_out.to_time - n.punch_in.to_time }
+
+		@a = @avrgats.map{|n| Time.at(n).utc.strftime("%k:%M")}
+
+		@avrg = @a.present? ? avg_of_times(@a) : 0
+		
+
 	end
 
 
@@ -275,6 +380,8 @@ end
 		@user_role = UserRole.find_by(:user_id => current_user.id)
 	end
 
+
+
 	# Admin Update the employees info
 	def update_user
 		@user = User.find(params[:id])
@@ -283,9 +390,6 @@ end
 		else
 			puts 'It is not updated'
 		end
-
-
-		
 	end
 
 
@@ -305,6 +409,7 @@ end
    		generated_password = Devise.friendly_token.first(8)
    		role = params[:user][:id]
     	@user = User.new(
+    		:employee_id => params[:user][:employee_id],
     		:email => params[:user][:email],
 			:password => generated_password ,
 			:first_name => params[:user][:name],
@@ -316,7 +421,7 @@ end
 
 	    respond_to do |format|
 		     if @user.save
-		     	RegistrationMailer.with(user: @user,password: generated_password,role: role).welcome_user.deliver_later
+		     	MailWorker.perform_async(@user.id,generated_password,role)
 		        # RegistrationMailer.welcome_user(@user, generated_password).deliver
 		        format.html { redirect_to root_url, notice: 'User was successfully created.' }
 		        format.json { render :show, status: :created, location: @user }
@@ -330,14 +435,9 @@ end
 
 
 
-
-	
-
-
-
 	private
 	# Use callbacks to share common setup or constraints between actions.
-	def set_user
-	  @currentuser = User.find(current_user.id)
-	end
+		def set_user
+		  @currentuser = User.find(current_user.id)
+		end
 end

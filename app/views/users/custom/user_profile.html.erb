@@ -226,18 +226,53 @@
         </div>
   </div>
 
-</div>
 
-
-
-
+			
 			
 	</div>
 </div>
 
+<script type="text/javascript">
+
+// Show Change cover popup javascript
+$(function() 
+{
+
+	var appendthis = ("<div class='modal-overlay js-modal-close'></div>");
+
+	$("a[data-modal-id]").click(function(e) {
+
+		
+
+		e.preventDefault();
+		$("#content").append(appendthis);
+		$(".modal-overlay").fadeTo(500, 0.7);
+		//$(".js-modalbox").fadeIn(500);
+		var modalBox = $(this).attr('data-modal-id');
+		$("#" + modalBox).fadeIn($(this).data());
+		
+	});
+
+	$(".js-modal-close, .modal-overlay").click(function() {
+		$(".modal-box, .modal-overlay").fadeOut(200, function() {
+			$(".modal-overlay").remove();
+		});
+	});
+
+	$(window).resize(function() {
+		$(".modal-box").css({
+			top: ($(window).height() - $(".modal-box").outerHeight()) / 2,
+			left: ($(window).width() - $(".modal-box").outerWidth()) / 2
+		});
+	});
+
+	$(window).resize();
+
+});
+
+//Open popup for edit profile
 
 
-<script>
 // Get the modal
 var modal = document.getElementById("myModal");
 

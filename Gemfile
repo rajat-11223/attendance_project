@@ -29,6 +29,9 @@ gem 'delayed_job_active_record'
 
 gem 'daemons', '~> 1.2', '>= 1.2.3'
 
+gem 'sidekiq'
+
+
 
 
 # Use Redis adapter to run Action Cable in production

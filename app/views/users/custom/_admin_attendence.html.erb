@@ -1,0 +1,206 @@
+<div class="container">
+	<div id="content">
+		<div id="content-header">
+			<div class="row-fluid">
+				<div class="span6">
+					<h1>Attendence</h1>
+				</div>
+			</div>
+  		</div>
+
+  		<hr>
+		<section class="statistics">
+			<div class="container-fluid">
+					<div class="row-fluid" style="align-items: center;">
+						  <div class="span4">
+						    <div class="box">
+						      <i class="fa fa-envelope fa-fw btn-primary"></i>
+						      <div class="info">
+						        <h3>1</h3> <span>Total Present</span>
+						        <p>Lorem ipsum dolor sit amet</p>
+						      </div>
+						    </div>
+						  </div>
+						  <div class="span4">
+						    <div class="box">
+						      <i class="fa fa-file fa-fw btn-danger"></i>
+						      <div class="info">
+						        <h3>1</h3> <span>Half-day</span>
+						        <p>Lorem ipsum dolor sit amet</p>
+						      </div>
+						    </div>
+						  </div>
+						  <div class="span4">
+						    <div class="box">
+						      <i class="fa fa-users fa-fw btn-success"></i>
+						      <div class="info">
+						        <h3>1</h3> <span>leave</span>
+						        <p>Lorem ipsum dolor sit amet</p>
+						      </div>
+						    </div>
+						  </div>
+					</div>
+			</div>
+		</section>
+
+		<div class="container-fluid">
+			<div class="row-fluid">
+
+				<!-- Employee Table Span -->
+				<div class="span12">
+					<div class="widget-box">
+				        <div class="widget-title">
+				        	<span class="icon"> <i class="icon-th"></i> </span>
+				            <h5>Attendence table</h5>
+				        </div>
+				        <div class="widget-content nopadding">
+				        	
+				          	<table class="table table-bordered table-striped">	
+				          		<thead>
+									<tr>
+										<th>Employee Id</th>
+										<th>Employee Name</th>
+										<th>Working Day (current month)</th>
+										<th>Off</th>
+										
+										<th>Current month avg</th>
+										<th>Previous month avg</th>
+										
+									</tr>
+								</thead>
+								<%@users.each do |user|%>
+								<tbody>
+									<tr class="odd gradeX">
+										<td><%=user.employee_id%></td>
+										<td><%=user.first_name%></td>
+										
+										<%
+
+										# Working dAYS OF EMPLOYEE
+										@present_count = DailyAttendance.where(user_id: user.id, :created_at => Time.now.beginning_of_month..Time.now.end_of_month,:master_attendance_status_id =>  1) .count
+
+										# OFF OF AN EMPLOYEE
+										# @off_count = DailyAttendance.where(user_id: user.id, :created_at => Time.now.beginning_of_month..Time.now.end_of_month,:master_attendance_status_id =>  1) .count
+
+
+
+										@show_attendance = DailyAttendance.where(user_id: user.id, :created_at => Time.now.beginning_of_month..Time.now.end_of_month) 
+
+										@avrgats = @show_attendance.where.not(punch_out: nil).map{ |n| n.punch_out.to_time - n.punch_in.to_time }
+
+										
+										@a = @avrgats.map{|n| Time.at(n).utc.strftime("%k:%M")}
+
+
+
+										@previous_month_attendance = DailyAttendance.where(user_id: user.id, :created_at => Time.now.beginning_of_month - 1.month ..Time.now.end_of_month - 1.month) 
+										if @previous_month_attendance.any? 
+											@previous_avrgats = @previous_month_attendance.where.not(punch_out: nil).map{ |n| n.punch_out.to_time - n.punch_in.to_time }
+											@b = @previous_avrgats.map{|n| Time.at(n).utc.strftime("%k:%M")}
+											if @b.present?
+												@previous_avrgats = avg_of_times(@b)
+											else
+												@previous_avrgats = 0		
+											end
+										else
+											@previous_avrgats = 0
+										end
+										
+										if @a.present?
+											@avrg = avg_of_times(@a)
+										else
+											@avrg = 0
+										end
+
+										%>
+										<td><%=@present_count%></td>
+										<td>0</td>
+										
+										<td><%=@avrg%></td>
+										<td><%=@previous_avrgats%></td>
+										<!-- <td>
+
+											<a href="#" class="btn btn-primary js-open-modal" data-modal-id="popup_attendence" data-user-id = <%=user.id%>>
+												<i class="fa fa-eye" aria-hidden="true"></i>
+											</a>
+										</td> -->
+									</tr>
+								</tbody>
+								<%end%>
+								<tfoot>
+									<tr>
+										
+									</tr>
+								</tfoot>
+							</table>			          	
+			          	</div>
+						<div id="popup_attendence" class="modal-box" style="left: 0px !important">
+							<div id="popup_show_attendence">
+			          		
+			          		</div>	
+						</div>
+
+			          	
+
+			      	</div>
+			  	</div>
+			</div>
+		</div>
+  	</div>
+</div>
+
+
+<script type="text/javascript">
+
+// Show Change cover popup javascript
+$(function() 
+{
+
+	var appendthis = ("<div class='modal-overlay js-modal-close'></div>");
+
+	$("a[data-modal-id]").click(function(e) {		
+
+		e.preventDefault();
+		$("#container").append(appendthis);
+
+		$(".modal-overlay").fadeTo(500, 0.7);
+		//$(".js-modalbox").fadeIn(500);
+		var modalBox = $(this).attr('data-modal-id');
+		var user = $(this).attr('data-user-id');
+		
+
+		$("#" + modalBox).fadeIn($(this).data());
+
+		 $.ajax({
+		    type:'GET',
+		    url:'/popup_route',
+		    data: { user_id: user  
+		          },
+    		success: function (result) {
+		        //do somthing here
+		        window.alert("success!!");
+		     },
+		     error: function (){
+		        window.alert("something wrong!");
+		     }
+  		});
+		
+	});
+
+	$(".js-modal-close, .modal-overlay").click(function() {
+		$(".modal-box, .modal-overlay").fadeOut(200, function() {
+			$(".modal-overlay").remove();
+		});
+	});
+
+	$(window).resize(function() {
+		$(".modal-box").css({
+			top: ($(window).height() - $(".modal-box").outerHeight()) / 2,
+			left: ($(window).width() - $(".modal-box").outerWidth()) / 2
+		});
+	});
+
+	$(window).resize();
+
+});
+</script>
