@@ -13,21 +13,142 @@ def admindashboard
 
 end
 
+
+def add_new_holiday
+
+@add_new_holiday  = GeneralHoliday.create(date: params[:holiday_date], occasion: params[:occasion_name])
+
+respond_to do |format|
+format.html {redirect_to root_url, notice: 'New Holiday added successfully.'}
+
+end
+
+end	
+
+def monthly_attendance
+
+#puts params[:month]
+
+
+@show_attendance = DailyAttendance.where("MONTH(created_at) = ? and user_id = ?", params[:month].to_i, current_user.id)
+
+ @avrgats = @show_attendance.where.not(punch_out: nil).map{ |n| n.punch_out.to_time - n.punch_in.to_time }
+
+ @a = @avrgats.map{|n| Time.at(n).utc.strftime("%k:%M")}
+
+@avrg = @a.present? ? avg_of_times(@a) : 0 
+respond_to do |format|
+format.js {render 'attendance_filter'}
+
+end
+
+end	
+
+
+def update_apply_leave
+
+
+@update_leave = RequestLeave.find(params[:leave_id])
+
+if params[:dated_from].present?
+@daterange = params[:dated_from].split()
+@count_leave = params[:leave_count] == 1 ? 1 : (@daterange[2].to_date - @daterange[0].to_date).to_i + 1
+@update_leave.date_from = @daterange[0]
+@update_leave.date_to = @daterange[2]
+@update_leave.leave_count = @count_leave
+end
+
+@update_leave.subject = params[:subject]
+@update_leave.message = params[:message]
+#@update_leave.save
+#@submit_leave = RequestLeave.new(user_id: current_user.id, subject: params[:subject], message: params[:message], date_from: @daterange[0], date_to: @daterange[2], leave_count: @count_leave)
+	respond_to do |format|
+		if @update_leave.save
+		format.js {render 'edit_reply_popup'}
+		end
+	end
+
+
+end
+
+def remove_apply_leave
+
+if params[:id].present?
+
+@remove_leave = RequestLeave.find(params[:id])	
+@remove_leave.delete
+respond_to do |format|
+		
+		format.html { redirect_to request_leave_path, notice: 'Leave deleted successfully' }
+		end
+	
+end	
+end
+def edit_apply_leave
+
+if params[:lid].present? && params[:uid].present?
+@edit_request_leave = RequestLeave.find(params[:lid]) 
+respond_to do |format|
+
+format.js {render 'edit_reply_popup'}
+
+
+end
+end	
+end
+
+def edit_current_user
+
+	@saveuser = User.find(current_user.id)
+	
+
+respond_to do |format|
+
+if @saveuser.present?
+   @saveuser.first_name = params[:fname]
+   @saveuser.last_name = params[:lname]
+   @saveuser.date_of_birth = params[:date_birth]
+   @saveuser.facebook = params[:facebook]
+   @saveuser.instagram = params[:instagram]
+   @saveuser.gender = params[:gender]
+ @saveuser.save
+	if params[:user_images][:avatar].present?
+		# @saveuser.user_images.image_url = params[:image_url]
+		# #@saveuser.user_images.is_profie_active = true
+		# @saveuser.user_images.save
+		@profileimage = UserImage.new
+	    @profileimage.user_id = current_user.id
+		@profileimage.avatar = params[:user_images][:avatar]
+		@profileimage.save!
+	end
+end
+format.html { redirect_to user_profile_path, notice: 'Hey '+ @saveuser.first_name.capitalize+'! profile updated successfully. ' }
+
+   end		
+
+end
+
+
 def attendance
 
-@all_attendance = DailyAttendance.find_by(user_id: current_user.id, created_at: Date.today.all_day )
+#@all_attendance = DailyAttendance.find_by(user_id: current_user.id, created_at: Date.today.all_day )
 @show_attendance = DailyAttendance.where(user_id: current_user.id, :created_at => Time.now.beginning_of_month..Time.now.end_of_month) 
 
  @avrgats = @show_attendance.where.not(punch_out: nil).map{ |n| n.punch_out.to_time - n.punch_in.to_time }
 
  @a = @avrgats.map{|n| Time.at(n).utc.strftime("%k:%M")}
 
+#@cal_time = @a.present? ? @a : 
 #byebug
 #@a =  ['18:35', '19:07', '23:09']
-@avrg = avg_of_times(@a)
+
+@avrg = @a.present? ? avg_of_times(@a) : 0 
 @leaves_taken = RequestLeave.where(status: 1, user_id: current_user.id).sum(:leave_count)
 @applied_leaves = RequestLeave.where(status: 0, user_id: current_user.id).sum(:leave_count)
 end
+
+
+
 
 
 def punch_attendance
@@ -43,7 +164,7 @@ if params[:punch_in].present?
   @attendance.master_attendance_status_id = 1 
 
   @attendance.save
-  format.html { redirect_to attendance_path, notice: 'Hey '+ current_user.name.capitalize+'! Your punch has been captured. You are now PUNCHED IN. ' }
+  format.html { redirect_to attendance_path, notice: 'Hey '+ current_user.first_name.capitalize+'! Your punch has been captured. You are now PUNCHED IN. ' }
   #format.json { render :show, status: :created, location: @post_review }
 
 end	
@@ -55,7 +176,7 @@ if params[:punch_out].present?
   @attendance.master_attendance_status_id = 1 
 
   @attendance.save
-  format.html { redirect_to attendance_path, notice: 'Hey '+ current_user.name.capitalize+'! Your punch has been captured. You are now PUNCHED OUT. ' }
+  format.html { redirect_to attendance_path, notice: 'Hey '+ current_user.first_name.capitalize+'! Your punch has been captured. You are now PUNCHED OUT. ' }
 
 end	
 
@@ -67,7 +188,8 @@ def request_leave
 
 	@request_leave = RequestLeave.new
 	@all_leaves = RequestLeave.where(user_id: current_user.id)
-
+	@employe_leaves = RequestLeave.where(user: current_user.id,status: true).sum(:leave_count)
+#byebug
 end
 
 def apply_leave
@@ -101,6 +223,22 @@ end
 	@user_role = UserRole.find_by(:user_id => current_user.id)
 	@users = User.all.where.not(id: current_user.id).limit(2)
 
+	@all_attendance = DailyAttendance.find_by(user_id: current_user.id, created_at: Date.today.all_day )
+    @show_attendance = DailyAttendance.where(user_id: current_user.id, :created_at => Time.now.beginning_of_month..Time.now.end_of_month) 
+
+ @avrgats = @show_attendance.where.not(punch_out: nil).map{ |n| n.punch_out.to_time - n.punch_in.to_time }
+
+ @a = @avrgats.map{|n| Time.at(n).utc.strftime("%k:%M")}
+
+#@cal_time = @a.present? ? @a : 
+#byebug
+#@a =  ['18:35', '19:07', '23:09']
+
+@avrg = @a.present? ? avg_of_times(@a) : 0 
+@employe_leaves = RequestLeave.where(user: current_user.id,status: true).sum(:leave_count)
+@general_holidays = GeneralHoliday.all
+@request_pending = RequestLeave.where(user_id: current_user.id, status: nil).count
+
 	end
 
 	# Show ALl employees
@@ -113,12 +251,13 @@ end
 	def user_profile
 		@designation = Designation.all
 		@department = Department.all
-		@user = User.find(params[:id])
+		@user = User.find(current_user.id)
 
 		@user_role = UserRole.find_by(:user_id => current_user.id)
 		@user_image = UserImage.new
 		@previous_image = UserImage.where(:user_id => current_user)
-
+    @today_attendance = DailyAttendance.find_by(user_id: current_user.id, created_at: Date.today.all_day)
+    @edit_current_user = UserImage.new
 	end
 
 
@@ -168,7 +307,7 @@ end
     	@user = User.new(
     		:email => params[:user][:email],
 			:password => generated_password ,
-			:name => params[:user][:name],
+			:first_name => params[:user][:name],
 			:designation_id => params[:user][:designation_id],
 			:department_id => params[:user][:department_id])
 

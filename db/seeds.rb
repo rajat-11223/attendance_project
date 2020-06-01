@@ -46,7 +46,7 @@ begin
 
     User.destroy_all
     user = User.new(
-      :email                 => "rhlrai786@gmail.com",
+      :email                 => "rajat@poplify.com",
       :password              => "123456",
       :designation_id        => 1,
       :department_id       => 1

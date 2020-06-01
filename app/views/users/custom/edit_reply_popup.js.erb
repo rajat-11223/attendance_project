@@ -1,0 +1,12 @@
+
+ var modal = document.getElementById("myModal22");
+ var span = document.getElementsByClassName("close")[0];
+
+ span.onclick = function() {
+   modal.style.display = "none";
+ }
+
+$('#myModal22').show();
+$('.modal-backdrop').show();
+
+$(".request_leave_data").html("<%= raw escape_javascript(render 'edit_leave_form') %>");

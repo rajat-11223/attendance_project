@@ -1,79 +1,6 @@
 
-
+<div class="container22">
 <div id="content">
-
-
-<div class="container-fluid">
-
-    <div class="row-fluid">
-
-
-
-<div class="span6">
-<div class="widget-box">
-
-<center><h3></h3></center>
-
-<div class="card_design">
-
-<div class="card text-center">
-  <div class="card-header bg_lb head_cards">
-    Mark Attendance
-  </div>
-  <div class="card-body">
-    <!--<h3 class="card-title"><%#= Time.now.strftime("%I : %M : %S") %></h3>
-    <h3 class="card-title"><canvas id="canvas" width="200" height="200"
-style="background-color:#fff">
-</canvas></h3>-->
-
-<h3 class="card-title"> <div id="MyClockDisplay" class="clock" onload="showTime()"></div> </h3>
-   
-    <div class="punch_button">
-<% if  @all_attendance.present?   %>
-    <span class="btn btn-large btn-danger disabled btn_punched">
-    <strong> Punch In at</strong> <p> <%= @all_attendance.punch_in.strftime("%I : %M  %P") %></p></span>
-    <%#= button_tag 'Punch In at <br/><br/>'.html_safe + @all_attendance.punch_in.strftime("%I : %M  %P") , type: 'button', disabled: true, class: "btn btn-large btn-danger" %>
-
-        <% if  @all_attendance.present? &&  @all_attendance.punch_out.present?  %>
-        <span class="btn btn-large btn-danger disabled btn_punched">
-    <strong> Punch Out at</strong> <p> <%= @all_attendance.punch_out.strftime("%I : %M  %P") %></p></span>
-        <% else %>
-         <%= button_to "Punch Out", punch_attendance_path, params: { "punch_out" =>  true }, :id => "open-contacts-dialog-btn",
-              :class => "btn btn-large btn-danger", :method => :post %>
-         <% end %>        
-<% else %>
-    <%= button_to "Punch In", punch_attendance_path, params: { "punch_in" =>  true },:id => "open-contacts-dialog-btn",
-      :class => "btn btn-large btn-danger", :method => :post %>
-<% end %>
-
-
-  </div>
-  </div>
-  <div class="card-footer bg_lb head_cards">
-    <%= DateTime.now.strftime("%A ") %>
-  </div>
-</div>
-</div>
-
-
-
-
-
-</div>
-</div>
-
-
-
-
-
-
-
-
-    </div>
-</div>
-
-
-
 
 <section class="statistics">
           <div class="container-fluid">
@@ -111,46 +38,22 @@ style="background-color:#fff">
         </section>
 
 
+ 
 
 <div class="container-fluid">
     <hr>
+<div class="select_month">
+<label for="cars">Select month:</label>
+    <%= select_month(Date.today,{:add_month_numbers => false},:onchange=>"attendanceFunction()") %></div>
+
     <div class="row-fluid">
       <div class="span12">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>Monthly Attendance</h5>
           </div>
-          <div class="widget-content nopadding">
-            <table class="table table-bordered table-striped">
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Day</th>
-                  <th>Present</th>
-                  <th>Punch in</th>
-                  <th>Punch out</th>
-                  <th>Working Hour</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% @show_attendance.each do |cc| %>
-                <tr class="odd gradeX">
-                  <td><%=cc.created_at.strftime("%b  %d ,  %Y") %></td>
-                  <td><%=cc.created_at.strftime("%A ") %></td>
-                  <td><%= cc.master_attendance_status.status.capitalize %></td>
-                  <td class="center"><%= cc.punch_in.present? ? cc.punch_in.strftime("%I : %M  %P") : 'Not Punch in' %></td>
-                  <td class="center"><%= cc.punch_out.present? ? cc.punch_out.strftime("%I : %M  %P") : 'Not Punch out' %></td>
-                  <td class="center"> <% if cc.punch_in.present? && cc.punch_out.present? %><% total_time =  (cc.punch_out.to_time - cc.punch_in.to_time)  %><%= Time.at(total_time).utc.strftime("%kh:%M min") %>
-
-                    <% else %>
-                    <%= "Not Punched" %>
-
-                   <% end %>
-</td>
-                </tr>
-                <% end %>
-              </tbody>
-            </table>
+          <div class="widget-content nopadding filtered_attendance">
+            <%= render partial: 'attendance_monthly' %>
           </div>
         </div>
         </div>
@@ -164,11 +67,31 @@ style="background-color:#fff">
 
 
 </div>
+</div>
 
 
 
 <script type="text/javascript">
   
+function attendanceFunction() { 
+  var selected_month = document.getElementById("date_month").value;
+  //document.getElementById("demo").innerHTML = "You selected: " + x;
+  //alert(selected_month);
+
+ $.ajax({
+              beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+              type:'post',
+              dataType:'script',
+              async: true,
+              url: '/monthly_attendance',
+              data: {month: selected_month}
+
+
+            });
+
+
+}
+
 
 function showTime(){
     var date = new Date();

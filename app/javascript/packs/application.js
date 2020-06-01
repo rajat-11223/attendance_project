@@ -10,10 +10,11 @@ require("channels")
 
 require('jquery')
 
-require("packs/select2.min")
+
 
 require("packs/matrix.login")
 require("packs/matrix")
+require("packs/custom")
 
 require("packs/matrix.chat")
 
@@ -26,12 +27,12 @@ require("packs/jquery.validate")
 require("packs/jquery.uniform")
 
 require("packs/jquery.ui.custom")
-require("packs/jquery.wizard")
+
 
 
 
 require("packs/matrix.tables")
-require("packs/matrix.wizard")
+
 
 require("packs/excanvas.min")
 require("packs/jquery.ui.custom")

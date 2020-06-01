@@ -46,6 +46,7 @@ top: 50px;
 }
 #sidebar {
 	top: 14%;
+	position: absolute;
 }
 
 #header{
@@ -221,4 +222,89 @@ background-color: #2e363f;
 .lightpick__month-title select {
 	width: 80px;
 }
+
+.user-thumb33 img {
+    border-radius: 50%;
+    border: 1px solid #6f7882;
+}
+.user_prof p {
+    font-size: 16px;
+    padding: 5px;
+}
+
+button#myBtn {
+    float: right;
+    padding: 10px;
+    margin: 12px 12px 12px 12px;
+    background: #000;
+    color: #fff;
+    border-radius: 20px;
+}
+td.center.padd_2 p {
+    padding: 10px 3px 10px 3px;
+    display: block;
+    text-align: center;
+}
+.center {
+    text-align: center;
+}
+.center.icons_leave a {
+    padding: 6px;
+    background: #1a6dcc;
+    color: #fff;
+    border-radius: 4px;
+}
+.select_month {
+    float: right;
+}
+.select_month label {
+    font-size: 14px;
+    font-weight: 600;
+}
+.statistics .holiday_general {
+    margin-left: 0;
+    margin-bottom: 12px;
+}
+
+.bg_lblue{
+background:	#27a9e3 !important;
+padding: 10px !important;
+border-radius: 6px;
+}
+
+.dated_general {
+    border-right: 2px solid;
+    text-align: center;
+    color: #fff;
+}
+.dated_occasion {
+    text-align: center;
+    color: #fff;
+        padding-top: 20px;
+}
+
+img.user_pic {
+    width: 240px;
+    height: 240px;
+}
+
+.padd_5 {
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_21_114004) do
+ActiveRecord::Schema.define(version: 2020_05_29_075736) do
 
   create_table "daily_attendances", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id"
@@ -51,6 +51,14 @@ ActiveRecord::Schema.define(version: 2020_05_21_114004) do
 
   create_table "designations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "designation_name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "general_holidays", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.datetime "date"
+    t.string "occasion"
+    t.boolean "status", default: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -96,7 +104,7 @@ ActiveRecord::Schema.define(version: 2020_05_21_114004) do
   end
 
   create_table "user_images", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.string "image_url"
+    t.string "avatar"
     t.boolean "is_cover_active"
     t.boolean "is_profile_active"
     t.bigint "user_id", null: false
@@ -116,11 +124,9 @@ ActiveRecord::Schema.define(version: 2020_05_21_114004) do
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.integer "employee_id"
-    t.string "user_name"
     t.string "first_name"
     t.string "last_name"
-    t.string "dob"
-    t.string "gender"
+    t.string "date_of_birth"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "instagram"
@@ -142,6 +148,7 @@ ActiveRecord::Schema.define(version: 2020_05_21_114004) do
     t.string "image"
     t.bigint "designation_id"
     t.bigint "department_id"
+    t.boolean "gender"
     t.index ["department_id"], name: "index_users_on_department_id"
     t.index ["designation_id"], name: "index_users_on_designation_id"
     t.index ["email"], name: "index_users_on_email", unique: true

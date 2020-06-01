@@ -1,0 +1,64 @@
+<%#= form_for( 'update_apply_leave', :html => {'class' => 'form-horizontal'},:remote=> true) do |f| %>
+  <%= form_tag({ action: "update_apply_leave"}, class: 'form-horizontal' , method: "post") do  %>
+         
+              <div id="form-wizard-1" class="step">
+                <div class="control-group">
+                  <label class="control-label">Name</label>
+                  <div class="controls">
+                    <input id="username" type="text" readonly name="username" value="<%= current_user.first_name.capitalize %>" />
+                  </div>
+                </div>
+
+
+<div class="control-group">
+                  <label class="control-label">Leave from</label>
+                  <div class="controls">
+                    <input type="text" name="dated_from" id="datepicker2"/> 
+                  </div>
+                </div>
+
+
+
+                <div class="control-group">
+                  <label class="control-label">Subject</label>
+                  <div class="controls">
+                    <input id="subject" type="text" value="<%= @edit_request_leave.subject %>" name="subject" />
+                    
+                  </div>
+                </div>
+                <input type="hidden" name="leave_id" value="<%=params[:lid]%>">
+                <div class="control-group">
+                  <label class="control-label">Message</label>
+                  <div class="controls">
+                     <textarea name="message" placeholder="Enter message here..."><%= @edit_request_leave.message %></textarea> 
+                  </div>
+                </div>
+
+              </div>
+              
+              <div class="form-actions">
+               
+                <%= submit_tag "Submit",:class=> 'btn btn-primary' %>
+               
+              </div>
+              
+            <% end %>
+
+
+<script type="text/javascript">
+   var picker = new Lightpick({
+    field: document.getElementById('datepicker2'),
+    singleDate: false,
+    minDate: moment(),
+    format: 'YYYY-MM-DD',
+    autoApply: true,
+    onSelect: function(start, end){
+        var str = '';
+        str += start ? start.format('Do MMMM YYYY') + ' to ' : '';
+        str += end ? end.format('Do MMMM YYYY') : '...';
+        document.getElementById('datepicker2').innerHTML = str;
+         
+    }
+});
+  
+</script> 

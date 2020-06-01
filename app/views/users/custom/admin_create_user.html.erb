@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container22">
 	<div id="content">
 		<div id="content-header">
 			<div class="row-fluid">
@@ -11,22 +11,41 @@
 		<div class="container-fluid">
 			<div class="row-fluid">
 				<!-- Create User Table Span -->
-				<div class="span12">
+				<div class="span6">
 					<div class="widget-box">
 						<div class="widget-content nopadding">
 
 						<%= form_for(@user, :as => :user, :url => add_new_employee_path,html: { class: 'form-horizontal',method: :post }  ) do |f| %>
 
   								<div class="control-group">
+  									<%= f.label "Name", class: "control-label" %>
+  									<div class="controls">
+						            	<%= f.text_field :first_name, autofocus: true, class: "span11" %>
+						        	</div>
+  								</div>
+  								<div class="control-group">
   									<%= f.label :email, class: "control-label" %>
   									<div class="controls">
 						            	<%= f.email_field :email, autofocus: true, autocomplete: "email",class: "span11" %>
 						        	</div>
   								</div>
+
+
+  								<div class="control-group">
+  									<%= f.label "Gender", class: "control-label" %>
+  									<div class="controls">
+						            	<%= f.radio_button :gender, true, :checked => true %> Male
+						            	<%= f.radio_button :gender, false %> Female
+						        	</div>
+  								</div>
+
+
+
+
   								<div class= "form-group">
                             		<%= f.label "Designation",class: "control-label" %>
                             		<div class="controls">
-                              			<%= f.select( :designation_id,  @designation.collect { |designation| [designation.name, designation.id] }) %>
+                              			<%= f.select( :designation_id,  @designation.collect { |designation| [designation.designation_name, designation.id] }) %>
                             		</div>
                           		</div>
 
@@ -44,9 +63,9 @@
                             		</div>
                           		</div>
 
-							  	<div class="actions">
-							    	<%= f.submit %>
-							  	</div>
+							  	<div class="actions center">
+							    	<%= f.submit "Submit" ,:class=> "btn btn-primary" %>
+							  	</div><br>
 							<% end %>
 						</div>
 					</div>

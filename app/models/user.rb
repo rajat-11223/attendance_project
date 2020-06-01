@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,:recoverable, 
   :rememberable, :validatable,:trackable
-
+#mount_uploader :image_url, ImageUploader
 before_validation :confirmation_token, on: :create
 has_many :daily_attendances 
 has_many :request_leaves 
@@ -12,13 +12,14 @@ has_many :request_leaves
 
   
   has_many :user_images
+   accepts_nested_attributes_for :user_images
   has_many :user_roles
   has_many :master_roles, through: :user_roles
 
   belongs_to :designation, optional: true
   belongs_to :department, optional: true
 
-  mount_uploader :image, ImageUploader
+  
 #
 #def generate_confirmation_token
 #  raw, enc = Devise.token_generator.generate(self.class, :confirmation_token)

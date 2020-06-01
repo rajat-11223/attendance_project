@@ -1,3 +1,5 @@
+
+<div class="container22">
 <div id="content">
 
  <div id="content-header">
@@ -19,7 +21,7 @@
                 <div class="control-group">
                   <label class="control-label">Name</label>
                   <div class="controls">
-                    <input id="username" type="text" readonly name="username" value="<%= current_user.name.capitalize %>" />
+                    <input id="username" type="text" readonly name="username" value="<%= current_user.first_name.capitalize %>" />
                   </div>
                 </div>
 
@@ -63,6 +65,34 @@
   </div>
 
 
+<section class="statistics">
+          <div class="container-fluid">
+            <div class="row-fluid" style="align-items: center;">
+              <div class="span6">
+                <div class="box">
+                  <i class="fa fa-envelope fa-fw btn-primary"></i>
+                  <div class="info">
+                    <h3><%= @employe_leaves.present? ? 12 - @employe_leaves.to_i : 12 %></h3> <span>Remaining</span>
+                    <p>Total leaves remaining</p>
+                  </div>
+                </div>
+              </div>
+              <div class="span6">
+                <div class="box">
+                  <i class="fa fa-file fa-fw btn-danger"></i>
+                  <div class="info">
+                    <h3><%= @employe_leaves.present? ? @employe_leaves.to_i : 0 %>  </h3> <span> Leaves</span>
+                    <p>Total leaves taken</p>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </section>
+
+
+
 <div class="container-fluid">
     <hr>
     <div class="row-fluid">
@@ -83,6 +113,8 @@
                   <th>Leave to</th>
                   <th>Leave Count</th>
                   <th>Status</th>
+                  <th>Action</th>
+
                 </tr>
               </thead>
               <tbody>
@@ -94,7 +126,17 @@
                   <td class="center"><%= cc.date_from.strftime("%b  %d ,  %Y") %></td>
                   <td class="center"><%= cc.date_to.strftime("%b  %d ,  %Y") %></td>
                   <td><%= cc.leave_count %></td>
-                  <td class="badge <%= cc.status.present? ? 'badge-success' : cc.status == false ? 'badge-important'  : 'badge-warning' %>"><%= cc.status.present? ? 'Approve' : cc.status == false ? 'Dis-Approve' : "pending" %></td>
+                  <td class="center padd_2"><p class="badge <%= cc.status.present? ? 'badge-success' : cc.status == false ? 'badge-important'  : 'badge-warning' %>"><%= cc.status.present? ? 'Approve' : cc.status == false ? 'Dis-Approve' : "pending" %></p></td>
+                  <td> 
+                    <% if cc.status == nil %>
+                    <div class="center icons_leave">  <%= link_to '<i class="icon-pencil"></i>'.html_safe, edit_apply_leave_path(:uid=>cc.user_id, :lid=>cc.id), method: :post,remote: true %> 
+                    <%= link_to '<i class="fa fa-trash" aria-hidden="true"></i>'.html_safe, remove_apply_leave_path(cc.id),title: "Delete", method: :delete, data: {confirm: "Are you sure?"} %>
+                     </div>
+                     <% end %>
+
+                   </td>
+
+
                 </tr>
                 <% end %>
               </tbody>
@@ -105,8 +147,33 @@
         </div>
         </div>
 
-
+</div>
+</div>
  
+ <div class="modal hide" id="myModal22">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Edit Request leave</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body request_leave_data">
+         
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
     
 <script type="text/javascript">
    var picker = new Lightpick({

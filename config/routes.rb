@@ -27,10 +27,21 @@ scope module: :users do
 
     post "add_new_employee" => 'custom#add_new_employee', as: "add_new_employee"
 
-    get "user_profile/:id" => 'custom#user_profile', as: "user_profile"
+    get "user_profile" => 'custom#user_profile', as: "user_profile"
 
     post "save_user_image" => 'custom#save_user_image', as: "save_user_image"
 
+    post "edit_current_user" => 'custom#edit_current_user',as: "edit_current_user"
+
+    post "edit_apply_leave" => 'custom#edit_apply_leave',as:"edit_apply_leave"
+
+    post "monthly_attendance" => 'custom#monthly_attendance',as: 'monthly_attendance'
+
+    post "add_new_holiday" => 'custom#add_new_holiday',as: 'add_new_holiday'
+
+
+    post "update_apply_leave" => 'custom#update_apply_leave',as: "update_apply_leave"
+    delete 'remove_apply_leave/:id' => 'custom#remove_apply_leave', as: "remove_apply_leave"
   	root to: "custom#dashboard"
 
 
@@ -49,7 +60,7 @@ scope module: :users do
 
 #  scope module: :users do 
 #	scope :users do
-]
+
 #
 #	   get "set_password" => "sessions#set_password"
 #    end
