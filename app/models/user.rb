@@ -10,7 +10,8 @@ has_many :request_leaves
 
  has_many :mobiles
 
-  
+  belongs_to :department
+  belongs_to :designation
   has_many :user_images
    accepts_nested_attributes_for :user_images
   has_many :user_roles

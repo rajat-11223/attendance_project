@@ -127,7 +127,6 @@ ActiveRecord::Schema.define(version: 2020_05_29_075736) do
     t.string "first_name"
     t.string "last_name"
     t.string "date_of_birth"
-
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "instagram"
