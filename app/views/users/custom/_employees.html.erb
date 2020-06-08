@@ -4,8 +4,8 @@
 		<tr>
 			
 			<th>Employee Id</th>
-			<th>Avatar</th>
 			
+			<th>Name</th>
 			<th>Email</th>
 			
 			<th>Punch In</th>
@@ -24,10 +24,20 @@
 	<% @today_attendence = DailyAttendance.find_by(:user_id => user.id,
 		created_at: Date.today.all_day)	%>
 	<tr class="odd gradeX">
-		<td><%=user.id%></td>
-		<td><%= link_to image_tag(user.image_url(:thumb).to_s, alt: "Image not found"), user_profile_path(user.id) %></td>
-		<td><%=user.email%></td><td><%= @today_attendence.present?  ? @today_attendence.punch_in.present? ?
-		 @today_attendence.punch_in.strftime("%I:%M %P") : 'not punched' : 'not punched' %></td>
+		<td><%=user.employee_id%></td>
+		<td>
+			<%if user.first_name == nil%>
+				<%= link_to 'Not mention', attendance_path(user.id) %>
+			<% else%>
+				<%= link_to user.first_name, attendance_path(user.id) %>
+			<%end%>
+		</td>
+		<td><%=user.email%></td>
+		<td>
+			<%= @today_attendence.present?  ? @today_attendence.punch_in.present? ?
+		 		@today_attendence.punch_in.strftime("%I:%M %P") : 'not punched' : 'not punched' %>
+		 			
+		 </td>
 		<td><%=@today_attendence.present?  ? @today_attendence.punch_out.present? ?
 		  @today_attendence.punch_out.strftime("%I:%M %P") : 'not punched' : 'not punched' %></td>
 		<td><%=@today_attendence.present? ? @today_attendence.master_attendance_status.status.present? ? @today_attendence.master_attendance_status.status.capitalize : 'not marked' : ' not marked'%>

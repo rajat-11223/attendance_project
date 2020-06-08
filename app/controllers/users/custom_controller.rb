@@ -17,29 +17,27 @@ class Users::CustomController < ApplicationController
 
 def add_new_holiday
 
-@add_new_holiday  = GeneralHoliday.create(date: params[:holiday_date], occasion: params[:occasion_name])
+	@add_new_holiday  = GeneralHoliday.create(date: params[:holiday_date], occasion: params[:occasion_name])
 
-respond_to do |format|
-format.html {redirect_to root_url, notice: 'New Holiday added successfully.'}
+	respond_to do |format|
+	format.html {redirect_to root_url, notice: 'New Holiday added successfully.'}
 
-end
+	end
 
 end	
 
 def monthly_attendance
 
 #puts params[:month]
+	@show_attendance = DailyAttendance.where("MONTH(created_at) = ? and user_id = ?", params[:month].to_i, current_user.id)
 
+	 @avrgats = @show_attendance.where.not(punch_out: nil).map{ |n| n.punch_out.to_time - n.punch_in.to_time }
 
-@show_attendance = DailyAttendance.where("MONTH(created_at) = ? and user_id = ?", params[:month].to_i, current_user.id)
+	 @a = @avrgats.map{|n| Time.at(n).utc.strftime("%k:%M")}
 
- @avrgats = @show_attendance.where.not(punch_out: nil).map{ |n| n.punch_out.to_time - n.punch_in.to_time }
-
- @a = @avrgats.map{|n| Time.at(n).utc.strftime("%k:%M")}
-
-@avrg = @a.present? ? avg_of_times(@a) : 0 
-respond_to do |format|
-format.js {render 'attendance_filter'}
+	@avrg = @a.present? ? avg_of_times(@a) : 0 
+	respond_to do |format|
+	format.js {render 'attendance_filter'}
 
 end
 
@@ -103,29 +101,19 @@ def edit_current_user
 	@saveuser = User.find(current_user.id)
 	
 
-respond_to do |format|
-
-if @saveuser.present?
-   @saveuser.first_name = params[:fname]
-   @saveuser.last_name = params[:lname]
-   @saveuser.date_of_birth = params[:date_birth]
-   @saveuser.facebook = params[:facebook]
-   @saveuser.instagram = params[:instagram]
-   @saveuser.gender = params[:gender]
- @saveuser.save
-	if params[:user_images][:avatar].present?
-		# @saveuser.user_images.image_url = params[:image_url]
-		# #@saveuser.user_images.is_profie_active = true
-		# @saveuser.user_images.save
-		@profileimage = UserImage.new
-	    @profileimage.user_id = current_user.id
-		@profileimage.avatar = params[:user_images][:avatar]
-		@profileimage.save!
-	end
-end
-format.html { redirect_to user_profile_path, notice: 'Hey '+ @saveuser.first_name.capitalize+'! profile updated successfully. ' }
-
-   end		
+	respond_to do |format|
+		if @saveuser.present?
+		   @saveuser.first_name = params[:fname]
+		   @saveuser.last_name = params[:lname]
+		   @saveuser.date_of_birth = params[:date_birth]
+		   @saveuser.facebook = params[:facebook]
+		   @saveuser.instagram = params[:instagram]
+		   @saveuser.gender = params[:gender]
+		 @saveuser.save
+			
+		end
+		format.html { redirect_to user_profile_path, notice: 'Hey '+ @saveuser.first_name.capitalize+'! profile updated successfully. ' }
+	end		
 
 end
 
@@ -133,33 +121,35 @@ end
 def attendance
 
 #@all_attendance = DailyAttendance.find_by(user_id: current_user.id, created_at: Date.today.all_day )
-@show_attendance = DailyAttendance.where(user_id: current_user.id, :created_at => Time.now.beginning_of_month..Time.now.end_of_month) 
+		if current_user.id == params[:id]
+			@show_attendance = DailyAttendance.where(user_id: current_user.id, :created_at => Time.now.beginning_of_month..Time.now.end_of_month) 
+		else
+			@show_attendance = DailyAttendance.where(user_id: params[:id], :created_at => Time.now.beginning_of_month..Time.now.end_of_month) 
+		end
 
 	
 
 		# Rahul work for admin attendence dashboard
 		@designation = Designation.all
+
 		@department = Department.all
 		@users = User.all.where.not(id: current_user.id)
 		@user_role = UserRole.find_by(:user_id => current_user.id)
 
-
 		@all_attendance = DailyAttendance.find_by(user_id: current_user.id, created_at: Date.today.all_day )
-		
-		
-		
+
 		@avrgats = @show_attendance.where.not(punch_out: nil).map{ |n| n.punch_out.to_time - n.punch_in.to_time }
 
 		@a = @avrgats.map{|n| Time.at(n).utc.strftime("%k:%M")}
 
 
-#@cal_time = @a.present? ? @a : 
-#byebug
-#@a =  ['18:35', '19:07', '23:09']
+	#@cal_time = @a.present? ? @a : 
+	#byebug
+	#@a =  ['18:35', '19:07', '23:09']
 
-@avrg = @a.present? ? avg_of_times(@a) : 0 
-@leaves_taken = RequestLeave.where(status: 1, user_id: current_user.id).sum(:leave_count)
-@applied_leaves = RequestLeave.where(status: 0, user_id: current_user.id).sum(:leave_count)
+	@avrg = @a.present? ? avg_of_times(@a) : 0 
+	@leaves_taken = RequestLeave.where(status: 1, user_id: current_user.id).sum(:leave_count)
+	@applied_leaves = RequestLeave.where(status: 0, user_id: current_user.id).sum(:leave_count)
 end
 
 
@@ -346,11 +336,8 @@ end
 		@user_image = UserImage.new
 		@previous_image = UserImage.where(:user_id => current_user)
 
-    @today_attendance = DailyAttendance.find_by(user_id: current_user.id, created_at: Date.today.all_day)
-    @edit_current_user = UserImage.new
-
-
-
+    	@today_attendance = DailyAttendance.find_by(user_id: current_user.id, created_at: Date.today.all_day)
+    	
 
 		# Get monthly average of an employee
 		
