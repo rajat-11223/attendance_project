@@ -12,7 +12,7 @@
   <% end %>
   
     <div class="team-prof">
-<h3 class="post-title"><%= tt.first_name.capitalize %></h3>
+<h3 class="post-title"><%= link_to tt.first_name.capitalize, show_path(tt.id) %></h3>
 <span class="post"><%= tt.designation.designation_name %></span>
 </div>
    <%#= tt.department.department_name %>
