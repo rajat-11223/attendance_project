@@ -96,118 +96,49 @@ style="background-color:#fff">
 </div>
 </div>
 
-<div class="span6">
+		<div class="span6">
 
-<div class="widget-box">
-          <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
-            <h5>General Holdays</h5>
-          </div>
-          <div class="widget-content nopadding">
-          	<section class="statistics">
-          		<div class="container-fluid">
-            <center><button type="button" class="btn btn-primary center padd_5" data-toggle="modal" data-target="#holidaymodal">
-    <i class="icon-plus"></i> Add New Holiday
-  </button></center>
+		<div class="widget-box">
+		          <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+		            <h5>General Holidays</h5>
+		          </div>
+		          <div class="widget-content nopadding">
+		          	<section class="statistics">
+		          		<div class="container-fluid">
+		          		
 
-           <% @general_holidays.each do |dd| %> 	
-           <div class="row-fluid">
-           	<div class="span2"></div>
+		           <% @general_holidays.each do |dd| %> 	
+		           <div class="row-fluid">
+		           	<div class="span2"></div>
 
-            <div class="span8 holiday_general">
-                <div class="box bg_lblue">
-                  <div class="span4 dated_general"><h3><%= dd.date.strftime("%b  %d") %></h3><p></p><%= dd.date.strftime("%A ") %></div>
-                  <div class="span8 dated_occasion"><h4><%= dd.occasion.capitalize %></h4></div>
-                </div>
-              </div>
+		            <div class="span8 holiday_general">
+		                <div class="box bg_lblue">
+		                  <div class="span4 dated_general"><h3><%= dd.date.strftime("%b  %d") %></h3><p></p><%= dd.date.strftime("%A ") %></div>
+		                  <div class="span8 dated_occasion"><h4><%= dd.occasion.capitalize %></h4></div>
+		                </div>
+		              </div>
 
-           	<div class="span2"></div>
-           </div>
-<% end %>
+		           	<div class="span2"></div>
+		           </div>
+		<% end %>
 
-          
-      </div>
-</section>
+		          
+		      </div>
+		</section>
 
-          </div>
-        </div>
+		          </div>
+		        </div>
 
 
 
-</div>
+		</div>
 
 
 
     </div>
 </div>
 
-<div class="modal" id="holidaymodal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-      
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title center">Add New Holiday</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        
-        <!-- Modal body -->
-        <div class="modal-body">
-           <%= form_tag({ action: "add_new_holiday"}, class: 'form-horizontal' , method: "post") do  %>
-
-<div class="control-group">
-                  <label class="control-label">Date</label>
-                  <div class="controls">
-                    <input type="date" name="holiday_date" >
-                    
-                  </div>
-                </div>
-
-<div class="control-group">
-                  <label class="control-label">Occasion Name</label>
-                  <div class="controls">
-                   <input type="text" name="occasion_name">
-
-                    
-                  </div>
-                </div>
-
-<div class="form-actions">
-               
-
-               <button type="submit" class="btn btn-primary">Submit</button> 
-                <%#= f.submit "Submit",:class=> 'btn btn-primary' %>
-               
-              </div>
-
-
-
-
-<% end %>
-        </div>
-        
-        <!-- Modal footer -->
-        
-        
-      </div>
-    </div>
-
-
-
-
-
 
 </div>
 
 
-
-<script type="text/javascript">
-	
-var modal = document.getElementById("holidaymodal");
- var span = document.getElementsByClassName("close")[0];
-$('#holidaymodal').hide();
- span.onclick = function() {
-   modal.style.display = "none";
- }
-
-
-</script>

@@ -1,0 +1,249 @@
+<div id="content">
+
+<section class="statistics">
+         	<div class="container-fluid"> 
+         <ul class="nav nav-tab leave_tabs">
+   
+   		
+               <li class="active "><a data-toggle="tab" href="#tab1" class="l_tab1">
+
+               	<div class="">
+                <div class="box">
+                  <i class="fa fa-envelope fa-fw btn-primary"></i>
+                  <div class="info">
+                    <h3><%= @applied_leaves.present? ? @applied_leaves.count.to_i : 0 %></h3> <span>Leaves</span>
+                    <p>Total Pending leaves </p>
+                  </div>
+                </div>
+              </div></a></li>
+             <li class=""><a data-toggle="tab" href="#tab2" class="l_tab12">
+              <div class="">
+                <div class="box">
+                  <i class="fa fa-file fa-fw btn-danger"></i>
+                  <div class="info">
+                    <h3><%= @un_approved_leaves.present? ? @un_approved_leaves.count.to_i : 0 %>  </h3> <span> Leaves</span>
+                    <p>Total Un-Approved leaves</p>
+                  </div>
+                </div>
+              </div></a></li>
+              
+                    <li class=""><a data-toggle="tab" href="#tab3" class="l_tab3">
+                    	<div class="">
+		                      <div class="box">
+		                  <i class="fa fa-file fa-fw btn-success"></i>
+		                  <div class="info">
+		                    <h3><%= @approved_leaves.present? ? @approved_leaves.count.to_i : 0 %>  </h3> <span> Leaves</span>
+		                    <p>Total Approved leaves</p>
+		                  </div>
+		                </div>
+		              </div></a></li>
+		             
+		          
+</ul>
+</div>
+          
+        </section>
+
+              
+
+
+<div class="widget-content tab-content">
+	<div id="tab1" class="tab-pane active">
+		<div class="container-fluid">
+		    <hr>
+		    <div class="row-fluid">
+		      <div class="span12">
+		        <div class="widget-box">
+		          <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+		            <h5>Applied Leaves</h5>
+		          </div>
+		          <div class="widget-content nopadding">
+		            <table class="table table-bordered table-striped">
+		              <thead>
+		                <tr>
+		                  
+		                  <th>Id</th>
+		                  <th>Employe Name</th>		                  
+		                  <th>Subject</th>
+		                  <th>Message</th>
+		                  <th>Leave from</th>
+		                  <th>Leave to</th>
+		                  <th>Leave Count</th>
+		                  <th>Status</th>
+		                  <th>Action</th>
+
+		                </tr>
+		              </thead>
+		              <tbody>
+		                <% @applied_leaves.each do |cc| %>
+		                <tr class="odd gradeX">
+		                  <td><%=cc.id %></td>
+		                  <td><%=cc.user.first_name %></td>		                  
+		                  <td><%=cc.subject %></td>
+		                  <td><%= cc.message %></td>
+		                  <td class="center"><%= cc.date_from.strftime("%b  %d ,  %Y") %></td>
+		                  <td class="center"><%= cc.date_to.strftime("%b  %d ,  %Y") %></td>
+		                  <td><%= cc.leave_count %> days</td>
+		                  <td class="center padd_2"><p class="badge <%= cc.status.present? ? 'badge-success' : cc.status == false ? 'badge-important'  : 'badge-warning' %>"><%= cc.status.present? ? 'Approve' : cc.status == false ? 'Dis-Approve' : "pending" %></p></td>
+		                  <td> 
+		                    
+		                    <div class="center icons_leave">  <%= link_to '<i class="icon-pencil"></i>'.html_safe, edit_apply_leave_path(:uid=>current_user.id, :lid=>cc.id), method: :post,remote: true %> 
+		                    <%= link_to '<i class="fa fa-trash" aria-hidden="true"></i>'.html_safe, remove_apply_leave_path(cc.id),title: "Delete", method: :delete, data: {confirm: "Are you sure?"} %>
+		                     </div>
+		                     
+
+		                   </td>
+
+
+		                </tr>
+		                <% end %>
+		              </tbody>
+		            </table>
+		          </div>
+		        </div>
+		        </div>
+		        </div>
+		        </div>
+		    </div>
+<div id="tab2" class="tab-pane">
+             <div class="container-fluid">
+		    <hr>
+		    <div class="row-fluid">
+		      <div class="span12">
+		        <div class="widget-box">
+		          <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+		            <h5>Un-Approve Leaves</h5>
+		          </div>
+		          <div class="widget-content nopadding">
+		            <table class="table table-bordered table-striped">
+		              <thead>
+		                <tr>
+		                  
+		                  <th>Id</th>
+		                  <th>Employe Name</th>	
+		                  <th>Subject</th>
+		                  <th>Message</th>
+		                  <th>Leave from</th>
+		                  <th>Leave to</th>
+		                  <th>Leave Count</th>
+		                  <th>Status</th>
+		                  <th>Action</th>
+
+		                </tr>
+		              </thead>
+		              <tbody>
+		                <% @un_approved_leaves.each do |cc| %>
+		                <tr class="odd gradeX">
+		                  <td><%=cc.id %></td>
+		                  <td><%=cc.user.first_name %></td>	
+		                  <td><%=cc.subject %></td>
+		                  <td><%= cc.message %></td>
+		                  <td class="center"><%= cc.date_from.strftime("%b  %d ,  %Y") %></td>
+		                  <td class="center"><%= cc.date_to.strftime("%b  %d ,  %Y") %></td>
+		                  <td><%= cc.leave_count %> days</td>
+		                  <td class="center padd_2"><p class="badge <%= cc.status.present? ? 'badge-success' : cc.status == false ? 'badge-important'  : 'badge-warning' %>"><%= cc.status.present? ? 'Approve' : cc.status == false ? 'Dis-Approve' : "pending" %></p></td>
+		                  <td> 
+		                   
+		                    <div class="center icons_leave">  <%= link_to '<i class="icon-pencil"></i>'.html_safe, edit_apply_leave_path(:uid=>current_user.id, :lid=>cc.id), method: :post,remote: true %> 
+		                    <%= link_to '<i class="fa fa-trash" aria-hidden="true"></i>'.html_safe, remove_apply_leave_path(cc.id),title: "Delete", method: :delete, data: {confirm: "Are you sure?"} %>
+		                     </div>
+		                     
+
+		                   </td>
+
+
+		                </tr>
+		                <% end %>
+		              </tbody>
+		            </table>
+		          </div>
+		        </div>
+		        </div>
+		        </div>
+		        </div>
+            </div>
+            <div id="tab3" class="tab-pane">
+              <div class="container-fluid">
+		    <hr>
+		    <div class="row-fluid">
+		      <div class="span12">
+		        <div class="widget-box">
+		          <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+		            <h5>Approved Leaves</h5>
+		          </div>
+		          <div class="widget-content nopadding">
+		            <table class="table table-bordered table-striped">
+		              <thead>
+		                <tr>
+		                  
+		                  <th>Id</th>
+		                  <th>Employe Name</th>	
+		                  <th>Subject</th>
+		                  <th>Message</th>
+		                  <th>Leave from</th>
+		                  <th>Leave to</th>
+		                  <th>Leave Count</th>
+		                  <th>Status</th>
+		                  <th>Action</th>
+
+		                </tr>
+		              </thead>
+		              <tbody>
+		                <% @approved_leaves.each do |cc| %>
+		                <tr class="odd gradeX">
+		                  <td><%=cc.id %></td>
+		                  <td><%=cc.user.first_name %></td>	
+		                  <td><%=cc.subject %></td>
+		                  <td><%= cc.message %></td>
+		                  <td class="center"><%= cc.date_from.strftime("%b  %d ,  %Y") %></td>
+		                  <td class="center"><%= cc.date_to.strftime("%b  %d ,  %Y") %></td>
+		                  <td><%= cc.leave_count %> days</td>
+		                  <td class="center padd_2"><p class="badge <%= cc.status.present? ? 'badge-success' : cc.status == false ? 'badge-important'  : 'badge-warning' %>"><%= cc.status.present? ? 'Approve' : cc.status == false ? 'Dis-Approve' : "pending" %></p></td>
+		                  <td> 
+		                    
+		                    <div class="center icons_leave">  <%= link_to '<i class="icon-pencil"></i>'.html_safe, edit_apply_leave_path(:uid=>current_user.id, :lid=>cc.id), method: :post,remote: true %> 
+		                    <%= link_to '<i class="fa fa-trash" aria-hidden="true"></i>'.html_safe, remove_apply_leave_path(cc.id),title: "Delete", method: :delete, data: {confirm: "Are you sure?"} %>
+		                     </div>
+		                    
+
+		                   </td>
+
+
+		                </tr>
+		                <% end %>
+		              </tbody>
+		            </table>
+		          </div>
+		        </div>
+		        </div>
+		        </div>
+		        </div>
+            </div>
+
+</div>
+
+<div class="modal hide" id="myModal22">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Edit Request leave</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body request_leave_data">
+         
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+ </div>       

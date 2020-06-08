@@ -1,0 +1,120 @@
+<div id="content">
+	
+		<div class="container-fluid">
+			<div class="row-fluid">
+						
+					<div class="span4">
+						
+							<div class="card card-body card-bg bg-3 mb0 no-radius nob tl-radius tr-radius">
+							<div class="thumb thumb-rounded">
+							
+							<%= image_tag( @user.image.present? ? @user.image.url : "/assets/author-main1.jpg" ) %>
+							</div>
+							<div class="caption text-center text-white">
+							<h3 class="mt20"><%= @user.first_name.capitalize %></h3>
+							<ul class="icons-list mt15 mb20 ml25 text-center">
+							<li><a href="#"><i class="icon-facebook text-white"></i></a></li>
+							<li><a href="#"><i class="icon-twitter text-white"></i></a></li>
+							<li><a href="#"><i class="icon-linkedin2 text-white"></i></a></li>
+							</ul><br>
+							<span><p>Attendance </p></span>
+							 <div class="progress progress-striped ">
+                  <div style="width: 41%;" class="bar"></div>
+                </div>
+							</div>
+							</div>
+
+
+
+					</div>
+					<div class="span8">
+						
+
+							<div class="card card-flat">
+							<div class="card-header">
+							<div class="card-title"><i class="fa fa-user position-left"></i>About - <%= @user.first_name.capitalize %></div>
+							</div>
+							<table class="table table-borderless table-striped">
+							<tbody>
+							<tr>
+							<td style="width: 20%;font-size: 13px;"><strong>Email</strong></td>
+							<td><%= @user.email %></td>
+							</tr>
+							<tr>
+							<td><strong>Designation</strong></td>
+							<td><%= @user.designation.designation_name %></td>
+							</tr>
+							<tr>
+							<td><strong>Department</strong></td>
+							<td><%= @user.department.department_name %></td>
+							</tr>
+							<tr>
+							<td><strong>Leaves Remaining</strong></td>
+							<td><%= '12'%></td>
+							</tr>
+							<tr>
+							<td><strong>Gender</strong></td>
+							<td><%= @user.gender == false ? 'Male' : 'Female' %></td>
+							
+							</td>
+							</tr>
+							</tbody>
+							</table>
+							</div>
+
+
+					</div>
+
+
+
+			</div>
+
+
+<% if @show_attendance.present? %>
+<div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+            <h5>Monthly Attendance</h5>
+          </div>
+
+
+<table class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Day</th>
+                  <th>Present</th>
+                  <th>Punch in</th>
+                  <th>Punch out</th>
+                  <th>Working Hour</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @show_attendance.each do |cc| %>
+                <tr class="odd gradeX">
+                  <td><%=cc.created_at.strftime("%b  %d ,  %Y") %></td>
+                  <td><%=cc.created_at.strftime("%A ") %></td>
+                  <td><%= cc.master_attendance_status.status.capitalize %></td>
+                  <td class="center"><%= cc.punch_in.present? ? cc.punch_in.strftime("%I : %M  %P") : 'Not Punch in' %></td>
+                  <td class="center"><%= cc.punch_out.present? ? cc.punch_out.strftime("%I : %M  %P") : 'Not Punch out' %></td>
+                  <td class="center"> <% if cc.punch_in.present? && cc.punch_out.present? %><% total_time =  (cc.punch_out.to_time - cc.punch_in.to_time)  %><%= Time.at(total_time).utc.strftime("%kh:%M min") %>
+
+                    <% else %>
+                    <%= "Not Punched" %>
+
+                   <% end %>
+</td>
+                </tr>
+                <% end %>
+              </tbody>
+            </table>
+
+   <% else %>
+   <div class="container">
+ <h4 class="center">Sorry! No data available for this month.</h4>  
+</div>
+   <% end %>         
+
+</div>
+		</div>
+
+</div>

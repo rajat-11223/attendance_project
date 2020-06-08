@@ -3,15 +3,15 @@ class Users::CustomController < ApplicationController
 
 	include CustomHelper
 	#before_action :authenticate_user!, except: %i[index	show]	
-	before_action :set_user, only: [ :edit, :update, :destroy]
+	before_action :set_user
 	before_action :authenticate_user!, except: [:index, :show]
 	 layout "dashboard"
 
-	def admindashboard
+def admindashboard
 
 
 
-	end
+end
 
 
 
@@ -25,6 +25,7 @@ format.html {redirect_to root_url, notice: 'New Holiday added successfully.'}
 end
 
 end	
+
 
 def monthly_attendance
 
@@ -60,12 +61,14 @@ if params[:dated_from].present?
 end
 
 @update_leave.subject = params[:subject]
-@update_leave.message = params[:message]
+@update_leave.message = params[:message] 
+@update_leave.status = params[:status] 
+
 #@update_leave.save
 #@submit_leave = RequestLeave.new(user_id: current_user.id, subject: params[:subject], message: params[:message], date_from: @daterange[0], date_to: @daterange[2], leave_count: @count_leave)
 	respond_to do |format|
 		if @update_leave.save
-		format.js {render 'edit_reply_popup'}
+		format.html { redirect_to request_leave_path, notice: 'Leave updated successfully' }
 		end
 	end
 
@@ -85,10 +88,15 @@ respond_to do |format|
 	
 end	
 end
+
+
+
+
 def edit_apply_leave
 
 if params[:lid].present? && params[:uid].present?
 @edit_request_leave = RequestLeave.find(params[:lid]) 
+@user_role = UserRole.find_by(user_id: params[:uid]) 
 respond_to do |format|
 
 format.js {render 'edit_reply_popup'}
@@ -112,16 +120,18 @@ if @saveuser.present?
    @saveuser.facebook = params[:facebook]
    @saveuser.instagram = params[:instagram]
    @saveuser.gender = params[:gender]
+   @saveuser.image = params[:user][:image]
+
  @saveuser.save
-	if params[:user_images][:avatar].present?
-		# @saveuser.user_images.image_url = params[:image_url]
-		# #@saveuser.user_images.is_profie_active = true
-		# @saveuser.user_images.save
-		@profileimage = UserImage.new
-	    @profileimage.user_id = current_user.id
-		@profileimage.avatar = params[:user_images][:avatar]
-		@profileimage.save!
-	end
+	# if params[:user_images][:avatar].present?
+	# 	# @saveuser.user_images.image_url = params[:image_url]
+	# 	# #@saveuser.user_images.is_profie_active = true
+	# 	# @saveuser.user_images.save
+	# 	@profileimage = UserImage.new
+	#     @profileimage.user_id = current_user.id
+	# 	@profileimage.avatar = params[:user_images][:avatar]
+	# 	@profileimage.save!
+	# end
 end
 format.html { redirect_to user_profile_path, notice: 'Hey '+ @saveuser.first_name.capitalize+'! profile updated successfully. ' }
 
@@ -137,25 +147,23 @@ def attendance
 
 	
 
-		# Rahul work for admin attendence dashboard
-		@designation = Designation.all
-		@department = Department.all
-		@users = User.all.where.not(id: current_user.id)
-		@user_role = UserRole.find_by(:user_id => current_user.id)
+# Rahul work for admin attendence dashboard
+@designation = Designation.all
+@department = Department.all
+@users = User.all.where.not(id: current_user.id)
+@user_role = UserRole.find_by(:user_id => current_user.id)
 
 
-		@all_attendance = DailyAttendance.find_by(user_id: current_user.id, created_at: Date.today.all_day )
-		
-		
-		
-		@avrgats = @show_attendance.where.not(punch_out: nil).map{ |n| n.punch_out.to_time - n.punch_in.to_time }
-
-		@a = @avrgats.map{|n| Time.at(n).utc.strftime("%k:%M")}
+@all_attendance = DailyAttendance.find_by(user_id: current_user.id, created_at: Date.today.all_day )
 
 
-#@cal_time = @a.present? ? @a : 
-#byebug
-#@a =  ['18:35', '19:07', '23:09']
+
+@avrgats = @show_attendance.where.not(punch_out: nil).map{ |n| n.punch_out.to_time - n.punch_in.to_time }
+
+@a = @avrgats.map{|n| Time.at(n).utc.strftime("%k:%M")}
+
+
+
 
 @avrg = @a.present? ? avg_of_times(@a) : 0 
 @leaves_taken = RequestLeave.where(status: 1, user_id: current_user.id).sum(:leave_count)
@@ -163,22 +171,6 @@ def attendance
 end
 
 
-
-
-
-# def punch_attendance
-
-# 		#byebug
-# 		#@a =  ['18:35', '19:07', '23:09']
-# 		if @a.present?
-# 			@avrg = avg_of_times(@a)
-# 			@leaves_taken = RequestLeave.where(status: 1, user_id: current_user.id).sum(:leave_count)
-# 			@applied_leaves = RequestLeave.where(status: 0, user_id: current_user.id).sum(:leave_count)
-# 		end
-# 	end
-
-
-	# popup in attendance page
 	def popup_route
 		
 		@popup_user = User.find(params[:user_id])
@@ -195,14 +187,11 @@ end
 		@popup_edit_punch_user = User.find(params[:user_id])
 		@attendance_status = MasterAttendanceStatus.all
 
-  
-  #format.json { render :show, status: :created, location: @post_review }
-
 		# show punch in and punch out time in input
 
 		@all_attendance = DailyAttendance.find_by(user_id: @popup_edit_punch_user.id, created_at: Date.today.all_day )
 		respond_to do |format|
-			format.js
+			format.js {render 'users/custom/js/popup_edit_punch'}
 		end
 	end
 
@@ -274,10 +263,20 @@ end
 
 
 	def request_leave
-
+        @user_role = UserRole.find(current_user.id)
 		@request_leave = RequestLeave.new
+		@employe_leaves = RequestLeave.where(user: current_user.id,status: true).sum(:leave_count)
 		@all_leaves = RequestLeave.where(user_id: current_user.id)
 
+if @user_role.master_role_id == 1
+
+@applied_leaves = RequestLeave.where(status: nil).all
+@approved_leaves = RequestLeave.where(status: true).all
+@un_approved_leaves = RequestLeave.where(status: false).all
+
+
+
+end 
 	end
 
 	def apply_leave
@@ -327,6 +326,7 @@ end
 @employe_leaves = RequestLeave.where(user: current_user.id,status: true).sum(:leave_count)
 @general_holidays = GeneralHoliday.all
 @request_pending = RequestLeave.where(user_id: current_user.id, status: nil).count
+@all_pending_leaves = RequestLeave.where(status: nil).count
 
 	end
 
@@ -401,6 +401,20 @@ end
 		@user = User.new
 	end
 
+def show
+
+
+@user_role = UserRole.find_by(user_id: current_user.id)
+if @user_role.master_role_id == 1
+@user = User.find(params[:id])
+@show_attendance = DailyAttendance.where(user_id: params[:id], :created_at => Time.now.beginning_of_month..Time.now.end_of_month) 
+else
+
+redirect_to user_profile_path, alert: "You  don't have permission to acces this page !!"
+end 	
+
+end
+
 
 	# Save New User and send an email
 
@@ -413,6 +427,7 @@ end
     		:email => params[:user][:email],
 			:password => generated_password ,
 			:first_name => params[:user][:name],
+			:gender => params[:user][:gender],
 			:designation_id => params[:user][:designation_id],
 			:department_id => params[:user][:department_id])
 

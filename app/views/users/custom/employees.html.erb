@@ -1,52 +1,56 @@
-<div class="container11">
-  	<div id="content">
-  		<div class="row-fluid">
-  			<div class="span8">
-  				<h1>All Employees</h1>
-  			</div>
-  			<div class="span4">
-  				<div class="filter-buttons">
-					<div class="list-view-button">
-						<i class="fa fa-bars" aria-hidden="true"></i> List view
-					</div>
-					<div class="grid-view-button">
-						<i class="fa fa-th-large" aria-hidden="true"></i> Grid view
-					</div>
-				</div>
-			</div>
-  		</div>
-    	<!-- <div id="content-header">
-      		
-    	</div> -->
-    	<hr>
+<div id="content">
 
-    	
-    	<div class="row-fluid">
-	    	<div class="span12">
-	    		<div class="widget-box">
-	    			<!-- create  show employee div for show employee in grid view -->
-    					<div id="show_employee">
-			    			<table class="table table-bordered table-striped">	
-								<%= render partial: 'employees' %>
-							</table>
-	    				</div>
-	    		</div>
-    		</div>
-    	</div>
-    	
-    	
-    </div>
+<div class="container-fluid">
+  <div class="row-fluid">
+
+<% @users.each do |tt| %> 
+<div class="card span3">
+  <% if tt.image.present? %>
+   <%= image_tag( tt.image.url, class: "user_pic_all" ) %>
+   <% else %>
+  <img src="assets/img_avatar.png" alt="Avatar" >
+  <% end %>
+  
+    <div class="team-prof">
+<h3 class="post-title"><%= tt.first_name.capitalize %></h3>
+<span class="post"><%= tt.designation.designation_name %></span>
+</div>
+   <%#= tt.department.department_name %>
+    <p class="user_online"><i class="fa fa-circle present" aria-hidden="true"></i></i></p>
+  
 </div>
 
-<script type="text/javascript">
-	
-	$('.grid-view-button').click(function(){
-		$('#show_employee').html("<%= j render(:partial => 'employees_grid' ) %>");
-   		});
+<% end %>
 
 
-	$('.list-view-button').click(function(){
-		$('#show_employee').html("<table class='table table-bordered table-striped'><%=j render partial: 'employees' %></table>");
-   		});
+</div>
 
-</script>
+
+</div>
+
+
+
+
+
+</div>
+
+<style>
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  
+  border-radius: 5px;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+img {
+  border-radius: 5px;
+}
+
+.container_new {
+  padding: 2px 16px;
+}
+</style>

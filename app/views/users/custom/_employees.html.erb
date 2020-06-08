@@ -6,7 +6,7 @@
 			<th>Employee Id</th>
 			<th>Avatar</th>
 			
-			<th>Email</th>
+			<th>Name</th>
 			
 			<th>Punch In</th>
 			<th>Punch Out</th>
@@ -25,39 +25,61 @@
 		created_at: Date.today.all_day)	%>
 	<tr class="odd gradeX">
 		<td><%=user.id%></td>
-		<td><%= link_to image_tag(user.image_url(:thumb).to_s, alt: "Image not found"), user_profile_path(user.id) %></td>
-		<td><%=user.email%></td><td><%= @today_attendence.present?  ? @today_attendence.punch_in.present? ?
+		<td><%#= link_to image_tag(user.image_url(:thumb).to_s, alt: "Image not found"), user_profile_path(user.id) %></td>
+		<td><%= user.first_name ? user.first_name.capitalize : '' %></td>
+		<td><%= @today_attendence ? @today_attendence.punch_in ?
 		 @today_attendence.punch_in.strftime("%I:%M %P") : 'not punched' : 'not punched' %></td>
-		<td><%=@today_attendence.present?  ? @today_attendence.punch_out.present? ?
+		<td><%=@today_attendence ? @today_attendence.punch_out ?
 		  @today_attendence.punch_out.strftime("%I:%M %P") : 'not punched' : 'not punched' %></td>
-		<td><%=@today_attendence.present? ? @today_attendence.master_attendance_status.status.present? ? @today_attendence.master_attendance_status.status.capitalize : 'not marked' : ' not marked'%>
+		<td><%=@today_attendence ? @today_attendence.master_attendance_status.status ? @today_attendence.master_attendance_status.status.capitalize : 'not marked' : ' not marked'%>
 		</td>
 		<td>
-			<!-- <a href="#" class="btn btn-primary">
-				<i class="fa fa-eye" aria-hidden="true"></i>
-			</a> -->
-			
-			<a href=""  class="btn btn-primary js-open-modal" 
+		
+			<%= link_to '<i class="icon-pencil"></i>'.html_safe, popup_edit_punch_path(:user_id=>user.id), method: :post,remote: true, class: "btn btn-primary" %> 
+			<!-- <a href=""  class="btn btn-primary js-open-modal" 
 			data-modal-id="popup_edit_attendence"
 			data-user-id = <%=user.id%>    >
 				<i class="fa fa-pencil-square" aria-hidden="true"></i>
-			</a>
+			</a> -->
 		</td>
 	</tr>
 <% end %>
-
-<div id="popup_edit_attendence" class="modal-box" style="left: 0px !important">
-	<div id="punch_edit_popup">
-		
-	</div>	
-</div>
 
 </tbody>
 
 
 
 
+
 <script type="text/javascript">
+	
+var modal = document.getElementById("popup_edit_attendence");
+
+// Get the button that opens the modal
+//var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+
+
+
+</script>
+
+
+<!-- <script type="text/javascript">
 
 // Show Change cover popup javascript
 $(function() 
@@ -109,4 +131,4 @@ $(function()
 	$(window).resize();
 
 });
-</script>
+</script> -->

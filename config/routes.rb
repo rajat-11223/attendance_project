@@ -11,7 +11,7 @@ scope module: :users do
 
     get "popup_route" => 'custom#popup_route', as: "popup_route"
 
-    get "popup_edit_punch" => 'custom#popup_edit_punch', as: "popup_edit_punch"
+    post "popup_edit_punch" => 'custom#popup_edit_punch', as: "popup_edit_punch"
 
     post "popup_update_punch" => 'custom#popup_update_punch', as: "popup_update_punch"
 
@@ -25,6 +25,8 @@ scope module: :users do
 
   	get "dashboard" => 'custom#dashboard', as: "dashboard"
   	get "employees" => 'custom#employees', as: "employees"
+    get "employe/:id" => 'custom#show', as: "show"
+
   	get "admin_edit_user/:id" => 'custom#admin_edit_user', as: "edit_user"
 
 
@@ -45,6 +47,7 @@ scope module: :users do
     post "monthly_attendance" => 'custom#monthly_attendance',as: 'monthly_attendance'
 
     post "add_new_holiday" => 'custom#add_new_holiday',as: 'add_new_holiday'
+    post "admin_popup_leave" => 'custom#admin_popup_leave',as: 'admin_popup_leave'
 
 
     post "update_apply_leave" => 'custom#update_apply_leave',as: "update_apply_leave"

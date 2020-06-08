@@ -3,7 +3,7 @@
 		<div id="content-header">
 			<div class="row-fluid">
 				<div class="span6">
-					<h1>Create a User</h1>
+					<h1>Add new Employe</h1>
 				</div>
 			</div>
 		</div>
@@ -11,14 +11,15 @@
 		<div class="container-fluid">
 			<div class="row-fluid">
 				<!-- Create User Table Span -->
+				<div class="span3"></div>
 				<div class="span6">
 					<div class="widget-box">
-						<div class="widget-content nopadding">
+						<div class="widget-content ">
 
 						<%= form_for(@user, :as => :user, :url => add_new_employee_path,html: { class: 'form-horizontal',method: :post }  ) do |f| %>
 
 								<div class="control-group">
-  									<%= f.label :employee_id, class: "control-label" %>
+  									<%= f.label "Employee id", class: "control-label" %>
   									<div class="controls">
 						            	<%= f.text_field :employee_id, autofocus: true,class: "span11" %>
 						        	</div>
@@ -49,21 +50,21 @@
 
 
 
-  								<div class= "form-group">
+  								<div class= "control-group">
                             		<%= f.label "Designation",class: "control-label" %>
                             		<div class="controls">
                               			<%= f.select( :designation_id,  @designation.collect { |designation| [designation.designation_name, designation.id] }) %>
                             		</div>
                           		</div>
 
-                          		<div class= "form-group">
+                          		<div class= "control-group">
                             		<%= f.label "Department",class: "control-label" %>
                             		<div class="controls">
                               			<%= f.select( :department_id,  @department.collect { |department| [department.department_name, department.id] }) %>
                             		</div>
                           		</div>
 
-                          		<div class= "form-group">
+                          		<div class= "control-group">
                             		<%= f.label "Role",class: "control-label" %>
                             		<div class="controls">
                               			<%= f.select(:id, @role.collect { |role| [role.role_name, role.id] }) %>
@@ -77,6 +78,7 @@
 						</div>
 					</div>
 				</div>
+				<div class="span3"></div>
 			</div>
 		</div>
 	</div>

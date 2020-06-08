@@ -1,4 +1,4 @@
-<div class="container-fluid">
+
 	<div id="content">
 
     		<div id="content-header">
@@ -33,8 +33,8 @@
 
         <div class="span6">
                         <div class="user-thumb33" style="display: inline-block;"> 
-                          <% if @user.user_images.present? %>
-                          <%= image_tag( @user.user_images.find_by(is_profile_active: true).avatar.url, class: "user_pic" ) %>
+                          <% if @user.image.present? %>
+                          <%= image_tag( @user.image.url, class: "user_pic" ) %>
                           <% else %>
                           <img width="240" height="240" alt="User" src="/assets/author-main1.jpg"> 
                           <% end %>
@@ -77,7 +77,38 @@
         										</div>
 
 
-        <div class="span6">
+
+                      
+                    <div class="span6">
+                    <div class="widget-box">
+                    <div class="widget-title"> 
+                    <span class="icon"><i class="icon-ok"></i></span>
+                    <h5>Personal Infomation</h5>
+  
+                    </div>
+                    <div class="widget-content nopadding2 user_prof">
+                    <p><strong>Birthday: </strong> <span><%= @user.date_of_birth %></span></p>
+                      <p><strong>Gender: </strong><span><%= @user.gender == false ? 'Male' : 'Female' %></span></p>
+
+                      <p><strong>Mobile: </strong>  <span><%= '12345678' %></span></p>
+                      <p><strong>Instagram: </strong> <span><%= @user.facebook %></span></p>
+                      <p><strong>Facebook: </strong><span><%= @user.instagram %></span></p>
+
+
+
+
+
+
+                        </div>
+                      </div>
+                    </div>
+                     
+
+       </div>
+       </div>                     
+
+
+       <!--  <div class="span6">
         			      	<div class="widget-box">
         						<div class="widget-title"> 
         							<span class="icon"><i class="icon-ok"></i></span>
@@ -86,10 +117,10 @@
         						</div>
         						<div class="widget-content nopadding2 user_prof">
                    
-                       <p><strong>Email: </strong> <span><%= current_user.email%></span></p>
-                        <p><strong>Mobile: </strong>  <span><%= '12345678' %></span></p>
-                        <p><strong>Instagram: </strong> <span><%= @user.facebook %></span></p>
-                        <p><strong>Facebook: </strong><span><%= @user.instagram %></span></p>
+                       <p><strong>Email: </strong> <span><%#= current_user.email%></span></p>
+                        <p><strong>Mobile: </strong>  <span><%#= 12345678 %></span></p>
+                        <p><strong>Instagram: </strong> <span><%#= @user.facebook %></span></p>
+                        <p><strong>Facebook: </strong><span><%#= @user.instagram %></span></p>
                         
                        
 
@@ -98,34 +129,10 @@
                   
                   </div>
         					</div>
-        										</div>
+        										</div> -->
 
 
-            <div class="row-fluid">
-<div class="span6">
-                      <div class="widget-box">
-                    <div class="widget-title"> 
-                      <span class="icon"><i class="icon-ok"></i></span>
-                      <h5>Personal Infomation</h5>
-                      
-                    </div>
-                    <div class="widget-content nopadding2 user_prof">
-                   <p><strong>Birthday: </strong> <span><%= @user.date_of_birth %></span></p>
-                  <p><strong>Gender: </strong><span><%= current_user.gender.to_i == 0 ? 'Male' : 'Female' %></span></p>
-                  <p><strong>Email: </strong> <span><%= current_user.email%></span></p>
-                  <p><strong>Mobile: </strong>  <span><%= '12345678' %></span></p>
-                  <p><strong>Instagram: </strong> <span><%= @user.facebook %></span></p>
-                  <p><strong>Facebook: </strong><span><%= @user.instagram %></span></p>
-                        
-                       
-
-
-                   
                   
-                  </div>
-                  </div>
-                            </div>
-            </div>
 
 
 
@@ -141,8 +148,8 @@
             <h5>Edit Profile</h5>
           </div>
           <div class="widget-content nopadding">
-          	<%= form_for( @edit_current_user, :url => {:action => "edit_current_user"}, :html => {'class' => 'form-horizontal'}) do |f| %>
-           
+              	<%= form_for( @edit_current_user, :url => {:action => "edit_current_user"}, :html => {'class' => 'form-horizontal'}) do |f| %>
+               
               <div id="form-wizard-1" class="step">
                 <div class="control-group">
                   <label class="control-label">First Name</label>
@@ -150,62 +157,62 @@
                     <input id="username" type="text" name="fname"  />
                   </div>
                 </div>
-<div class="control-group">
-                  <label class="control-label">Last Name</label>
-                  <div class="controls">
-                    <input id="username" type="text" name="lname"  />
-                  </div>
-                </div>
+                    <div class="control-group">
+                        <label class="control-label">Last Name</label>
+                        <div class="controls">
+                          <input id="username" type="text" name="lname"  />
+                        </div>
+                      </div>
 
-<div class="control-group">
-                  <label class="control-label">Gender</label>
-                  <div class="controls">
-                   <input type="radio" id="male" name="gender" value="0"> Male
-                   <input type="radio" id="female" name="gender" value="1"> Female
-  
-                  </div>
-                </div>
+                      <div class="control-group">
+                        <label class="control-label">Gender</label>
+                        <div class="controls">
+                         <input type="radio" id="male" name="gender" value="0"> Male
+                         <input type="radio" id="female" name="gender" value="1"> Female
 
-<div class="control-group">
-                  <label class="control-label">Phone No.</label>
-                  <div class="controls">
-                    <input type="text" name="phone_no" id="datepicker"/> 
-                  </div>
-                </div>
+                        </div>
+                      </div>
 
-                <div class="control-group">
-                  <label class="control-label">Date of Birth</label>
-                  <div class="controls">
-                    <input id="subject" type="date" name="date_birth" />
-                    
-                  </div>
-                </div>
+                      <div class="control-group">
+                        <label class="control-label">Phone No.</label>
+                        <div class="controls">
+                          <input type="text" name="phone_no" id="datepicker"/> 
+                        </div>
+                      </div>
 
-                <div class="control-group">
-                  <label class="control-label">Profile Photo</label>
-                  <div class="controls">
-                  	<%= f.fields_for :user_images do |p| %>
-                           <%= p.file_field :avatar, name: "user_images[avatar]" %>
-                    <% end %>
-                    
-                    
-                  </div>
-                </div>
+                      <div class="control-group">
+                        <label class="control-label">Date of Birth</label>
+                        <div class="controls">
+                          <input id="subject" type="date" name="date_birth" />
+                          
+                        </div>
+                      </div>
 
-                <div class="control-group">
-                  <label class="control-label">Facebook </label>
-                  <div class="controls">
-                    <input id="subject" type="text" name="facebook" />
-                    
-                  </div>
-                </div>
-                <div class="control-group">
-                  <label class="control-label">Instagram</label>
-                  <div class="controls">
-                    <input id="subject" type="text" name="instagram" />
-                    
-                  </div>
-                </div>
+                      <div class="control-group">
+                        <label class="control-label">Profile Photo</label>
+                        <div class="controls">
+                        	<%= f.fields_for :users do |p| %>
+                                 <%= p.file_field :image, name: "user[image]" %>
+                          <% end %>
+                          
+                          
+                        </div>
+                      </div>
+
+                      <div class="control-group">
+                        <label class="control-label">Facebook </label>
+                        <div class="controls">
+                          <input id="subject" type="text" name="facebook" />
+                          
+                        </div>
+                      </div>
+                      <div class="control-group">
+                        <label class="control-label">Instagram</label>
+                        <div class="controls">
+                          <input id="subject" type="text" name="instagram" />
+                          
+                        </div>
+                      </div>
                 <!-- <div class="control-group">
                   <label class="control-label">Profile Image</label>
                   <div class="controls">
@@ -215,13 +222,16 @@
 
               </div>
               
-              <div class="form-actions">
-               
-                <%= f.submit "Submit",:class=> 'btn btn-primary' %>
-               
-              </div>
+                  <div class="form-actions">
+                   
+                    <%= f.submit "Submit",:class=> 'btn btn-primary' %>
+                   
+                  </div>
+
               
             <% end %>
+
+         </div>     
           </div>
         </div>
   </div>
