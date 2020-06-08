@@ -141,11 +141,11 @@ end
 def attendance
 
 #@all_attendance = DailyAttendance.find_by(user_id: current_user.id, created_at: Date.today.all_day )
-if current_user.id == params[:id]
+#if current_user.id == params[:id]
 	@show_attendance = DailyAttendance.where(user_id: current_user.id, :created_at => Time.now.beginning_of_month..Time.now.end_of_month) 
-else
-	@show_attendance = DailyAttendance.where(user_id: params[:id], :created_at => Time.now.beginning_of_month..Time.now.end_of_month) 
-end
+#else
+	#@show_attendance = DailyAttendance.where(user_id: params[:id], :created_at => Time.now.beginning_of_month..Time.now.end_of_month) 
+#end
 
 # Rahul work for admin attendence dashboard
 @designation = Designation.all
@@ -338,10 +338,11 @@ end
 		@designation = Designation.all
 		@department = Department.all
 		@user = User.find(current_user.id)
+		@edit_current_user = User.new
 
 		@user_role = UserRole.find_by(:user_id => current_user.id)
-		@user_image = UserImage.new
-		@previous_image = UserImage.where(:user_id => current_user)
+		#@user_image = UserImage.new
+		#@previous_image = UserImage.where(:user_id => current_user)
 
     	@today_attendance = DailyAttendance.find_by(user_id: current_user.id, created_at: Date.today.all_day)
     	

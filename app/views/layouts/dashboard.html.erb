@@ -71,7 +71,7 @@
   <ul class="headnav navhead-tabs">
     <li <% if current_page? root_url() %> class="active" <% end %>><%= link_to '<i class="icon icon-home"></i> Dashboard'.html_safe, root_url %> </li>
     <li <% if current_page? attendance_path(current_user) %> class="active" <% end %>>
-     <%= link_to '<i class="icon icon-home"></i> Attendance'.html_safe, attendance_path(current_user) %>
+     <%= link_to '<i class="icon icon-home"></i> Attendance'.html_safe, attendance_path %>
        </li>
     <li <% if current_page? request_leave_path() %> class="active" <% end %>> <%= link_to '<i class="icon icon-file"></i> Request leave'.html_safe, "/users/request_leave" %>
        </li>   
