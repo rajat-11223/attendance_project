@@ -1,9 +1,9 @@
 <% if @user_role.master_role_id == 2 %>
 
 <div class="container22">
-<div id="content">
+  <div id="content">
 
-<section class="statistics">
+    <section class="statistics">
           <div class="container-fluid">
             <div class="row-fluid" style="align-items: center;">
               <div class="span4">
@@ -35,42 +35,97 @@
               </div>
             </div>
           </div>
-        </section>
+    </section>
 
-
- 
-
-<div class="container-fluid">
+    <div class="container-fluid">
     <hr>
-<div class="select_month">
-<label for="cars">Select month:</label>
-    <%= select_month(Date.today,{:add_month_numbers => false},:onchange=>"attendanceFunction()") %></div>
+    <div class="select_month">
+      <label for="cars">Select month:</label>
+        <%= select_month(Date.today,{:add_month_numbers => false},:onchange=>"attendanceFunction()") %>
+    </div>
 
     <div class="row-fluid">
-      <div class="span12">
-        <div class="widget-box">
-          <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
-            <h5>Monthly Attendance</h5>
+        <div class="span12">
+          <div class="widget-box">
+            <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+              <h5>Monthly Attendance</h5>
+            </div>
+            <div class="widget-content nopadding filtered_attendance">
+              <%= render partial: 'attendance_monthly' %>
+            </div>
           </div>
-          <div class="widget-content nopadding filtered_attendance">
-            <%= render partial: 'attendance_monthly' %>
-          </div>
         </div>
-        </div>
-        </div>
-        </div>
-
-
-
-
-
-
-
-</div>
+    </div>
+    </div>
+  </div>
 </div>
 
 <%else%>
-  <%= render partial: 'admin_attendence' %>
+  <%if current_user.id ==
+   params[:id]  %>
+      <%= render partial: 'admin_attendence' %>
+  <%else%>
+      <div class="container22">
+        <div id="content">
+
+          <section class="statistics">
+                <div class="container-fluid">
+                  <div class="row-fluid" style="align-items: center;">
+                    <div class="span4">
+                      <div class="box">
+                        <i class="fa fa-envelope fa-fw btn-primary"></i>
+                        <div class="info">
+                          <h3>1</h3> <span>Request</span>
+                          <p>Lorem ipsum dolor sit amet</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="span4">
+                      <div class="box">
+                        <i class="fa fa-file fa-fw btn-danger"></i>
+                        <div class="info">
+                          <h3><%= @leaves_taken.to_i %>  </h3> <span> Leaves</span>
+                          <p>Total leaves taken</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="span4">
+                      <div class="box">
+                        <i class="fa fa-clock-o fa-fw btn-success"></i>
+                        <div class="info">
+                          
+                          <h3><%= @avrg %></h3> <span></span>
+                          <p>Average Working Hours</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+          </section>
+
+          <div class="container-fluid">
+          <hr>
+          <div class="select_month">
+            <label for="cars">Select month:</label>
+              <%= select_month(Date.today,{:add_month_numbers => false},:onchange=>"attendanceFunction()") %>
+          </div>
+
+          <div class="row-fluid">
+              <div class="span12">
+                <div class="widget-box">
+                  <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+                    <h5>Monthly Attendance</h5>
+                  </div>
+                  <div class="widget-content nopadding filtered_attendance">
+                    <%= render partial: 'attendance_monthly' %>
+                  </div>
+                </div>
+              </div>
+          </div>
+          </div>
+        </div>
+      </div>
+  <%end%>
 <%end%>
 
 

@@ -10,6 +10,7 @@
                   <th>Punch out</th>
                   <th>Working Hour</th>
                 </tr>
+
               </thead>
               <tbody>
                 <% @show_attendance.each do |cc| %>
@@ -19,20 +20,21 @@
                   <td><%= cc.master_attendance_status.status.capitalize %></td>
                   <td class="center"><%= cc.punch_in.present? ? cc.punch_in.strftime("%I : %M  %P") : 'Not Punch in' %></td>
                   <td class="center"><%= cc.punch_out.present? ? cc.punch_out.strftime("%I : %M  %P") : 'Not Punch out' %></td>
-                  <td class="center"> <% if cc.punch_in.present? && cc.punch_out.present? %><% total_time =  (cc.punch_out.to_time - cc.punch_in.to_time)  %><%= Time.at(total_time).utc.strftime("%kh:%M min") %>
-
+                  <td class="center"> 
+                    <% if cc.punch_in.present? && cc.punch_out.present? %>
+                      <% total_time =  (cc.punch_out.to_time - cc.punch_in.to_time)  %>
+                      <%= Time.at(total_time).utc.strftime("%kh:%M min") %>
                     <% else %>
-                    <%= "Not Punched" %>
-
-                   <% end %>
-</td>
+                      <%= "Not Punched" %>
+                    <% end %>
+                </td>
                 </tr>
                 <% end %>
               </tbody>
             </table>
 
    <% else %>
-   <div class="container">
- <h4 class="center">Sorry! No data available for this month.</h4>  
-</div>
-   <% end %>         
+    <div class="container">
+        <h4 class="center">Sorry! No data available for this month.</h4>  
+    </div>
+<% end %>         

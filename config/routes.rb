@@ -7,7 +7,7 @@ mount Sidekiq::Web => '/sidekiq'
 
 scope module: :users do
   	#get "users/admindashboard" => 'custom#admindashboard'
-  	get "users/attendance" => 'custom#attendance', as: "attendance"
+  	get "users/attendance/:id" => 'custom#attendance', as: "attendance"
 
     get "popup_route" => 'custom#popup_route', as: "popup_route"
 
@@ -25,7 +25,9 @@ scope module: :users do
 
   	get "dashboard" => 'custom#dashboard', as: "dashboard"
   	get "employees" => 'custom#employees', as: "employees"
+
     get "employe/:id" => 'custom#show', as: "show"
+
 
   	get "admin_edit_user/:id" => 'custom#admin_edit_user', as: "edit_user"
 
