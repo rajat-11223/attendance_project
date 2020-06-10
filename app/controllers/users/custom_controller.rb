@@ -30,7 +30,11 @@ end
 def monthly_attendance
 
 #puts params[:month]
-	@show_attendance = DailyAttendance.where("MONTH(created_at) = ? and user_id = ?", params[:month].to_i, current_user.id)
+user_role = UserRole.find_by(:user_id => current_user.id)
+
+ @uid = user_role.master_role_id == 1 ? params[:id] : current_user.id
+
+	@show_attendance = DailyAttendance.where("MONTH(created_at) = ? and user_id = ?", params[:month].to_i,  @uid)
 
 	 @avrgats = @show_attendance.where.not(punch_out: nil).map{ |n| n.punch_out.to_time - n.punch_in.to_time }
 
@@ -138,22 +142,46 @@ format.html { redirect_to user_profile_path, notice: 'Hey '+ @saveuser.first_nam
 end
 
 
+def attendance_employe
+
+@user_role = UserRole.find_by(:user_id => current_user.id)
+
+if @user_role.master_role_id == 1
+
+	@show_attendance = DailyAttendance.where(user_id: params[:id], :created_at => Time.now.beginning_of_month..Time.now.end_of_month) 
+	@avrgats = @show_attendance.where.not(punch_out: nil).map{ |n| n.punch_out.to_time - n.punch_in.to_time }
+
+	@a = @avrgats.map{|n| Time.at(n).utc.strftime("%k:%M")}
+
+	@avrg = @a.present? ? avg_of_times(@a) : 0 
+	@leaves_taken = RequestLeave.where(status: 1, user_id: params[:id]).sum(:leave_count)
+	@applied_leaves = RequestLeave.where(status: 0, user_id: params[:id]).sum(:leave_count)
+
+else
+
+   redirect_to attendance_path, alert: "You  don't have permission to acces this page !!"
+end
+end
+
+
 def attendance
 
 #@all_attendance = DailyAttendance.find_by(user_id: current_user.id, created_at: Date.today.all_day )
 #if current_user.id == params[:id]
 	@show_attendance = DailyAttendance.where(user_id: current_user.id, :created_at => Time.now.beginning_of_month..Time.now.end_of_month) 
+
+	@present_employes = DailyAttendance.where( created_at: Date.today.all_day )
 #else
 	#@show_attendance = DailyAttendance.where(user_id: params[:id], :created_at => Time.now.beginning_of_month..Time.now.end_of_month) 
 #end
 
 # Rahul work for admin attendence dashboard
-@designation = Designation.all
-@department = Department.all
+#@designation = Designation.all
+#@department = Department.all
 @users = User.all.where.not(id: current_user.id)
 @user_role = UserRole.find_by(:user_id => current_user.id)
 
-@all_attendance = DailyAttendance.find_by(user_id: current_user.id, created_at: Date.today.all_day )
+#@all_attendance = DailyAttendance.find_by(user_id: current_user.id, created_at: Date.today.all_day )
 
 @avrgats = @show_attendance.where.not(punch_out: nil).map{ |n| n.punch_out.to_time - n.punch_in.to_time }
 
@@ -207,10 +235,10 @@ end
 
 		if params[:mySelectStatus].to_i == 1
 			
-			@attendance_update.punch_in = DateTime.parse(params[:punch_in]).to_s
-			@attendance_update.punch_out = DateTime.parse(params[:punch_out]).to_s
+			params[:punch_in].present? ? @attendance_update.punch_in = DateTime.parse(params[:punch_in]).to_s : ''
+			params[:punch_out].present? ? @attendance_update.punch_out = DateTime.parse(params[:punch_out]).to_s : ''
 
-			byebug
+			#byebug
 		end
 		@attendance_update.master_attendance_status_id = params[:mySelectStatus]
 		if @attendance_update.save!
@@ -329,7 +357,14 @@ end
 
 	# Show ALl employees
 	def employees
-		@users = User.all.where.not(id: current_user.id)
+
+    @login_users = DailyAttendance.where( created_at: Date.today.all_day, master_attendance_status_id: 1)
+
+    myids =  [ current_user.id.to_i, @login_users.collect{|i| i.user_id.to_i} ]
+    users_absent = myids.join(",").chomp.split(',').map { |x| x.to_i }
+    @offline_users = User.where.not(id: users_absent)
+#byebug
+		#DailyAttendance.find_by( created_at: Date.today.all_day, master_attendance_status_id: 1)
 	end
 
 
@@ -421,7 +456,7 @@ end
     		:employee_id => params[:user][:employee_id],
     		:email => params[:user][:email],
 			:password => generated_password ,
-			:first_name => params[:user][:name],
+			:first_name => params[:user][:first_name],
 			:gender => params[:user][:gender],
 			:designation_id => params[:user][:designation_id],
 			:department_id => params[:user][:department_id])

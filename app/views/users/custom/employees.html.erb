@@ -3,8 +3,28 @@
 <div class="container-fluid">
   <div class="row-fluid">
 
-<% @users.each do |tt| %> 
-<div class="card span3">
+<% @login_users.each do |tt| %> 
+<div class="card span3 user_block">
+  <% if tt.user.image.present? %>
+   <%= image_tag( tt.user.image.url, class: "user_pic_all" ) %>
+   <% else %>
+  <img src="assets/img_avatar.png" alt="Avatar" >
+  <% end %>
+  
+    <div class="team-prof">
+<h3 class="post-title"><%= link_to tt.user.first_name.capitalize, show_path(tt.user_id) %></h3>
+<span class="post"><%= tt.user.designation.designation_name %></span>
+</div>
+
+
+   <%#= tt.department.department_name %>
+    <p class="user_online"><i class="fa fa-circle present " aria-hidden="true"></i></i></p>
+  
+</div>
+
+<% end %>
+<% @offline_users.each do |tt| %> 
+<div class="card span3 user_block">
   <% if tt.image.present? %>
    <%= image_tag( tt.image.url, class: "user_pic_all" ) %>
    <% else %>
@@ -15,13 +35,14 @@
 <h3 class="post-title"><%= link_to tt.first_name.capitalize, show_path(tt.id) %></h3>
 <span class="post"><%= tt.designation.designation_name %></span>
 </div>
+
+
    <%#= tt.department.department_name %>
-    <p class="user_online"><i class="fa fa-circle present" aria-hidden="true"></i></i></p>
+    <p class="user_online"><i class="fa fa-circle  " aria-hidden="true"></i></i></p>
   
 </div>
 
 <% end %>
-
 
 </div>
 

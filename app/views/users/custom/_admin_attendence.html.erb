@@ -16,8 +16,8 @@
 						    <div class="box">
 						      <i class="fa fa-envelope fa-fw btn-primary"></i>
 						      <div class="info">
-						        <h3>1</h3> <span>Total Present</span>
-						        <p>Lorem ipsum dolor sit amet</p>
+						        <h3><%= @present_employes.count %></h3> <span> Present</span>
+						        <p>Employes Present</p>
 						      </div>
 						    </div>
 						  </div>
@@ -51,20 +51,20 @@
 					<div class="widget-box">
 				        <div class="widget-title">
 				        	<span class="icon"> <i class="icon-th"></i> </span>
-				            <h5>Attendence table</h5>
+				            <h5>Daily Attendence table</h5>
 				        </div>
 				        <div class="widget-content nopadding">
 				        	
 				          	<table class="table table-bordered table-striped">	
 				          		<thead>
 									<tr>
-										<th>Employee Id</th>
+										<th>Id</th>
 										<th>Employee Name</th>
 										<th>Working Day (current month)</th>
-										<th>Off</th>
-										
-										<th>Current month avg</th>
-										<th>Previous month avg</th>
+										<th>Punch In</th>
+			                            <th>Punch Out</th>
+										<th>Status</th>
+										<th>Action</th>
 										
 									</tr>
 								</thead>
@@ -72,58 +72,13 @@
 								<tbody>
 									<tr class="odd gradeX">
 										<td><%=user.employee_id%></td>
-										<td><%=user.first_name%></td>
+										<td><%= link_to user.first_name.capitalize, attendance_employe_path(user.id) %></td>
+										<td><%= user.working_days(user.id)%></td>
+										<td><%= user.today_punch_in(user.id)%> </td>
+										<td><%= user.today_punch_out(user.id)%></td>
+										<td><%= user.daily_punched_status(user.id)%></td>
+										<td><%= link_to '<i class="icon-pencil"></i>'.html_safe, popup_edit_punch_path(:user_id=>user.id), method: :post,remote: true, class: "btn btn-primary" %> </td>
 										
-										<%
-
-										# Working dAYS OF EMPLOYEE
-										@present_count = DailyAttendance.where(user_id: user.id, :created_at => Time.now.beginning_of_month..Time.now.end_of_month,:master_attendance_status_id =>  1) .count
-
-										# OFF OF AN EMPLOYEE
-										# @off_count = DailyAttendance.where(user_id: user.id, :created_at => Time.now.beginning_of_month..Time.now.end_of_month,:master_attendance_status_id =>  1) .count
-
-
-
-										@show_attendance = DailyAttendance.where(user_id: user.id, :created_at => Time.now.beginning_of_month..Time.now.end_of_month) 
-
-										@avrgats = @show_attendance.where.not(punch_out: nil).map{ |n| n.punch_out.to_time - n.punch_in.to_time }
-
-										
-										@a = @avrgats.map{|n| Time.at(n).utc.strftime("%k:%M")}
-
-
-
-										@previous_month_attendance = DailyAttendance.where(user_id: user.id, :created_at => Time.now.beginning_of_month - 1.month ..Time.now.end_of_month - 1.month) 
-										if @previous_month_attendance.any? 
-											@previous_avrgats = @previous_month_attendance.where.not(punch_out: nil).map{ |n| n.punch_out.to_time - n.punch_in.to_time }
-											@b = @previous_avrgats.map{|n| Time.at(n).utc.strftime("%k:%M")}
-											if @b.present?
-												@previous_avrgats = avg_of_times(@b)
-											else
-												@previous_avrgats = 0		
-											end
-										else
-											@previous_avrgats = 0
-										end
-										
-										if @a.present?
-											@avrg = avg_of_times(@a)
-										else
-											@avrg = 0
-										end
-
-										%>
-										<td><%=@present_count%></td>
-										<td>0</td>
-										
-										<td><%=@avrg%></td>
-										<td><%=@previous_avrgats%></td>
-										<!-- <td>
-
-											<a href="#" class="btn btn-primary js-open-modal" data-modal-id="popup_attendence" data-user-id = <%=user.id%>>
-												<i class="fa fa-eye" aria-hidden="true"></i>
-											</a>
-										</td> -->
 									</tr>
 								</tbody>
 								<%end%>
@@ -134,11 +89,33 @@
 								</tfoot>
 							</table>			          	
 			          	</div>
-						<div id="popup_attendence" class="modal-box" style="left: 0px !important">
-							<div id="popup_show_attendence">
-			          		
-			          		</div>	
-						</div>
+						<div class="modal" id="popup_edit_attendence">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title center">Update Attendance</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body punch_edit_popup">
+           
+        </div>
+        
+        <!-- Modal footer -->
+        
+        
+      </div>
+    </div>
+
+
+
+
+
+
+</div>	
 
 			          	
 
@@ -152,55 +129,29 @@
 
 <script type="text/javascript">
 
-// Show Change cover popup javascript
-$(function() 
-{
+$('#popup_edit_attendence').hide();
 
-	var appendthis = ("<div class='modal-overlay js-modal-close'></div>");
+var modal = document.getElementById("popup_edit_attendence");
 
-	$("a[data-modal-id]").click(function(e) {		
+// Get the button that opens the modal
+//var btn = document.getElementById("myBtn");
 
-		e.preventDefault();
-		$("#container").append(appendthis);
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
 
-		$(".modal-overlay").fadeTo(500, 0.7);
-		//$(".js-modalbox").fadeIn(500);
-		var modalBox = $(this).attr('data-modal-id');
-		var user = $(this).attr('data-user-id');
-		
 
-		$("#" + modalBox).fadeIn($(this).data());
+span.onclick = function() {
+  modal.style.display = "none";
+}
 
-		 $.ajax({
-		    type:'GET',
-		    url:'/popup_route',
-		    data: { user_id: user  
-		          },
-    		success: function (result) {
-		        //do somthing here
-		        window.alert("success!!");
-		     },
-		     error: function (){
-		        window.alert("something wrong!");
-		     }
-  		});
-		
-	});
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
 
-	$(".js-modal-close, .modal-overlay").click(function() {
-		$(".modal-box, .modal-overlay").fadeOut(200, function() {
-			$(".modal-overlay").remove();
-		});
-	});
 
-	$(window).resize(function() {
-		$(".modal-box").css({
-			top: ($(window).height() - $(".modal-box").outerHeight()) / 2,
-			left: ($(window).width() - $(".modal-box").outerWidth()) / 2
-		});
-	});
 
-	$(window).resize();
 
-});
 </script>

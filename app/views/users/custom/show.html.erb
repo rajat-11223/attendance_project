@@ -54,7 +54,7 @@
 							</tr>
 							<tr>
 							<td><strong>Gender</strong></td>
-							<td><%= @user.gender == false ? 'Male' : 'Female' %></td>
+							<td><%= @user.gender == true ? 'Male' : 'Female' %></td>
 							
 							</td>
 							</tr>
@@ -70,13 +70,13 @@
 			</div>
 
 
-<% if @show_attendance.present? %>
+
 <div class="widget-box">
           <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>Monthly Attendance</h5>
           </div>
 
-
+<% if @show_attendance.present? %>
 <table class="table table-bordered table-striped">
               <thead>
                 <tr>
@@ -88,31 +88,39 @@
                   <th>Working Hour</th>
                 </tr>
               </thead>
+             
               <tbody>
+           	
                 <% @show_attendance.each do |cc| %>
-                <tr class="odd gradeX">
-                  <td><%=cc.created_at.strftime("%b  %d ,  %Y") %></td>
-                  <td><%=cc.created_at.strftime("%A ") %></td>
-                  <td><%= cc.master_attendance_status.status.capitalize %></td>
-                  <td class="center"><%= cc.punch_in.present? ? cc.punch_in.strftime("%I : %M  %P") : 'Not Punch in' %></td>
-                  <td class="center"><%= cc.punch_out.present? ? cc.punch_out.strftime("%I : %M  %P") : 'Not Punch out' %></td>
-                  <td class="center"> <% if cc.punch_in.present? && cc.punch_out.present? %><% total_time =  (cc.punch_out.to_time - cc.punch_in.to_time)  %><%= Time.at(total_time).utc.strftime("%kh:%M min") %>
+	                <tr class="odd gradeX">
+	                  <td><%=cc.created_at.strftime("%b  %d ,  %Y") %></td>
+	                  <td><%=cc.created_at.strftime("%A ") %></td>
+	                  <td><%= cc.master_attendance_status.status.capitalize %></td>
+	                  <td class="center"><%= cc.punch_in.present? ? cc.punch_in.strftime("%I : %M  %P") : 'Not Punch in' %></td>
+	                  <td class="center"><%= cc.punch_out.present? ? cc.punch_out.strftime("%I : %M  %P") : 'Not Punch out' %></td>
+	                  <td class="center"> <% if cc.punch_in.present? && cc.punch_out.present? %><% total_time =  (cc.punch_out.to_time - cc.punch_in.to_time)  %><%= Time.at(total_time).utc.strftime("%kh:%M min") %>
 
-                    <% else %>
-                    <%= "Not Punched" %>
+	                    <% else %>
+	                    <%= "Not Punched" %>
 
-                   <% end %>
-</td>
-                </tr>
+	                   <% end %>
+	                 </td>
+	                </tr>
                 <% end %>
+           
+               
+                
               </tbody>
+               
             </table>
+<% else %>
 
-   <% else %>
-   <div class="container">
- <h4 class="center">Sorry! No data available for this month.</h4>  
-</div>
-   <% end %>         
+<div class="container">
+        <h4 class="center">Sorry! No data available for this month.</h4>  
+    </div>
+
+           <% end %>
+           
 
 </div>
 		</div>
