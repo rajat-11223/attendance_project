@@ -76,7 +76,7 @@
 										<td><%= user.working_days(user.id)%></td>
 										<td><%= user.today_punch_in(user.id)%> </td>
 										<td><%= user.today_punch_out(user.id)%></td>
-										<td><%= user.daily_punched_status(user.id)%></td>
+										<td class="<%= user.daily_punched_status(user.id) == 'Present' ? 'font-green' : ''%>"><%= user.daily_punched_status(user.id)%></td>
 										<td><%= link_to '<i class="icon-pencil"></i>'.html_safe, popup_edit_punch_path(:user_id=>user.id), method: :post,remote: true, class: "btn btn-primary" %> </td>
 										
 									</tr>

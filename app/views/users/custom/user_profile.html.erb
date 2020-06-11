@@ -35,7 +35,7 @@
                           <% if @user.image.present? %>
                           <%= image_tag( @user.image.url, class: "user_pic" ) %>
                           <% else %>
-                          <img width="240" height="240" alt="User" src="/assets/author-main1.jpg"> 
+                          <img width="240" height="240" alt="User" src="<%= @user.gender == true ? '/assets/author-main1.jpg' : '/assets/author_girl.png' %>"> 
                           <% end %>
                           </div>
         </div>
@@ -145,27 +145,27 @@
             <h5>Edit Profile</h5>
           </div>
           <div class="widget-content nopadding">
-                <%= form_for( @edit_current_user, :url => {:action => "edit_current_user"}, :html => {'class' => 'form-horizontal'}) do |f| %>
+                <%= form_for( @edit_current_user, :url => {:action => "edit_current_user"}, :method=> 'post' ,:html => {'class' => 'form-horizontal'}) do |f| %>
                
               <div id="form-wizard-1" class="step">
                 <div class="control-group">
                   <label class="control-label">First Name</label>
                   <div class="controls">
-                    <input id="username" type="text" name="fname"  />
+                    <%= f.text_field :first_name, autofocus: true, class: "" %>
                   </div>
                 </div>
                     <div class="control-group">
                         <label class="control-label">Last Name</label>
                         <div class="controls">
-                          <input id="username" type="text" name="lname"  />
+                           <%= f.text_field :last_name, autofocus: true, class: "" %>
                         </div>
                       </div>
 
                       <div class="control-group">
                         <label class="control-label">Gender</label>
                         <div class="controls">
-                         <input type="radio" id="male" name="gender" value="0"> Male
-                         <input type="radio" id="female" name="gender" value="1"> Female
+                         <%= f.radio_button :gender, true, :checked => true %> Male
+                          <%= f.radio_button :gender, false %> Female
 
                         </div>
                       </div>
@@ -180,7 +180,8 @@
                       <div class="control-group">
                         <label class="control-label">Date of Birth</label>
                         <div class="controls">
-                          <input id="subject" type="date" name="date_birth" />
+                           <%= f.date_field :date_of_birth, autofocus: true, class: "" %>
+                         
                           
                         </div>
                       </div>
@@ -199,14 +200,14 @@
                       <div class="control-group">
                         <label class="control-label">Facebook </label>
                         <div class="controls">
-                          <input id="subject" type="text" name="facebook" />
+                         <%= f.text_field :facebook, autofocus: true, class: "" %>
                           
                         </div>
                       </div>
                       <div class="control-group">
                         <label class="control-label">Instagram</label>
                         <div class="controls">
-                          <input id="subject" type="text" name="instagram" />
+                          <%= f.text_field :instagram, autofocus: true, class: "" %>
                           
                         </div>
                       </div>

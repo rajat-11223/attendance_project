@@ -8,7 +8,7 @@
 							<div class="card card-body card-bg bg-3 mb0 no-radius nob tl-radius tr-radius">
 							<div class="thumb thumb-rounded">
 							
-							<%= image_tag( @user.image.present? ? @user.image.url : "/assets/author-main1.jpg" ) %>
+							<%= image_tag( @user.image.present? ? @user.image.url : @user.gender == true ? "/assets/author-main1.jpg" : "/assets/author_girl.png" ) %>
 							</div>
 							<div class="caption text-center text-white">
 							<h3 class="mt20"><%= @user.first_name.capitalize %></h3>
@@ -32,7 +32,10 @@
 
 							<div class="card card-flat">
 							<div class="card-header">
-							<div class="card-title"><i class="fa fa-user position-left"></i>About - <%= @user.first_name.capitalize %></div>
+							<div class="card-title"><i class="fa fa-user position-left"></i><span>About - <%= @user.first_name.capitalize %></span><span class="align-right"><button type="button" class="btn btn-info btn-lg edit_user_button" data-toggle="modal" data-target="#myModal"><i class="icon-pencil item"></i> Edit</button>
+</span>
+                                
+							</div>
 							</div>
 							<table class="table table-borderless table-striped">
 							<tbody>
@@ -126,3 +129,71 @@
 		</div>
 
 </div>
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Update User</h4>
+        </div>
+        <div class="modal-body">
+        	
+          <%= form_for(@user, :as => :user, :url => update_user_path,html: { class: 'form-horizontal',method: :post }  ) do |f| %>
+
+<div class="span6">
+								<div class="control-group">
+  									<%= f.label "Employee id", class: "control-label" %>
+  									<div class="controls">
+						            	<%= f.text_field :employee_id, autofocus: true,class: "" %>
+						        	</div>
+  								</div>
+
+  								<div class="control-group">
+  									<%= f.label "Name", class: "control-label" %>
+  									<div class="controls">
+						            	<%= f.text_field :first_name, autofocus: true, class: "" %>
+						        	</div>
+  								</div>
+  								<div class="control-group">
+  									<%= f.label :email, class: "control-label" %>
+  									<div class="controls">
+						            	<%= f.email_field :email, autofocus: true, autocomplete: "email",class: "" %>
+						        	</div>
+  								</div>
+  								<div class= "control-group">
+                            		<%= f.label "Designation",class: "control-label" %>
+                            		<div class="controls">
+                              			<%= f.select( :designation_id,  @designation.collect { |designation| [designation.designation_name, designation.id] }) %>
+                            		</div>
+                          		</div>
+
+                          		<div class= "control-group">
+                            		<%= f.label "Department",class: "control-label" %>
+                            		<div class="controls">
+                              			<%= f.select( :department_id,  @department.collect { |department| [department.department_name, department.id] }) %>
+                            		</div>
+                          		</div>
+
+                          		<div class= "control-group">
+                            		<%= f.label "Role",class: "control-label" %>
+                            		<div class="controls">
+                              			<%= select_tag('roleid', options_from_collection_for_select(@role, "id", "role_name")) %>
+                            		</div>
+                          		</div>
+
+							  	<div class="actions center mt-5">
+							    	<%= f.submit "Submit" ,:class=> "btn btn-primary" %>
+							  	</div><br>
+							  	</div>
+							<% end %>
+						
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>

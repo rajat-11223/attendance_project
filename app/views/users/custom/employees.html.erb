@@ -8,7 +8,7 @@
   <% if tt.user.image.present? %>
    <%= image_tag( tt.user.image.url, class: "user_pic_all" ) %>
    <% else %>
-  <img src="assets/img_avatar.png" alt="Avatar" >
+  <img src=" <%= tt.user.gender == true ? 'assets/img_avatar.png' : 'assets/img_avatar2.png'  %> " alt="Avatar" >
   <% end %>
   
     <div class="team-prof">
@@ -28,7 +28,7 @@
   <% if tt.image.present? %>
    <%= image_tag( tt.image.url, class: "user_pic_all" ) %>
    <% else %>
-  <img src="assets/img_avatar.png" alt="Avatar" >
+  <img src="<%= tt.gender == true ? 'assets/img_avatar.png' : 'assets/img_avatar2.png'  %>" alt="Avatar" >
   <% end %>
   
     <div class="team-prof">

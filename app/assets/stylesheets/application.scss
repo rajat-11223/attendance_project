@@ -423,7 +423,9 @@ img.user_pic {
 .text-center {
 	text-align: center !important;
 }
-
+.font-green {
+	color: #57c657;
+}
 
 
 .icons-list > li {
@@ -489,4 +491,16 @@ img.user_pic {
 .user_block {
 	margin-left: 0 !important;
 	margin-right: 14px;
+}
+.edit_user_button {
+	float: right;
+	font-size: 17px;
+	background: #5838c9;
+	color: #fff;
+	padding: 8px;
+	border-radius: 7px;
+	margin-bottom: 13px;
+}
+.actions.center.mt-5 {
+	margin-top: 16px;
 }

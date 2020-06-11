@@ -79,7 +79,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def after_update_path_for(resource)
     
-    user_profile_path(current_user)    
+    user_profile_path   
   end
 
   # DELETE /resource

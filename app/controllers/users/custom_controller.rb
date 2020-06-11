@@ -3,7 +3,7 @@ class Users::CustomController < ApplicationController
 
 	include CustomHelper
 	#before_action :authenticate_user!, except: %i[index	show]	
-	before_action :set_user
+	#before_action :set_user
 	before_action :authenticate_user!, except: [:index, :show]
 	 layout "dashboard"
 
@@ -112,35 +112,33 @@ def edit_current_user
 
 	@saveuser = User.find(current_user.id)
 	
-respond_to do |format|
+	respond_to do |format|
 
-if @saveuser.present?
-   @saveuser.first_name = params[:fname]
-   @saveuser.last_name = params[:lname]
-   @saveuser.date_of_birth = params[:date_birth]
-   @saveuser.facebook = params[:facebook]
-   @saveuser.instagram = params[:instagram]
-   @saveuser.gender = params[:gender]
-   @saveuser.image = params[:user][:image]
+		if @saveuser.present?
+		   @saveuser.first_name = params[:user][:first_name]
+		   @saveuser.last_name = params[:user][:last_name]
+		   @saveuser.date_of_birth = params[:user][:date_of_birth]
+		   @saveuser.facebook = params[:user][:facebook]
+		   @saveuser.instagram = params[:user][:instagram]
+		   @saveuser.gender = params[:user][:gender]
 
- @saveuser.save
-	# if params[:user_images][:avatar].present?
-	# 	# @saveuser.user_images.image_url = params[:image_url]
-	# 	# #@saveuser.user_images.is_profie_active = true
-	# 	# @saveuser.user_images.save
-	# 	@profileimage = UserImage.new
-	#     @profileimage.user_id = current_user.id
-	# 	@profileimage.avatar = params[:user_images][:avatar]
-	# 	@profileimage.save!
-	# end
+		   params[:user][:image] ?  @saveuser.image = params[:user][:image] : ''
+
+				if @saveuser.save
+				format.html { redirect_to user_profile_path, notice: 'Hey '+ params[:user][:first_name].capitalize+'! profile updated successfully. ' }	
+
+				else
+
+				format.html { redirect_to user_profile_path, alert: 'Hey '+ params[:user][:first_name].capitalize+'! profile not updated successfully. ' }
+
+				end	
+
+
+		end
+		
+	end
+
 end
-format.html { redirect_to user_profile_path, notice: 'Hey '+ @saveuser.first_name.capitalize+'! profile updated successfully. ' }
-
-   end		
-
-
-end
-
 
 def attendance_employe
 
@@ -373,7 +371,7 @@ end
 		@designation = Designation.all
 		@department = Department.all
 		@user = User.find(current_user.id)
-		@edit_current_user = User.new
+		@edit_current_user = User.find(current_user.id)
 
 		@user_role = UserRole.find_by(:user_id => current_user.id)
 		#@user_image = UserImage.new
@@ -415,10 +413,21 @@ end
 	# Admin Update the employees info
 	def update_user
 		@user = User.find(params[:id])
-		if @user.update(custom_update_user_params)
-			puts 'It is updated'
+
+
+		@user.employee_id = params[:user][:employee_id]
+		@user.first_name = params[:user][:first_name]
+		@user.email = params[:user][:email]
+		@user.designation_id = params[:user][:designation_id]
+		@user.department_id = params[:user][:department_id]
+        @user.user_roles.update(:master_role_id => params[:roleid])
+
+		if @user.save
+
+			redirect_to show_path, notice: "User Updated successfully !!"
+			
 		else
-			puts 'It is not updated'
+			redirect_to show_path, alert: "User details not Updated successfully !!"
 		end
 	end
 
@@ -437,6 +446,9 @@ def show
 @user_role = UserRole.find_by(user_id: current_user.id)
 if @user_role.master_role_id == 1
 @user = User.find(params[:id])
+@designation = Designation.all
+@department = Department.all
+@role =  MasterRole.all
 @show_attendance = DailyAttendance.where(user_id: params[:id], :created_at => Time.now.beginning_of_month..Time.now.end_of_month) 
 else
 
