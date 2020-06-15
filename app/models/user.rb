@@ -3,6 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,:recoverable, 
   :rememberable, :validatable,:trackable
+ 
 mount_uploader :image, AvatarUploader
 
 before_validation :confirmation_token, on: :create
@@ -17,6 +18,7 @@ has_many :request_leaves
    accepts_nested_attributes_for :user_images
   has_many :user_roles
   has_many :master_roles, through: :user_roles
+  
 
   
 def check_present(uid)

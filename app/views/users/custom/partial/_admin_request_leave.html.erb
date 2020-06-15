@@ -84,7 +84,7 @@
 		                  <td class="center"><%= cc.date_from.strftime("%b  %d ,  %Y") %></td>
 		                  <td class="center"><%= cc.date_to.strftime("%b  %d ,  %Y") %></td>
 		                  <td><%= cc.leave_count %> days</td>
-		                  <td class="center padd_2"><p class="badge <%= cc.status.present? ? 'badge-success' : cc.status == false ? 'badge-important'  : 'badge-warning' %>"><%= cc.status.present? ? 'Approve' : cc.status == false ? 'Dis-Approve' : "pending" %></p></td>
+		                  <td class="center padd_2"><p class="badge badge-warning"><%= cc.status.nil? ? 'Pending' : cc.status.pending %></p></td>
 		                  <td> 
 		                    
 		                    <div class="center icons_leave">  <%= link_to '<i class="icon-pencil"></i>'.html_safe, edit_apply_leave_path(:uid=>current_user.id, :lid=>cc.id), method: :post,remote: true %> 
@@ -141,7 +141,7 @@
 		                  <td class="center"><%= cc.date_from.strftime("%b  %d ,  %Y") %></td>
 		                  <td class="center"><%= cc.date_to.strftime("%b  %d ,  %Y") %></td>
 		                  <td><%= cc.leave_count %> days</td>
-		                  <td class="center padd_2"><p class="badge <%= cc.status.present? ? 'badge-success' : cc.status == false ? 'badge-important'  : 'badge-warning' %>"><%= cc.status.present? ? 'Approve' : cc.status == false ? 'Dis-Approve' : "pending" %></p></td>
+		                  <td class="center padd_2"><p class="badge badge-important"><%= cc.status.capitalize %></p></td>
 		                  <td> 
 		                   
 		                    <div class="center icons_leave">  <%= link_to '<i class="icon-pencil"></i>'.html_safe, edit_apply_leave_path(:uid=>current_user.id, :lid=>cc.id), method: :post,remote: true %> 
@@ -198,7 +198,7 @@
 		                  <td class="center"><%= cc.date_from.strftime("%b  %d ,  %Y") %></td>
 		                  <td class="center"><%= cc.date_to.strftime("%b  %d ,  %Y") %></td>
 		                  <td><%= cc.leave_count %> days</td>
-		                  <td class="center padd_2"><p class="badge <%= cc.status.present? ? 'badge-success' : cc.status == false ? 'badge-important'  : 'badge-warning' %>"><%= cc.status.present? ? 'Approve' : cc.status == false ? 'Dis-Approve' : "pending" %></p></td>
+		                  <td class="center padd_2"><p class="badge badge-success"><%= cc.status.capitalize %></p></td>
 		                  <td> 
 		                    
 		                    <div class="center icons_leave">  <%= link_to '<i class="icon-pencil"></i>'.html_safe, edit_apply_leave_path(:uid=>current_user.id, :lid=>cc.id), method: :post,remote: true %> 

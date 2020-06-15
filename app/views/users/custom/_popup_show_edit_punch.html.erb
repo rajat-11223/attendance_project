@@ -12,7 +12,7 @@
 				<div class="todo">
 					
 					<input type="hidden" id="popup_edit_punch_user" name="edit_user_punch" 
-	  value=<%=@popup_edit_punch_user.id%>>
+	  value=<%=params[:user_id]%>>
 
 					<div class="about">
 						
@@ -21,7 +21,7 @@
 								
 									<input type="time" name="punch_in" id="input-punch_In-time" 
 								value=
-								<%= @all_attendance ? @all_attendance.punch_in.strftime("%I:%M %P") : ''
+								<%= @all_attendance ? @all_attendance.punch_in ? @all_attendance.punch_in.strftime("%I:%M %P") : '' : ''
 								%> >
 							</span>
 							
@@ -45,7 +45,7 @@
 							<span>
 								<label for="input-time">Status: </label>
 								<%=select_tag "mySelectStatus", options_from_collection_for_select(@attendance_status,
-								 'id', "status")%>
+								 'id', "status", @all_attendance ? @all_attendance.master_attendance_status_id ? @all_attendance.master_attendance_status_id : '' : '' )%>
 									
 								
 							</span>
@@ -54,7 +54,7 @@
 					</div><br> 
 					
 				</div>
-				<button class="btn btn-primary " type="submit">Save value</button>
+				<button class="btn btn-primary " type="submit">Update</button>
 			</div>
 		</div>
 

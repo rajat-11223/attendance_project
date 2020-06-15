@@ -31,7 +31,7 @@
                 <div class="control-group">
                   <label class="control-label">Leave from</label>
                   <div class="controls">
-                    <input type="text" name="dated_from" id="datepicker"/> 
+                    <input type="text" name="dated_from" id="datepicker" required /> 
                   </div>
                 </div>
 
@@ -40,14 +40,14 @@
                 <div class="control-group">
                   <label class="control-label">Subject</label>
                   <div class="controls">
-                    <input id="subject" type="text" name="subject" />
+                    <input id="subject" type="text" name="subject" required />
                     
                   </div>
                 </div>
                 <div class="control-group">
                   <label class="control-label">Message</label>
                   <div class="controls">
-                     <textarea name="message" placeholder="Enter message here..."></textarea> 
+                     <textarea name="message" placeholder="Enter message here..." required></textarea> 
                   </div>
                 </div>
 
@@ -128,7 +128,8 @@
                   <td class="center"><%= cc.date_from.strftime("%b  %d ,  %Y") %></td>
                   <td class="center"><%= cc.date_to.strftime("%b  %d ,  %Y") %></td>
                   <td><%= cc.leave_count %></td>
-                  <td class="center padd_2"><p class="badge <%= cc.status.present? ? 'badge-success' : cc.status == false ? 'badge-important'  : 'badge-warning' %>"><%= cc.status.present? ? 'Approve' : cc.status == false ? 'Dis-Approve' : "pending" %></p></td>
+                   <td class="center padd_2"><p class="badge <%= cc.status.nil? ? 'badge-warning' : cc.rejected? ? 'badge-important' : cc.approved? ? 'badge-success' : '' %>"><%= cc.status.nil? ? 'Pending' : cc.status.capitalize %></p></td> 
+                 
                   <td> 
                     <% if cc.status == nil %>
                     <div class="center icons_leave">  <%= link_to '<i class="icon-pencil"></i>'.html_safe, edit_apply_leave_path(:uid=>cc.user_id, :lid=>cc.id), method: :post,remote: true %> 

@@ -9,6 +9,7 @@
                   <th>Punch in</th>
                   <th>Punch out</th>
                   <th>Working Hour</th>
+                  <%= @user_role.master_role_id.to_i == 1 ? '<th>Action</th>'.html_safe : '' %>
                 </tr>
 
               </thead>
@@ -28,6 +29,9 @@
                       <%= "Not Punched" %>
                     <% end %>
                 </td>
+               <% if @user_role.master_role_id.to_i == 1 %> 
+               <td> <%= link_to "<i class='icon-pencil'></i>".html_safe, popup_edit_punch_path(:user_id=>cc.user_id, :atend_id=> cc.id ), method: :post,remote: true, class: 'btn btn-primary',:onclick=>"change_attendanceFunction()" %> </td>
+               <% end %>
                 </tr>
                 <% end %>
               </tbody>
@@ -37,4 +41,5 @@
     <div class="container">
         <h4 class="center">Sorry! No data available for this month.</h4>  
     </div>
-<% end %>         
+
+<% end %>  

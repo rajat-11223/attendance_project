@@ -1,1 +1,3 @@
-document.getElementById("punch_edit_popup").innerHTML = " <%= j render(:partial => 'popup_show_edit_punch', :locals =>{ :user => @popup_edit_punch_user,:status => @attendance_status,:punch => @all_attendance}) %>";
+$('#edit_employe_attendance').show();
+document.getElementById("punch_edit_popup").innerHTML = "<%= j render(:partial => 'popup_show_edit_punch') %>";
+

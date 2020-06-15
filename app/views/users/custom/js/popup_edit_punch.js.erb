@@ -1,13 +1,21 @@
 //document.getElementById("punch_edit_popup").innerHTML = " <%= j render(:partial => 'popup_show_edit_punch', :locals =>{ :user => @popup_edit_punch_user,:status => @attendance_status,:punch => @all_attendance}) %>";
-
-
+//$('#edit_employe_attendance').show();
+//document.getElementById("punch_edit_popup").innerHTML = "<%= j render(:partial => 'popup_show_edit_punch') %>";
+//$(".punch_edit_popup").html("<%= raw escape_javascript(render 'popup_show_edit_punch') %>");
+//alert("hello");
 $('#popup_edit_attendence').show();
-$(".punch_edit_popup").html("<%= raw escape_javascript(render 'popup_show_edit_punch') %>");
-var modal2 = document.getElementById("popup_edit_attendence");
-var span = document.getElementsByClassName("close")[1];
-span.onclick = function() {
-   modal2.style.display = "none";
- }
+ //$("#popup_edit_attendence").modal('show');
+$("#edit_employe_attendance").show();
+
+
+
+ 
+ $(".punch_edit_popup").html("<%= raw escape_javascript(render 'popup_show_edit_punch') %>");
+ var modal2 = document.getElementById("popup_edit_attendence");
+ var span = document.getElementsByClassName("close")[1];
+ span.onclick = function() {
+    modal2.style.display = "none";
+  }
 
 
 

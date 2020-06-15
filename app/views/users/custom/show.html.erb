@@ -179,7 +179,7 @@
                           		<div class= "control-group">
                             		<%= f.label "Role",class: "control-label" %>
                             		<div class="controls">
-                              			<%= select_tag('roleid', options_from_collection_for_select(@role, "id", "role_name")) %>
+                              			<%= select_tag('roleid', options_from_collection_for_select(@role, "id", "role_name",@employe_role.master_role_id)) %>
                             		</div>
                           		</div>
 

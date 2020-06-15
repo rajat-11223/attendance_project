@@ -40,10 +40,13 @@
               
                 <div class="control-group">
 	                  <label class="control-label">Status</label>
+	                  <%= @aprove = @edit_request_leave.status == 1 ? "selected" : "" %>
+	                    	<%= @disaprove = @edit_request_leave.status == 0 ? "selected" : "" %>
 	                  <div class="controls">
 	                    <select name="status" id="status_leave">
-  <option value="0">Un-Approve</option>
-  <option value="1">Approve</option>
+	                    	
+  <option value="0" >Un-Approve</option>
+  <option value="1" >Approve</option>
   </select>
 	                    
 	                  </div>
